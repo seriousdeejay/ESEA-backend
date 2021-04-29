@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
     'rest_framework_simplejwt.token_blacklist',
-
+    'esea_db',
     'core',
 ]
 
@@ -85,8 +85,21 @@ WSGI_APPLICATION = 'django_backend.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+
+        'NAME': ‘esea_db’,
+
+        'USER': 'postgres,
+
+        'PASSWORD': 'admin',
+
+        'HOST': '127.0.0.1',
+
+        'PORT': '5432',
+
+        # 'TIME_ZONE': '',
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 
@@ -131,6 +144,10 @@ USE_TZ = True
 STATIC_ROOT = os.path.join(BASE_DIR, "core/static")
 STATIC_URL = '/static/'
 
+# Simplified static file serving.
+# https://warehouse.python.org/project/whitenoise/
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
@@ -141,8 +158,13 @@ AUTH_USER_MODEL = 'core.CustomUser'
 #     'http://localhost:8080',
 #     'http://127.0.0.1:8000',
 # ]
+CORS_ALLOW_ORIGINS = [
+    "https://open-esea.herokuapp.com/",
+    "http://localhost:8080",
+    "http://127.0.0.1:8080"
+ ]
 
-CORS_ALLOW_ALL_ORIGINS = True
+# CORS_ALLOW_ALL_ORIGINS = True
 
 CORS_ALLOW_HEADERS = list(default_headers) + [
     'content-type',
