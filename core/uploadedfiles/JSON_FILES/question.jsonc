@@ -1,0 +1,28 @@
+// Questions POST
+{
+    "isMandatory": true,
+    "name": "How many men members does the organisation have?",
+    // description,
+    "answertype": "NUMBER",
+    "key": "men_staff",
+    "description": "description for women_staff",
+    "options": [],
+    // min_number
+    // (default)
+    // max_number
+
+    "topic": 370
+}
+{
+
+    "isMandatory": true,
+    "name": "How many women members does the organisation have?",
+    "answertype": "NUMBER",
+    "key": "women_staff",
+    "description": "description for women_staff",
+    "options": [],
+    "default": 0,
+    "min_number": 0,
+    "max_number": 10000000,
+    "topic": 370
+}

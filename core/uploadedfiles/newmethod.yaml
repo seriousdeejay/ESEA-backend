@@ -1,0 +1,266 @@
+topics:
+  PT1: 
+    name: >- 
+      Root Topic
+  T1:
+    name: >-
+      Organisation Data
+    topic: PT1
+  T2:
+    name: >-
+      Gender Equity
+    topic: PT1
+  T3:
+    name: >-
+      Environmental Impact
+    topic: PT1
+  T4:
+    name: >-
+      Workplace Quality
+    topic: PT1
+
+indicators:
+  women_staff:
+    name: >-
+      Women staff members   
+    topic: T1
+    unit: integer
+    type: directindicator
+  men_staff:
+    name: >-
+      Men staff members     
+    topic: T1
+    unit: integer
+    type: directindicator
+  company_type:
+    name: >-
+      Type of company    
+    topic: T1
+    unit: list
+    type: directindicator
+  average_salary_women:
+    name: >-
+      Average salary women
+    topic: T2
+    unit: float
+    type: directindicator
+  average_salary_men:
+    name: >-
+      Average salary men
+    topic: T2
+    unit: float
+    type: directindicator
+  recycled_waste_kg:
+    name: >-
+      Recycled waste
+    topic: T2
+    unit: integer
+    type: directindicator
+  total_waste_kg:
+    name: >-
+      Total waste
+    topic: T3
+    unit: integer
+    type: directindicator
+  renewable_energy_consumption:
+    name: >-
+      Renewable energy
+    topic: T3
+    unit: integer
+    type: directindicator
+  total_energy_consumption:
+    name: >-
+      Total energy
+    topic: T3
+    unit: integer
+    type: directindicator
+  public_salaries:
+    name: >-
+      Salaries publicly available
+    topic: T4
+    unit: integer
+    type: directindicator
+  women_staff_deciding:
+    name: >-
+      Number of women involved in decision making
+    topic: T4
+    unit: integer
+    type: directindicator
+  men_staff_deciding:
+    name: >-
+      Number of men involved in decision making
+    topic: T4
+    unit: integer
+    type: directindicator
+  employee_satisfaction:
+    name: >-
+      Employee satisfaction
+    topic: T4
+    unit: list
+    type: directindicator
+  employee_opinion_on_inclusiveness :
+    name: >-
+      Inclusivess of the company
+    topic: T4
+    unit: list
+    type: directindicator
+
+
+surveys:
+  Management_Survey:
+    name: NewMethod Accountant Survey
+    stakeholdergroup: accountant
+    responserate: 1
+    questions:
+      Q1:
+        isMandatory: Y
+        topic: T1
+        indicator: women_staff
+        name: >-
+          How many women members does the organisation have?
+        description: >-
+          description for women_staff
+        answertype: NUMBER
+        others: N
+      Q2:
+        isMandatory: Y
+        topic: T1
+        indicator: men_staff
+        name: >-
+          How many men members does the organisation have?
+        description: >-
+          description for men_staff
+        answertype: NUMBER
+        others: N
+      Q3:
+        isMandatory: Y
+        topic: T1
+        indicator: company_type
+        name: >- 
+          Please select the company type
+        description: >-
+          description for company_type
+        answertype: RADIO
+        options:
+          - workers_cooperative
+          - limited company
+          - private company
+        others: N
+      Q4:
+        isMandatory: Y
+        topic: T2
+        indicator: average_salary_women
+        name: >- 
+          What is the average monthly salary of the women in your organisation?
+        description: >-
+          description for average_salary_women
+        answertype: NUMBER
+        others: N
+      Q5:
+        isMandatory: Y
+        topic: T2
+        indicator: average_salary_men
+        name: >-
+          What is the average monthly salary of the men in your organisation?
+        description: >-
+          description for average_salary_men
+        answertype: NUMBER
+        others: N
+      Q6:
+        isMandatory: Y
+        topic: T3
+        indicator: recycled_waste_kg
+        name: >-
+          How many kilograms of waste has your organisation recycled this year?
+        description: >-
+          description for recycled_waste_kg
+        answertype: NUMBER
+        others: N
+      Q7:
+        isMandatory: Y
+        topic: T3
+        indicator: total_waste_kg
+        name: >-
+          How many kilograms of waste has your organisation produced this year in total?
+        description: >-
+          description for total_waste_kg
+        answertype: NUMBER
+        others: N
+      Q8:
+        isMandatory: Y
+        topic: T3
+        indicator: renewable_energy_consumption
+        name: >-
+          How many kilowatts/hour of renewable energy has your organisation consumed this year?
+        description: >-
+          description for renewable_energy_consumption
+        answertype: NUMBER
+        others: N
+      Q9:
+        isMandatory: Y
+        topic: T3
+        indicator: total_energy_consumption
+        name: >-
+          How many kilowatts/hour has your organisation consumed this year?
+        description: >-
+          description for total_energy_consumption
+        answertype: NUMBER
+        others: N
+      Q10:
+        isMandatory: Y
+        topic: T4
+        indicator: public_salaries
+        name: >-
+          Are the salaries of your employees publicly available?
+        description: >-
+          description for public_salaries
+        answertype: RADIO
+        options:
+          - 'Yes'
+          - 'No'
+        others: N
+      Q11:
+        isMandatory: Y
+        topic: T4
+        indicator: women_staff_deciding
+        name: >-
+          How many women are involved in decision making in the organisation?
+        description: >-
+          description for women_staff_deciding
+        answertype: NUMBER
+        others: N
+      Q12:
+        isMandatory: Y
+        topic: T4
+        indicator: men_staff_deciding
+        name: >-
+          How many men are involved in decision making in the organisation?
+        description: >-
+          description for men_staff_deciding
+        answertype: NUMBER
+        others: N
+  Employee_Survey:
+    name: NewMethod Employee survey
+    stakeholdergroup: employee
+    responserate: 0.6
+    questions:
+    Q1:
+        isMandatory: Y
+        topic: T4
+        indicator: employee_satisfaction
+        name: >-
+          What is your global satisfaction with the working conditions?
+        description: >-
+          description for employee_satisfaction
+        answertype: SCALE
+        others: N
+    Q2:
+        isMandatory: Y
+        topic: T4
+        indicator: employee_opinion_on_inclusiveness 
+        name: >-
+          How inclusive do you think this company is?
+        description: >-
+          description for employee_opinion_on_inclusiveness
+        answertype: SCALE
+        others: N

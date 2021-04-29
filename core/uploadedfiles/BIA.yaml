@@ -1,0 +1,611 @@
+topics: 
+  C1: 
+    name: >-
+      W: Workers
+
+  W1: 
+    name: >-
+      Majority Hourly vs. Salaried Workers
+    topic: C1
+  W2: 
+    name: >-
+      Employee Benefits
+    description: >-
+      If you are interested in improving benefits provided to employees, consider surveying or consulting with your employees to identify what they might be most interested in. 
+    topic: C1
+  W3: 
+    name: >-
+      % of Employees Paid Individual Living Wage
+    description: >-
+      Engaging and Retaining a Diverse Workforce
+      For a more in depth guide on fostering and maintaining an inclusive and equitable work environment, please reference Engaging and Retaining a Diverse Workforce (Please note, this guide is only in English).
+      Consider implementing a living wage policy pegged to the costs of living in your area. For more information and resources on how to implement a living wage policy, please visit: http://www.livingwage.org.uk/sites/default/files/BAR_LivingWageReport%20cropped%2021%2001.pdf
+      If interested in supporting the development of Living Wage calculations for your area or your industry, see the Global Living Wage Coalition. http://www.isealalliance.org/our-work/improving-effectiveness/global-living-wage-coalition
+      A living wage goes beyond meeting the minimum wage required by law and ensures that employees have the money necessary to meet living expenses in your region.
+      By implementing a living wage policy, businesses can reduce staff turnover, increase workers' morale and loyalty, reduce absenteeism, increase productivity, and strengthen recruitment.
+    topic: C1
+  W4: 
+    name: >-
+      High to Low Pay Ratio
+    description: >-
+      Engaging and Retaining a Diverse Workforce
+      For a more in depth guide on fostering and maintaining an inclusive and equitable work environment, please reference Engaging and Retaining a Diverse Workforce (Please note, this guide is only in English).
+      
+      This question measures the extent to which a business maintains equity in salaries among its highest- and lowest-earning employees. Income equity is an indicator that wealth is distributed throughout the business so that as a business excels, all of its employees reap the benefits.
+      
+      Lower pay ratios can increase both workers' and consumers' perception of a company. According to a Harvard Business Review study called Paying Up for Fair Pay, consumers prefer buying from companies with low pay ratios. Research shows when consumers learn of a business's high pay ratio (e.g., 1000 to 1), it reduces purchase intention relative to firms with lower ratios (e.g., 5 to 1). Lower pay ratios improve consumer perceptions across a range of products at different price points, and increase consumer ratings of both firm warmth and firm competence. http://www.hbs.edu/faculty/Publication%20Files/15-091/eb472863-c73b-4aca-a8ee-d7dc1748a91d.pdf
+      
+      To manage the multiple of pay from highest to lowest, consider creating policies that link pay increases for executives with pay increases with for other employees. If your company has an advisory body that oversees executive compensation, consider discussing with them.
+    topic: C1
+  W5: 
+    name: >-
+      Supplementary Health Benefits
+    description: >-
+      Engaging and Retaining a Diverse Workforce
+      For a more in depth guide on fostering and maintaining an inclusive and equitable work environment, please reference Engaging and Retaining a Diverse Workforce (Please note, this guide is only in English).
+      This question rewards businesses that protect the well-being and financial security of their employees by providing benefits that go beyond health insurance. These benefits will reduce the cost of essential services to employees and their families, and protect the employee and their family in the event of accident.
+      
+      Going above and beyond the benefits offered or mandated by government programs can provide higher quality or broader coverage for employees to protect their financial stability, health, and wellness.
+      
+      Employees that have access to benefits which keep them healthy and well are less likely to miss work, and can increase company loyalty and productivity.
+      
+      Consider speaking with employees to understand better what kind of supplemental benefits they would be interested in. This could be done via survey or conversationally.
+      
+      Consider reviewing the programs provided or required by the government and speaking with employees about potential supplements that would be most valuable to them.
+    topic: C1
+  W6: 
+    name: >-
+      Number of Paid Days Off
+    description: >-
+      Engaging and Retaining a Diverse Workforce
+      For a more in depth guide on fostering and maintaining an inclusive and equitable work environment, please reference Engaging and Retaining a Diverse Workforce (Please note, this guide is only in English).
+      
+      Paid time off promotes the personal well-being of employees, giving them opportunities to take care of family members, balance work and family obligations, pursue personal interests, and rest or recover from sickness.
+      
+      Leave, whether paid or unpaid, can have a positive effect on long-term productivity by improving recruitment, retention, and employee motivation.  From The Economics of Paid and Unpaid Leave by the Obama administration's Council of Economic Advisors: https://www.whitehouse.gov/sites/default/files/docs/leave
+      eport/final.pdf
+      
+      Please review your employee handbook or employment contracts to determine the minimum total number of paid days off provided to an employee.
+    topic: C1
+  W7: 
+    name: >-
+      Paid Primary Caregiver Leave for Salary Workers
+    topic: C1
+  W8: 
+    name: >-
+      Professional Development
+    description: >-
+      If you are interested in implementing or improving professional development programs, consider starting with an employee needs assessment.
+      
+      For a more in depth guide on how to identify professional development needs, and an overview of different types of professional development programs available, see Implementing a Professional Development Program.
+    topic: C1
+  W9: 
+    name: >-
+      Employee Review Process
+    description: >-
+      Engaging and Retaining a Diverse Workforce
+      For a more in depth guide on fostering and maintaining an inclusive and equitable work environment, please reference Engaging and Retaining a Diverse Workforce (Please note, this guide is only in English).
+      
+      Providing regular formal performance promotes career development and personal growth for employees, who are able to continuously refer back to suggestions and track their development over time.
+      
+      Performance feedback provides employees with a clear understanding of how they are doing, what is working, and what isn't working. It provides a mechanism for identifying areas for improvement regarding task execution and work style, and increases clarity around performance and role-related expectations.
+      
+      Consider what feedback structure would be appropriate for your company and employees. Here is a one-pager on structuring performance feedback from MIT Human Resources: http://hrweb.mit.edu/performance-development/performance-reviews/preparing-and-conducting-annual-performance-review
+      Here's another one-page from the U.S. Office of Personnel Management: https://www.opm.gov/policy-data-oversight/performance-management/performance-management-cycle/monitoring/feedback-is-critical-to-improving-performance/
+    topic: C1
+  W10: 
+    name: >-
+      Worker Engagement Practices
+    topic: C1
+indicators: 
+  employee_pay_structure: 
+    name: >-
+    topic: W1
+    unit: text
+    type: directindicator
+
+  employee_pay_structure_ii: 
+    name: >-
+    topic: W1
+    unit: text
+    type: indirectindicator
+    formula: employee_pay_structure 
+    formulameta: 
+      employee_pay_structure: 
+        statistic: sum
+        name: sum~employee_pay_structure
+  employee_benefits: 
+    name: >-
+    topic: W2
+    unit: text
+    type: directindicator
+
+  employee_benefits_ii: 
+    name: >-
+    topic: W2
+    unit: text
+    type: indirectindicator
+    formula: employee_benefits 
+    formulameta: 
+      employee_benefits: 
+        statistic: sum
+        name: sum~employee_benefits
+  employee_FTE: 
+    name: >-
+    topic: W3
+    unit: text
+    type: directindicator
+
+  employee_FTE_ii: 
+    name: >-
+    topic: W3
+    unit: text
+    type: indirectindicator
+    formula: employee_FTE 
+    formulameta: 
+      employee_FTE: 
+        statistic: sum
+        name: sum~employee_FTE
+  employee_pay: 
+    name: >-
+    topic: W4
+    unit: text
+    type: directindicator
+
+  employee_pay_ii: 
+    name: >-
+    topic: W4
+    unit: text
+    type: indirectindicator
+    formula: employee_pay 
+    formulameta: 
+      employee_pay: 
+        statistic: sum
+        name: sum~employee_pay
+  employee_suppl_benefits: 
+    name: >-
+    topic: W5
+    unit: text
+    type: directindicator
+
+  employee_suppl_benefits_ii: 
+    name: >-
+    topic: W5
+    unit: text
+    type: indirectindicator
+    formula: employee_suppl_benefits 
+    formulameta: 
+      employee_suppl_benefits: 
+        statistic: sum
+        name: sum~employee_suppl_benefits
+  days_off_payed: 
+    name: >-
+    topic: W6
+    unit: text
+    type: directindicator
+
+  days_off_payed_ii: 
+    name: >-
+    topic: W6
+    unit: text
+    type: indirectindicator
+    formula: days_off_payed 
+    formulameta: 
+      days_off_payed: 
+        statistic: sum
+        name: sum~days_off_payed
+  parental_leave: 
+    name: >-
+    topic: W7
+    unit: text
+    type: directindicator
+
+  parental_leave_ii: 
+    name: >-
+    topic: W7
+    unit: text
+    type: indirectindicator
+    formula: parental_leave 
+    formulameta: 
+      parental_leave: 
+        statistic: sum
+        name: sum~parental_leave
+  employee_development: 
+    name: >-
+    topic: W8
+    unit: text
+    type: directindicator
+
+  employee_development_ii: 
+    name: >-
+    topic: W8
+    unit: text
+    type: indirectindicator
+    formula: employee_development 
+    formulameta: 
+      employee_development: 
+        statistic: sum
+        name: sum~employee_development
+  employee_review: 
+    name: >-
+    topic: W9
+    unit: text
+    type: directindicator
+
+  employee_review_ii: 
+    name: >-
+    topic: W9
+    unit: text
+    type: indirectindicator
+    formula: employee_review 
+    formulameta: 
+      employee_review: 
+        statistic: sum
+        name: sum~employee_review
+  employee_engagement: 
+    name: >-
+    topic: W10
+    unit: text
+    type: directindicator
+
+  employee_engagement_ii: 
+    name: >-
+    topic: W10
+    unit: text
+    type: indirectindicator
+    formula: employee_engagement 
+    formulameta: 
+      employee_engagement: 
+        statistic: sum
+        name: sum~employee_engagement
+surveys: 
+  BIA: 
+    name: BIA single input survey
+    responserate: 1
+    questions:  
+      I1: 
+        name: >-
+          This question is used to determine the set of questions that your company will see in reference to their employee impact. The nature of the majority of a company's employment is very important for determining the type of impact the company has and for establishing best practices. Salaried employees are those workers that recieve a fixed amount of pay for regular work that is not dependent upon the time worked. This is usually quantified on an annual or monthly basis. Daily/hourly employees are those that are paid dependent upon the amount of time worked, and are either contracted on a daily basis or or paid for the amount of hours worked in a given time period. If workers punch a time card, and get paid overtime when working extra hours, consider them as hourly paid. For the purposes of this question, please count workers on a headcount basis instead of on a full-time equivalent (FTE) basis. Only include payrolled employees and exclude independent contractors and interns in your calculation.
+        order: 1
+        topic: W1
+        ismandatory: N
+        answertype: instruction
+        others: N
+      Q1: 
+        name: >-
+          Are the majority (greater than 50%) of your employees paid on a fixed salary or a daily or hourly wage?
+        order: 2
+        description: >-
+          This is a REQUIRED question that determines the set of additional questions your company will respond to regarding your employee impact. The answer to this question affects questions you'll encounter further on in your assessment.
+        indicator: employee_pay_structure
+        topic: W1
+        ismandatory: Y
+        answertype: RADIO
+        options: 
+          - Fixed Salary
+          - Daily or hourly wage
+        others: N
+      I2: 
+        name: >-
+          This question is intended to identify companies that provide benefits to employees that increases their financial stability and allows them to build wealth. Select options that apply to a majority of your employees.
+        order: 3
+        topic: W2
+        ismandatory: N
+        answertype: instruction
+        others: N
+      Q2: 
+        name: >-
+          Does your company provide any of the following benefits to your employees?
+        order: 4
+        description: >-
+          In addition to voluntary benefits provided by the company, include any offerings that are required or provided by government programs.
+        indicator: employee_benefits
+        topic: W2
+        ismandatory: Y
+        answertype: multipleChoice
+        aggregatedqs: 
+          - At or above market compensation packages, as compared to industry averages/benchmarks
+          - Annual Cost of Living Adjustments
+          - Bonuses or Profit Sharing
+          - Retirement Plan
+          - Health insurance coverage
+          - Stock Options or Ownership in the Company
+        others: Y
+      I3: 
+        name: >-
+          To find if a Living Wage calculation is available for your country and learn more about the Living Wage methodology visit the Global Living Wage Coalition (https://www.globallivingwage.org)
+          The living wage is defined as the wage a full-time worker would need to earn to support a family above the federal poverty line in a given locality.
+          Identify your lowest paid wage and compare it to a recognized third-party living wage standard, such as those identified below.
+          In the United States, please use the MIT Living Wage Calculator to find the appropriate wage based on the local cost of living: http://livingwage.mit.edu (use wage rate for one adult). For example, the living wage for New York City in 2016 according to this calculator is $14.30/hour.
+          
+          To access Canada's Living Wage calculator, please visit: http://www.livingwageforfamilies.ca/employers/living-wage-calculator/
+          For Vancouver, Manitoba Kingston and Toronto see Page 15.
+          For the UK living wage rate, please visit: http://www.livingwage.org.uk/calculation
+          Importantly, calculations of living wages in your region may vary, particularly if your local government has specified a different wage in contracting policies. B Lab will review different methodologies for potential inclusion for this question. For many countries a living wage that meets equivalent standards as the ones above have not been developed. In those cases, select N/A.
+        order: 5
+        topic: W3
+        ismandatory: N
+        answertype: instruction
+        others: N
+      Q3: 
+        name: >-
+          What percentage of employees on an FTE (Full Time Equivalent) basis are paid at least the equivalent of a living wage for an individual?
+        order: 6
+        indicator: employee_FTE
+        topic: W3
+        ismandatory: Y
+        answertype: RADIO
+        options: 
+          - <75%
+          - 75-89%
+          - 90-99%
+          - 100%
+          - N/A
+        others: N
+      I4: 
+        name: >-
+          IRIS Glossary Term: Full-time employee: Full-time paid employees work year round and typically work 35-50 hours per week. If local definitions of full-time equivalency differ, use appropriate standard.)
+          
+          Identify the highest and lowest-paid full-time employees and calculate the multiple using both wages and bonuses (but exclude equity). If the company has employees in both emerging and developed markets, calculate a compensation ratio for workers in each of those markets separately. You should then choose the highest multiple between the two calculations.
+        order: 7
+        topic: W4
+        ismandatory: N
+        answertype: instruction
+        others: N
+      I5: 
+        name: >-
+          Seventh Generation, a producer of household cleaning supplies, maintains a wage equity policy that caps executive compensation so that it may not exceed 14x the lowest paid employee. Learn more about Seventh Generation's program;
+          
+          Namaste Solar, an employee-owned cooperative based out of Colorado, maintains a 4-to-1 ratio for highest to lowest total pay per employee, including executives. Learn more about why they think this is important;
+          
+          Overall, it is more common for OSBs to have a smaller difference between the highest and lowest paid full-time worker.
+          
+          For salary differences according to company size, both OSBs and OBs have a smaller difference between the highest and lowest paid full-time employee if the company has >50 employees. OSBs and OBs with >50 employees tend to have a greater difference in salary between the highest and lowest paid full-time employees.
+        order: 8
+        topic: W4
+        ismandatory: N
+        answertype: instruction
+        others: N
+      Q4: 
+        name: >-
+          What multiple is the highest compensated individual paid, inclusive of bonus, as compared to the lowest paid full-time worker?
+        order: 9
+        indicator: employee_pay
+        topic: W4
+        ismandatory: Y
+        answertype: RADIO
+        options: 
+          - 20x
+          - 16-20x
+          - 11-15x
+          - 6-10x
+          - 1-5x
+        others: N
+      I6: 
+        name: >-
+          Review the company's employee handbook, employee contracts, or other benefits documents and mark any of the answers options if they are available to tenured employees. If these benefits are provided to all employees from the start then they should also be selected. Other benefits should only be included if they are not included in other questions of the assessment. Included in other questions are retirement plans, wellness programs, days off, community service, etc. Vision insurance can be included as other.
+          
+          Tenured employee: An employee who has worked at least one year with the company, or, if part time, at least 1000 hours.
+        order: 10
+        topic: W5
+        ismandatory: N
+        answertype: instruction
+        others: N
+      I7: 
+        name: >-
+          Fingerlakes Wealth Management provides generous benefits to their employees, including, a nap room and massage therapist hours.
+          
+          Impact Square, a consulting firm based in Seoul, provides employees with a generous number of vacation days, a flexible working hours, sports breaks (cycling, running, etc.), as well as various bikes, skateboards and scooters that employees can use for commuting.
+          
+          New Belgium Brewing Company provides employees with an on-site bicycle fleet to borrow as they need. The company also gifts each employee with a custom bike on their 1-year anniversary, and has been named a platinum-level bike friendly business by the The League of American Bicyclists.
+        order: 11
+        topic: W5
+        ismandatory: N
+        answertype: instruction
+        others: N
+      Q5: 
+        name: >-
+          What benefits does your company provide to all full-time tenured workers to supplement government programs?
+        order: 12
+        indicator: employee_suppl_benefits
+        topic: W5
+        ismandatory: Y
+        answertype: multipleChoice
+        aggregatedqs: 
+          - Disability coverage or accident insurance
+          - Life insurance
+          - Private dental insurance
+          - Private supplemental health insurance
+          - None of the above
+        others: Y
+      I8: 
+        name: >-
+          Only select responses that apply to at least 80% of your workers
+          
+          This calculation is inclusive of sick days, holidays, personal days, and vacation days etc., and should be calculated at the minimum number of days available for a tenured employee. Please include all leave regardless of whether the company voluntarily offers it or government requires it. For example, New York City requires employers to provide 5 days of paid sick leave annually; therefore, if your company is located in NYC, you may count at least 5 days toward this question. Do not double count, however - i.e. if an NYC company offers employees 10 paid days of sick leave, it would count as 10 days of sick leave, not 15 (15=10 provided by the company and 5 required by NYC). If your company has an informal policy with no specifically-stated sick day allowance, and workers are directed to take sick days as needed, please count 5 days in your sum for this question. (This is used as a reasonable estimate of the amount actually taken, as it can not be precisely verified.) If your company allows unlimited vacation days, please count 10 days in your sum for this question regarding vacation, but also factor in holidays, sick days, and others.
+          
+          Tenured employee: An employee who has worked at least one year with the company, or, if part time, at least 1000 hours.
+        order: 13
+        topic: W6
+        ismandatory: N
+        answertype: instruction
+        others: N
+      I9: 
+        name: >-
+          ReWork, a New York-based impact-focused recruiting firm, allows employees to choose their home base city around the country, in addition to encouraging working remotely for 4 weeks in a location of their choice, unlimited sick leave and flexible scheduling options.
+          
+          Aerzen USA provides their tenured employees at least 25 paid days. This practice is not only beneficial to the employees and their families, but also help Aerzen reduce their employee turnover. This practice is unusual for a small business like Aerzen and has helped them garner a Best Places to Work recognition.
+          
+          TMI Consulting provides all full time salaried employees (i.e. those working 30 or more hours a week and enrolled in the benefits program) 21 days of paid vacation annually, for the first 2 years of tenure. After that vacation time is unlimited to all full time salaried employees, reviewable on a quarterly basis by your supervisor and the Advisory Board. Unlimited is defined by the quality and quantity of work that the employee is submitting to the company. As long as the work is there, you are free to come and go as you please, responsibly. All part time or hourly workers are allotted 10 days of paid vacation annually for the first 2 years, after that they are allowed 21 days of paid vacation annually. All vacation needs to be calendared at least 3 weeks in advance and noted on the company calendar for reference. The company asks that employees exercise personal responsibility regarding paid time off to support and maintain our flexible and compassionate culture.
+        order: 14
+        topic: W6
+        ismandatory: N
+        answertype: instruction
+        others: N
+      Q6: 
+        name: >-
+          What is the annual minimum number of paid days off (including holidays) for full-time employees?
+        order: 15
+        indicator: days_off_payed
+        topic: W6
+        ismandatory: Y
+        answertype: RADIO
+        options: 
+          - 0-15 work days
+          - 16-22 work days
+          - 23-29 work days
+          - 30-35 work days
+          - 36+ work days
+        others: N
+      I10: 
+        name: >-
+          Only select responses that apply to at least 80% of your workers
+        order: 16
+        topic: W7
+        ismandatory: N
+        answertype: instruction
+        others: N
+      Q7: 
+        name: >-
+          Which of the following describe the primary parental leave policies for salaried workers, either through the company or government program?
+        order: 17
+        description: >-
+          If applicable, please select one answer indicating total time off (answers 1-3), and one answer indicating fully paid time off (answers 4-7).
+        indicator: parental_leave
+        topic: W7
+        ismandatory: Y
+        answertype: RADIO
+        options: 
+          - Primary caregivers receive 4-12 weeks of time off for parental leave (including unpaid and paid leave)
+          - Primary caregivers receive 12 weeks to 6 months of time off for parental leave (including unpaid and paid leave)
+          - Primary caregivers receive 6 months or more of time off for parental leave (including unpaid and paid leave)
+          - 5-12 weeks of primary parental leave (or equivalent) is fully paid
+          - 12-18 weeks of primary parental leave (or equivalent) is fully paid
+          - 18-24 weeks of primary parental leave (or equivalent) is fully paid
+          - 24+ weeks of primary parental leave (or equivalent) is fully paid
+          - Primary caregivers receive no time off for parental leave
+        others: N
+      I11: 
+        name: >-
+          This question awards companies that provide training and professional growth opportunities for their employees to create career track, either at the company or externally.
+        order: 18
+        topic: W8
+        ismandatory: N
+        answertype: instruction
+        others: N
+      I12: 
+        name: >-
+          Roshan, a telecom provider in Afghanistan, provides its newly hired employees with apprenticeship/technical training of more than 1 month. Roshan pairs a newly hired employee with an existing one so as to better incorporate the new member into the team.
+          
+          Wilmar Flowers, Ltd., a Kenyan company, offers all workers training on functions of each department, beyond the day-to-day requirements of their individual positions. These workers enjoy personal growth and the company is more resilient through busy quarters as a result.
+          
+          Husk Power Systems, a producer of small scale bio-mass powerplants in India, offers its newly hired employees with apprenticeship/technical training of more than 1 month. The company has an internal program called Husk Power University where both their employees and the farmers who use their technology learn how to generate their own power with their mini power plants.
+          
+          Dewey's Bakery Inc . is committed to the ongoing education of their employees. The company's Dewey's Center for Learning (DCL), is a free program that will provide employees an opportunity to enhance skills that will impact their future both in and out of the organization. Courses include, but are not limited to: Technical Skills (i.e. Excel, Food Safety, How to Read Financial Statements) Communication (i.e. English as a Second Language, Conversational Spanish) Soft Skills (i.e. Conflict Resolution, Teamwork, Leadership) - Personal Development (i.e. Personal Budgeting, Saving for Retirement)
+          
+          Reho Travel uses an outside company to run trainings on public speaking and leadership training to executive and non-executive employees.
+          
+          Firespring offers employees regular lunch and learn sessions and life skills trainings such as non-verbal communication strategies and proper use of punctuation.
+          
+          Papel Semente based in Rio de Janeiro provides employees with training on basic life skills including leadership. 90% of the company's employees come from underrepresented communities nearby company facilities.
+        order: 19
+        topic: W8
+        ismandatory: N
+        answertype: instruction
+        others: N
+      Q8: 
+        name: >-
+          Does your company provide any of the following opportunities for professional development for your employees?
+        order: 20
+        indicator: employee_development
+        topic: W8
+        ismandatory: Y
+        answertype: multipleChoice
+        aggregatedqs:
+          - Company has formal onboarding process for new employees
+          - Company provided ongoing training to employees in the last year
+          - Company has a policy to encourage internal promotions and hiring for advanced positions (posting job openings internally first, etc.)
+          - Company provides cross-skills training for career advancements or transitions (i.e. management training for non-managers)
+          - Company provides non-career specific life-skill training to improve the personal development of employees (financial literacy, ESL. etc.)
+          - Company facilitates or has an allocated budget for external professional development opportunities, including conference attendance, online trainings, etc.
+          - None of the above
+        others: N
+      I13: 
+        name: >-
+          A 360-degree feedback process includes feedback from individuals materially affected by the performance of the employee. This includes managers, team members, subordinates, as well as customers. Customers could be external or internal to the organization, (e.g. the clients of the company for a client-facing role, or an internal employee for an internally-facing role). For a human resources representative, for instance, a 360-degree review could include feedback from the other non-HR employees of the company.
+          
+          Only select responses that apply to at least 80% of your workers
+          
+          If your company conducts regular performance reviews, examine templates or examples to determine which of the answer options appropriately apply.
+        order: 21
+        topic: W9
+        ismandatory: N
+        answertype: instruction
+        others: N
+      I14: 
+        name: >-
+          Blue Garnet, a socal impact consultancy firm located in Los Angeles, has a throrough 360 degree feedback process for thier employees that includes a formal discussion of impact related goals, individual goals and professional development goals.
+          
+          Source: Blue Garnet
+        order: 22
+        topic: W9
+        ismandatory: N
+        answertype: instruction
+        others: N
+      Q9: 
+        name: >-
+          Which of the following is included or applies to your company's formal process for providing performance feedback to employees?
+        order: 23
+        description: >-
+          Check all that apply.
+        indicator: employee_review
+        topic: W9
+        ismandatory: Y
+        answertype: multipleChoice
+        aggregatedqs: 
+          - Process has a regular schedule and is conducted at least annually
+          - Peer and subordinate input
+          - Written guidance for career development
+          - Social and environmental goals
+          - Clearly-identified and achievable goals
+          - A 360-degree feedback process
+          - All tenured employees receive feedback
+          - None of the above
+        others: N
+      I15: 
+        name: >-
+          This question is intended to identify companies that pro-actively create a workplace where employees can feel engaged, protected, and satisfied.
+        order: 24
+        topic: W10
+        ismandatory: N
+        answertype: instruction
+        others: N
+      I16: 
+        name: >-
+          Dew Crisp, one of the leading suppliers of value added salad & vegetable products to retail & food services industries in South Africa, has designated multiple agents to assist in resolving problems between workers or workers and management, including an employee representative mutually-designated by company management and employees.
+          
+          Grupo GAIA , located in Brazil, conducts internal satisfaction surveys to measure employee satisfaction. The company promotes employee wellness throug meditation programs, language courses, recreational lunches, a 50% refund for participating in marathons, and an organized blood drive called, Sangre Azul.
+          
+          QoC Health conducts a quarterly town hall meeting, where the executive team leads conversation and answers questions around an employee-submitted agenda.
+          
+          Salt Spring Coffee , based in British Columbia, conducts annual employee engagement surveys based on 12 questions developed by Gallup to measure the success of a workplace. Salt Spring uses the survey responses to identify good practices and areas for improvement
+        order: 25
+        topic: W10
+        ismandatory: N
+        answertype: instruction
+        others: N
+      Q10: 
+        name: >-
+          Do you conduct any of the following worker engagement practices to promote worker voice and satisfaction?
+        order: 26
+        indicator: employee_engagement
+        topic: W10
+        ismandatory: Y
+        answertype: multipleChoice
+        aggregatedqs: 
+          - Company conducts an employee satisfaction or engagement survey at least annually
+          - Company has complaint mechanisms to allow employees to raise issues or concerns without fear of reprisal
+          - Company formally solicits non-executive employee input or empowers employees in strategy setting
+          - Company employees have union representation
+          - None of the above
+        others: Y

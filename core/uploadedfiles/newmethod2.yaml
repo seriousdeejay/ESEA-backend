@@ -1,0 +1,452 @@
+topics:
+  PT1:
+    name: >-
+      Root Topic
+  T1:
+    name: >-
+      Organisation Data
+    topic: PT1
+  T2:
+    name: >-
+      Gender Equity
+    topic: PT1
+  T3:
+    name: >-
+      Environmental Impact
+    topic: PT1
+  T4:
+    name: >-
+      Workplace Quality
+    topic: PT1
+
+indicators:
+  women_staff:
+    name: >-
+      Women staff members
+    topic: T1
+    unit: integer
+    type: directindicator
+  men_staff:
+    name: >-
+      Men staff members
+    topic: T1
+    unit: integer
+    type: directindicator
+  company_type:
+    name: >-
+      Type of company
+    topic: T1
+    unit: list
+    type: directindicator
+
+  total_staff:
+    name: >-
+      Total staff
+    topic: T1
+    unit: integer
+    type: indirectindicator
+    formula: '[women_staff] + [men_staff]'
+  company_size:
+    name: >-
+      Company size
+    topic: T1
+    unit: string
+    type: indirectindicator
+    formula: 'IF ([total_staff] < 10) THEN company_size=”micro” ELSE IF ([total_staff] < 49) THEN company_size=”small” ELSE IF ([total_staff] < 249) THEN company_size=”medium” ELSE company_size=”large”'
+  total_organisation_score:
+    name: >-
+      Total organisation score
+    topic: T1
+    unit: string
+    type: indirectindicator
+    formula: '0.30 * [gender_equity_score] + 0.40 * [environmental_impact_score] + 0.30 * [workplace_quality_score]'
+
+  average_salary_women:
+    name: >-
+      Average salary women
+    topic: T2
+    unit: float
+    type: directindicator
+  average_salary_men:
+    name: >-
+      Average salary men
+    topic: T2
+    unit: float
+    type: directindicator
+
+  gender_ratio:
+    name: >-
+      Gender ratio
+    topic: T2
+    unit: float
+    type: indirectindicator
+    formula: '[women_staff] / [total_staff]'
+  gender_pay_gap:
+    name: >-
+      Gender pay gap
+    topic: T2
+    unit: float
+    type: indirectindicator
+    formula: '[average_salary_women] / [average_salary_men]'
+  gender_decision_making_ratio:
+    name: >-
+      Gender decision making ratio
+    topic: T2
+    unit: float
+    type: indirectindicator
+    formula: '[women_staff_deciding] / ([women_staff_deciding] + [men_staff_deciding])'
+  gender_ratio_score:
+    name: >-
+      Gender pay gap score
+    topic: T2
+    unit: float
+    type: indirectindicator
+    formula: 'IF [gender_ratio] < 0.15 THEN gender_ratio_score = 0 ELSE IF [gender_ratio] < 0.85 THEN gender_ratio_score = 10 * ([gender_ratio] - 0.15 ) / (0.85 - 0.15) ELSE gender_ratio_score = 10'
+  gender_pay_gap_score:
+    name: >-
+      Gender pay gap score
+    topic: T2
+    unit: float
+    type: indirectindicator
+    formula: '10 / [gender_pay_gap]'
+  
+    gender_decision_making_ratio_score:
+    name: >-
+      Gender decision making score
+    topic: T2
+    unit: float
+    type: indirectindicator
+    formula: 'IF (([gender_decision_making_ratio] < 0.30) OR ([gender_decision_making_ratio] > 0.70)) THEN gender_decision_making_ratio_score = 0 ELSE gender_decision_making_ratio_score = 10'
+  
+    gender_equity_score:
+    name: >-
+      Gender equity score
+    topic: T2
+    unit: float
+    type: indirectindicator
+    formula: '(0.35 * [gender_ratio_score] + 0.45 * [gender_pay_gap_score] + 0.20 * [gender_decision_making_ratio_score])'
+
+  recycled_waste_kg:
+    name: >-
+      Recycled waste
+    topic: T3
+    unit: integer
+    type: directindicator
+  total_waste_kg:
+    name: >-
+      Total waste
+    topic: T3
+    unit: integer
+    type: directindicator
+  renewable_energy_consumption:
+    name: >-
+      Renewable energy
+    topic: T3
+    unit: integer
+    type: directindicator
+  total_energy_consumption:
+    name: >-
+      Total energy
+    topic: T3
+    unit: integer
+    type: directindicator
+
+  recycling_ratio:
+    name: >-
+      Recycled waste ratio
+    topic: T3
+    unit: float
+    type: indirectindicator
+    formula: '[recycled_waste_kg] / [total_waste_kg]'
+  renewable_ratio:
+    name: >-
+      Renewable energy ratio
+    topic: T3
+    unit: float
+    type: indirectindicator
+    formula: '[renewable_energy_consumption] / [total_energy_consumption]'
+  renewable_ratio_score:
+    name: >-
+      Renewable energy ratio score
+    topic: T3
+    unit: float
+    type: indirectindicator
+    formula: '[renewable_ratio] * 10'
+  recycling_ratio_score:
+    name: >-
+      Recycled waste ratio score
+    topic: T3
+    unit: float
+    type: indirectindicator
+    formula: 'IF [recycling_ratio] == 0 THEN recycling_ratio_score = 0 ELSE IF ([recycling_ratio] >= 0.1 AND [recycling_ratio] < 0.5) THEN recycling_ratio_score = 4 ELSE IF ([recycling_ratio] >= 0.5 AND [recycling_ratio] < 0.9) THEN recycling_ratio_score = 8 ELSE recycling_ratio_score = 10'
+  environmental_impact_score:
+    name: >-
+      Environmental impact score
+    topic: T3
+    unit: float
+    type: indirectindicator
+    formula: '([renewable_ratio_score] + [recycling_ratio_score]) / 2'
+
+  public_salaries:
+    name: >-
+      Salaries publicly available
+    topic: T4
+    unit: integer
+    type: directindicator
+  women_staff_deciding:
+    name: >-
+      Number of women involved in decision making
+    topic: T4
+    unit: integer
+    type: directindicator
+  men_staff_deciding:
+    name: >-
+      Number of men involved in decision making
+    topic: T4
+    unit: integer
+    type: directindicator
+  employee_satisfaction:
+    name: >-
+      Employee satisfaction
+    topic: T4
+    unit: list
+    type: directindicator
+  employee_opinion_on_inclusiveness :
+    name: >-
+      Inclusivess of the company
+    topic: T4
+    unit: list
+    type: directindicator
+
+  decision_making_ratio:
+    name: >-
+      Decision making ratio
+    topic: T4
+    unit: float
+    type: indirectindicator
+    formula: '([women_staff_deciding] + [men_staff_deciding]) / ([men_staff] + [women_staff])'
+  average_employee_satisfaction:
+    name: >-
+      Average employee satisfaction
+    topic: T4
+    unit: integer
+    type: indirectindicator
+    formula: 'average([employee_satisfaction])'
+  public_salaries_score:
+    name: >-
+      Public salaries score
+    topic: T4
+    unit: float
+    type: indirectindicator
+    formula: 'IF public_salaries = yes THEN public_salaries_score = 10 ELSE public_salaries_score = 0'
+  decision_making_ratio_score:
+    name: >-
+      Decision making ratio score
+    topic: T4
+    unit: float
+    type: indirectindicator
+    formula: "IF [company_type]==”workers cooperative” THEN IF ([decision_making_ratio] < 0.60) 
+THEN decision_making_ratio_score = 0 
+ELSE decision_making_ratio_score = 10
+ELSE
+        IF ([decision_making_ratio] < 0.30) 
+THEN decision_making_ratio_score = 0 
+ELSE decision_making_ratio_score = 10
+"
+  average_employee_satisfaction_score:
+    name: >-
+      Average employee satisfaction score
+    topic: T4
+    unit: float
+    type: indirectindicator
+    formula: '[average_employee_satisfaction]'
+  workplace_quality_score:
+    name: >-
+      Workplace quality score
+    topic: T4
+    unit: float
+    type: indirectindicator
+    formula: 'IF ([company_size] == “micro”) OR ([company_size] = “small”) THEN
+        workplace_quality_score = (0.3 * [public_salaries_score] + 0.3 * [decision_making_ratio_score] + 0.4 * [average_employee_satisfaction_score])
+        ELSE IF ([company_size] == “medium”) OR ([company_size] == “large”) THEN workplace_quality_score = (0.4 * [public_salaries_score] + 0.2 * [decision_making_ratio_score] + 0.4 * [average_employee_satisfaction_score])'
+
+surveys:
+  Management_Survey:
+    name: NewMethod Accountant Survey
+    stakeholdergroup: accountant
+    responserate: 1
+    questions:
+      Q1:
+        isMandatory: Y
+        topic: T1
+        indicator: women_staff
+        name: >-
+          How many women members does the organisation have?
+        description: >-
+          description for women_staff
+        answertype: NUMBER
+        others: N
+      Q2:
+        isMandatory: Y
+        topic: T1
+        indicator: men_staff
+        name: >-
+          How many men members does the organisation have?
+        description: >-
+          description for men_staff
+        answertype: NUMBER
+        others: N
+      Q3:
+        isMandatory: Y
+        topic: T1
+        indicator: company_type
+        name: >- 
+          Please select the company type
+        description: >-
+          description for company_type
+        answertype: RADIO
+        options:
+          - workers_cooperative
+          - limited company
+          - private company
+        others: N
+      Q4:
+        isMandatory: Y
+        topic: T2
+        indicator: average_salary_women
+        name: >- 
+          What is the average monthly salary of the women in your organisation?
+        description: >-
+          description for average_salary_women
+        answertype: NUMBER
+        others: N
+      Q5:
+        isMandatory: Y
+        topic: T2
+        indicator: average_salary_men
+        name: >-
+          What is the average monthly salary of the men in your organisation?
+        description: >-
+          description for average_salary_men
+        answertype: NUMBER
+        others: N
+      Q6:
+        isMandatory: Y
+        topic: T3
+        indicator: recycled_waste_kg
+        name: >-
+          How many kilograms of waste has your organisation recycled this year?
+        description: >-
+          description for recycled_waste_kg
+        answertype: NUMBER
+        others: N
+      Q7:
+        isMandatory: Y
+        topic: T3
+        indicator: total_waste_kg
+        name: >-
+          How many kilograms of waste has your organisation produced this year in total?
+        description: >-
+          description for total_waste_kg
+        answertype: NUMBER
+        others: N
+      Q8:
+        isMandatory: Y
+        topic: T3
+        indicator: renewable_energy_consumption
+        name: >-
+          How many kilowatts/hour of renewable energy has your organisation consumed this year?
+        description: >-
+          description for renewable_energy_consumption
+        answertype: NUMBER
+        others: N
+      Q9:
+        isMandatory: Y
+        topic: T3
+        indicator: total_energy_consumption
+        name: >-
+          How many kilowatts/hour has your organisation consumed this year?
+        description: >-
+          description for total_energy_consumption
+        answertype: NUMBER
+        others: N
+      Q10:
+        isMandatory: Y
+        topic: T4
+        indicator: public_salaries
+        name: >-
+          Are the salaries of your employees publicly available?
+        description: >-
+          description for public_salaries
+        answertype: RADIO
+        options:
+          - 'Yes'
+          - 'No'
+        others: N
+      Q11:
+        isMandatory: Y
+        topic: T4
+        indicator: women_staff_deciding
+        name: >-
+          How many women are involved in decision making in the organisation?
+        description: >-
+          description for women_staff_deciding
+        answertype: NUMBER
+        others: N
+      Q12:
+        isMandatory: Y
+        topic: T4
+        indicator: men_staff_deciding
+        name: >-
+          How many men are involved in decision making in the organisation?
+        description: >-
+          description for men_staff_deciding
+        answertype: NUMBER
+        others: N
+  Employee_Survey:
+    name: NewMethod Employee survey
+    stakeholdergroup: employee
+    responserate: 0.6
+    questions:
+      Q1:
+        isMandatory: Y
+        topic: T4
+        indicator: employee_satisfaction
+        name: >-
+          What is your global satisfaction with the working conditions?
+        description: >-
+          description for employee_satisfaction
+        answertype: SCALE
+        options:
+          - 1
+          - 2
+          - 3
+          - 4
+          - 5
+          - 6
+          - 7
+          - 8
+          - 9
+          - 10
+        others: N
+      Q2:
+        isMandatory: Y
+        topic: T4
+        indicator: employee_opinion_on_inclusiveness 
+        name: >-
+          How inclusive do you think this company is?
+        description: >-
+          description for employee_opinion_on_inclusiveness
+        answertype: SCALE
+        options:
+          - 1
+          - 2
+          - 3
+          - 4
+          - 5
+          - 6
+          - 7
+          - 8
+          - 9
+          - 10
+        others: N
