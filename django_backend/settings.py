@@ -43,7 +43,6 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
     'rest_framework_simplejwt.token_blacklist',
-    'esea_db',
     'core',
 ]
 
@@ -87,9 +86,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
 
-        'NAME': ‘esea_db’,
+        'NAME': 'esea_db',
 
-        'USER': 'postgres,
+        'USER': 'postgres',
 
         'PASSWORD': 'admin',
 
@@ -103,6 +102,9 @@ DATABASES = {
     }
 }
 
+import dj-database-url
+db_from_env = dj_database_url.config(conn_max_age=600)
+DATABASES['default'].update(db_from_env)
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
