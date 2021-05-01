@@ -17,6 +17,8 @@ import random
 
 
 class RegisterUserView(CreateAPIView):
+    authentication_classes = []
+    permission_classes = []
     serializer_class = RegisterUserSerializer
 
 class UsersViewSet(viewsets.ReadOnlyModelViewSet):
