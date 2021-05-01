@@ -47,9 +47,9 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -161,12 +161,12 @@ AUTH_USER_MODEL = 'core.CustomUser'
 #     'http://127.0.0.1:8000',
 # ]
 CORS_ALLOW_ORIGINS = [
-    "https://open-esea.herokuapp.com/",
+    "https://esea.herokuapp.com",
     "http://localhost:8080",
     "http://127.0.0.1:8080"
  ]
 
-# CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_ALL_ORIGINS = True
 
 CORS_ALLOW_HEADERS = list(default_headers) + [
     'content-type',
