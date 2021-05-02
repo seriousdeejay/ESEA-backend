@@ -21,9 +21,13 @@ class IndirectIndicatorSerializer(WritableNestedModelSerializer):
     def validate_formula(self, value):
         method_pk = self.initial_data['method']
         questions = re.findall(find_questions_by_square_brackets, value)
+
         if not len(questions):
             raise serializers.ValidationError("Needs to contain atleast one question")
         
+        if ((value.count('[') + value.count(']')) % 2):
+            raise serializers.ValidationError('Uneven amount of brackets!')
+            
         for question in questions:
             question = question[1:-1]
             try:
@@ -43,5 +47,18 @@ class IndirectIndicatorSerializer(WritableNestedModelSerializer):
 
         if indirect_indicator.exists():
             raise serializers.ValidationError('Name is not unique')
+
+        return value
+
+    def validate_key(self, value):
+        method_pk = self.initial_data['method']
+
+        if self.instance and self.instance.key == value:
+            return value
+        
+        indirect_indicator = IndirectIndicator.objects.filter(key=value, topic__method=method_pk)
+
+        if indirect_indicator.exists():
+            raise serializers.ValidationError('Key is not unique')
 
         return value

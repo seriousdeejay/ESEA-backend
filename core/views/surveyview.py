@@ -38,7 +38,7 @@ class SurveyViewSet(BaseModelViewSet):
     # authentication_classes = []
     serializer_class = SurveyOverviewSerializer
     permission_classes_by_action = {
-        'create': (IsAuthenticated,),
+        'create': (AllowAny,),
         'list': (AllowAny,),                # Should be isAuthenticated, need to find a way to access retrieve survey with an unauthenticated user, and list with authenticated user!
         'retrieve': (AllowAny,),
         'update': (IsAuthenticated,),
