@@ -6,13 +6,14 @@ from .stakeholder_group import StakeholderGroup
 
 
 class SurveyManager(models.Manager):
-    def create(self, name, description, method, stakeholdergroup=None, rate=0, anonymous=None):
+    def create(self, name, description, method, stakeholdergroup=None, rate=0, questions=None, anonymous=False):
         if stakeholdergroup:
             stakeholdergroup, _ = StakeholderGroup.objects.get_or_create(name=stakeholdergroup)
         survey = Survey(name=name, description=description, rate=rate, anonymous=anonymous, method=method)
         survey.save()
         if stakeholdergroup:
             survey.stakeholder_groups.add(stakeholdergroup)
+        survey.questions.set(questions)
 
         # directindicators = DirectIndicator.objects.filter(topic__method=method.id)
         # print('---', directindicators)

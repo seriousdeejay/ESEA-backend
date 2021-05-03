@@ -4,7 +4,7 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from django.shortcuts import get_object_or_404
 
 
-from ..models import Survey, Method, Organisation, SurveyResponse
+from ..models import Survey, Method, Organisation, SurveyResponse, DirectIndicator
 from ..serializers import SurveyOverviewSerializer, SurveyDetailSerializer
 
 class BaseModelViewSet(viewsets.ModelViewSet):
@@ -41,7 +41,7 @@ class SurveyViewSet(BaseModelViewSet):
         'create': (AllowAny,),
         'list': (AllowAny,),                # Should be isAuthenticated, need to find a way to access retrieve survey with an unauthenticated user, and list with authenticated user!
         'retrieve': (AllowAny,),
-        'update': (IsAuthenticated,),
+        'update': (AllowAny,),
         'destroy': (IsAuthenticated,),
         'all': (IsAuthenticated,)
     }
@@ -72,6 +72,29 @@ class SurveyViewSet(BaseModelViewSet):
         '''
         return Survey.objects.filter(method=self.kwargs['method_pk'])
     
+    def create(self, request, method_pk):
+        request.data['method'] = int(method_pk)
+        # for index, question in enumerate(request.data['questions']):
+        #     di = get_object_or_404(DirectIndicator, key=question, topic__method=method_pk)
+        #     request.data['questions'][index] = di.key
+        serializer = SurveyOverviewSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+    def update(self, request, method_pk, pk):
+        request.data['method'] = int(method_pk)
+        # print(request.data['questions'])
+        # for index, question in enumerate(request.data['questions']):
+        #     di = get_object_or_404(DirectIndicator, key=question, topic__method=method_pk)
+        #     request.data['questions'][index] = di.key
+        survey = get_object_or_404(Survey, pk=pk, method=method_pk)
+        serializer = SurveyOverviewSerializer(survey, data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
     def retrieve(self, request, method_pk, pk):
         survey = get_object_or_404(Survey, pk=pk)

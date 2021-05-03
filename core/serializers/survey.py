@@ -1,17 +1,23 @@
 from rest_framework import serializers
 
-from ..models import Survey, StakeholderGroup
+from ..models import Survey, StakeholderGroup, DirectIndicator, SurveyResponse
 from .direct_indicator import DirectIndicatorSerializer
 
 
 class SurveyOverviewSerializer(serializers.ModelSerializer):
     stakeholders = serializers.StringRelatedField(many=True, required=False)
     finished_responses = serializers.StringRelatedField(many=True, required=False)
+    responses = serializers.PrimaryKeyRelatedField(queryset=SurveyResponse.objects.all() , many=True, required=False)
+    questions = serializers.SlugRelatedField(queryset=DirectIndicator.objects.all(), many=True, slug_field='key')
     stakeholdergroup = serializers.StringRelatedField()
+
  
     class Meta:
         model = Survey
         fields = ['id', 'name', 'description', 'rate', 'anonymous', 'questions', 'method', 'stakeholders', 'stakeholdergroup', 'responses', 'finished_responses', 'response_rate']
+
+    def create(self, validated_data):
+        return Survey.objects.create(**validated_data)
 
     def update(self, instance, validated_data): 
         if 'stakeholder_groups' in validated_data:
