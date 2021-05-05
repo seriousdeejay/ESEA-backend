@@ -4,7 +4,7 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from django.shortcuts import get_object_or_404
 
 
-from ..models import Survey, Method, Organisation, SurveyResponse, DirectIndicator
+from ..models import Survey, Method, Organisation, SurveyResponse, DirectIndicator, StakeholderGroup
 from ..serializers import SurveyOverviewSerializer, SurveyDetailSerializer
 
 class BaseModelViewSet(viewsets.ModelViewSet):
@@ -42,7 +42,7 @@ class SurveyViewSet(BaseModelViewSet):
         'list': (AllowAny,),                # Should be isAuthenticated, need to find a way to access retrieve survey with an unauthenticated user, and list with authenticated user!
         'retrieve': (AllowAny,),
         'update': (AllowAny,),
-        'destroy': (IsAuthenticated,),
+        'destroy': (AllowAny,),
         'all': (IsAuthenticated,)
     }
     permission_classes = [AllowAny,]
@@ -85,6 +85,15 @@ class SurveyViewSet(BaseModelViewSet):
 
     def update(self, request, method_pk, pk):
         request.data['method'] = int(method_pk)
+        print(request.data)
+        print()
+        if 'stakeholdergroup' in request.data.keys():
+            cleanedName = request.data['stakeholdergroup'].lower()
+            request.data['stakeholdergroup'], _ = StakeholderGroup.objects.get_or_create(name=cleanedName)
+        #     for index, stakeholdergroup in enumerate(request.data['stakeholders']):
+        #         print(stakeholdergroup)
+        #         request.data['stakeholders'][index], _ = StakeholderGroup.objects.get_or_create(name=stakeholdergroup)
+
         # print(request.data['questions'])
         # for index, question in enumerate(request.data['questions']):
         #     di = get_object_or_404(DirectIndicator, key=question, topic__method=method_pk)

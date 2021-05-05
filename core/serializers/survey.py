@@ -5,26 +5,49 @@ from .direct_indicator import DirectIndicatorSerializer
 
 
 class SurveyOverviewSerializer(serializers.ModelSerializer):
-    stakeholders = serializers.StringRelatedField(many=True, required=False)
+    stakeholdergroup = serializers.SlugRelatedField(queryset=StakeholderGroup.objects.all(), slug_field="name")
     finished_responses = serializers.StringRelatedField(many=True, required=False)
     responses = serializers.PrimaryKeyRelatedField(queryset=SurveyResponse.objects.all() , many=True, required=False)
     questions = serializers.SlugRelatedField(queryset=DirectIndicator.objects.all(), many=True, slug_field='key')
-    stakeholdergroup = serializers.StringRelatedField()
+    # stakeholdergroup = serializers.StringRelatedField(many=True, required=False)
 
  
     class Meta:
         model = Survey
-        fields = ['id', 'name', 'description', 'rate', 'anonymous', 'questions', 'method', 'stakeholders', 'stakeholdergroup', 'responses', 'finished_responses', 'response_rate']
+        fields = ['id', 'name', 'description', 'rate', 'anonymous', 'questions', 'method', 'stakeholdergroup', 'responses', 'finished_responses', 'response_rate'] #'stakeholdergroup'
+
+    def validate_name(self, value):
+        if self.instance and self.instance.name == value:
+            return value
+
+        survey = Survey.objects.filter(name=value)
+
+        if survey.exists():
+            raise serializers.ValidationError('Survey with this name exists already')
+
+        return value
+
+    def validate_rate(self, value):
+        if value > 100:
+            raise serializers.ValidationError('Response rate should be a value between 0 and 100%')
+        return value
+    
+    def validate_questions(self, value):
+        if not len(value):
+            raise serializers.ValidationError('A survey requires at least one question')
+        return value
 
     def create(self, validated_data):
         return Survey.objects.create(**validated_data)
 
-    def update(self, instance, validated_data): 
-        if 'stakeholder_groups' in validated_data:
-            validated_data['stakeholder_groups'] = self.update_stakeholders(
-            stakeholder_groups=instance.stakeholder_groups, 
-            name=validated_data['stakeholder_groups'], 
-            method=instance.method)
+    def update(self, instance, validated_data):
+        print(validated_data)
+        # instance.stakeholder_groups.set(validated_data['stakeholders'])
+        # if 'stakeholder_groups' in validated_data:
+        #     validated_data['stakeholder_groups'] = self.update_stakeholders(
+        #     stakeholder_groups=instance.stakeholder_groups, 
+        #     name=validated_data['stakeholder_groups'], 
+        #     method=instance.method)
         return super().update(instance, validated_data)
     
     def to_representation(self,instance):
@@ -36,7 +59,7 @@ class SurveyOverviewSerializer(serializers.ModelSerializer):
             'anonymous': instance.anonymous,
             'questions': instance.questions,
             'method': instance.method,
-            'stakeholders': instance.stakeholder_groups,
+            'stakeholdergroup': instance.stakeholdergroup,
             'responses': instance.responses,
             'finished_responses': instance.finished_responses,
             'response_rate': instance.response_rate
@@ -75,7 +98,7 @@ class SurveyDetailSerializer(serializers.Serializer):
     method = serializers.PrimaryKeyRelatedField(read_only=True)
     name = serializers.CharField(read_only=True)
     description = serializers.CharField(read_only=True)
-    stakeholders = serializers.StringRelatedField(read_only=True, many=True)
+    stakeholdergroup = serializers.CharField(read_only=True) #serializers.StringRelatedField(read_only=True, many=True)
     rate = serializers.CharField(read_only=True)
     topics = SurveyTopicSerializer(many=True)
 
@@ -134,7 +157,7 @@ class SurveyDetailSerializer(serializers.Serializer):
                 'name': instance.name,
                 'description': instance.description,
                 'method': instance.method,
-                'stakeholders': instance.stakeholder_groups,
+                'stakeholdergroup': instance.stakeholdergroup,
                 'rate': instance.rate,
                 'topics': topic_list,
             }

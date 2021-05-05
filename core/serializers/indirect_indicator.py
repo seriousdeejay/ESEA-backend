@@ -27,14 +27,72 @@ class IndirectIndicatorSerializer(WritableNestedModelSerializer):
         
         if ((value.count('[') + value.count(']')) % 2):
             raise serializers.ValidationError('Uneven amount of brackets!')
-            
+
+        testformula = value
         for question in questions:
             question = question[1:-1]
             try:
                 DirectIndicator.objects.get(key=question, topic__method=method_pk)
             except Exception:
                 raise serializers.ValidationError(f"Question with id '{question}' not found")
-        
+            
+            testformula = testformula.replace(f"[{question}]", " 1 ")
+
+        if 'if' in value or 'then' in value or 'else' in value:
+            if value.count('if ') > value.count('then'):
+                raise serializers.ValidationError("Missing 'then' statement")
+
+            if value.count('if ') < value.count('then'):
+                raise serializers.ValidationError("Missing 'if' statement")
+            
+            if value.count('if') < value.count('else'):
+                raise serializers.ValidationError("Missing 'if' statement")
+            
+            conditionalformula = value.replace('if', 'temporaryif').replace('then', 'temporarythen').replace('else', 'temporaryelse')
+            splittedvalue = re.split('temporary', conditionalformula)
+
+            expecting_if = False
+            for index, cond in enumerate(splittedvalue):
+                questions = re.findall(find_questions_by_square_brackets, cond)
+                cleanedcond = cond
+
+                for question in questions: 
+                    cleanedcond = cleanedcond.replace(f"{question}", "123 ")
+
+                if 'if' in cond:
+                    try:
+                        eval(cleanedcond.replace('if', '').strip())
+                    except:
+                        raise serializers.ValidationError(f"'{cond}': Invalid conditional")
+                    expectif = False
+
+                if expecting_if:
+                    raise serializers.ValidationError(f" '{splittedvalue[index-1]}': Should contain valid if-statement or assignment")
+                if 'then' in cond or 'else' in cond:
+                    if '=' in cond:
+                        [var, val] = cleanedcond.replace('then', '').replace('else', '').split('=')
+                        var = var.strip()
+                        val = val.strip()
+                        if not len(val):
+                            raise serializers.ValidationError(f" '{cond}': Assigment requires a value")
+                        if not len(var):
+                            raise serializers.ValidationError(f" '{cond}': Assignment requires a variable")
+                        if var != '123':
+                            raise serializers.ValidationError(f" '{cond}': Assignment variable is an invalid bracket indicator")
+
+                        continue
+
+                    if cond == splittedvalue[-1]:
+                        raise serializers.ValidationError(f" '{cond}': Assignment expected")
+
+                    expecting_if = True
+
+        else:
+            try:
+                eval(testformula)
+            except:
+                raise serializers.ValidationError('Questions should be separated by arithmetic symbols')
+
         return value
     
     def validate_name(self, value):
