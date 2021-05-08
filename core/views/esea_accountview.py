@@ -25,6 +25,14 @@ class EseaAccountViewSet(viewsets.ModelViewSet):
             return EseaAccount.objects.filter(organisation=organisation)
         return EseaAccount.objects.filter(campaign = self.kwargs['campaign_pk'])
 
+    def create(self, serializer, network_pk, campaign_pk):
+        print('>>>>', self.request.data)
+        serializer = EseaAccountSerializer(data=self.request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save() # goes to serializer def create()
+        return Response(serializer.data)
+
+
     def update(self, request, network_pk, campaign_pk, pk):
         esea_account = get_object_or_404(EseaAccount, pk=pk)
         serializer = EseaAccountSerializer(esea_account, data=request.data)

@@ -10,6 +10,7 @@ class SurveyResponseSerializer(serializers.ModelSerializer):
 
 class OrganisationSerializer(serializers.ModelSerializer):
     created_by = serializers.StringRelatedField()
+    image = serializers.ImageField(required=False)
     # organisation_members = UserOrganisationSerializer(many=True, required=False, source="relevant_survey_responses", read_only=True)
 
     class Meta:

@@ -10,9 +10,10 @@ class MethodSerializer(serializers.ModelSerializer):
 class EseaAccountSerializer(serializers.ModelSerializer):
     organisation = serializers.SlugRelatedField(queryset=Organisation.objects.all(), slug_field='name')
     method = MethodSerializer(read_only=True)
+    method = serializers.PrimaryKeyRelatedField(queryset=Method.objects.all())
     report = serializers.PrimaryKeyRelatedField(read_only=True)
     # response_rate = serializers.ReadOnlyField()
-    all_responses = serializers.StringRelatedField(many=True)
+    all_responses = serializers.StringRelatedField(many=True, required=False)
     # responses = serializers.StringRelatedField(queryset=SurveyResponse.objects.filter(finished=True), many=True)
     
     class Meta:

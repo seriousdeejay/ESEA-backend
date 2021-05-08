@@ -21,7 +21,7 @@ class RegisterUserView(CreateAPIView):
     permission_classes = []
     serializer_class = RegisterUserSerializer
 
-class UsersViewSet(viewsets.ReadOnlyModelViewSet):
+class UsersViewSet(viewsets.ModelViewSet): # ReadOnlyModelViewSet
     model = CustomUser
     serializer_class = UserSerializer
 

@@ -41,7 +41,7 @@ class RegisterUserSerializer(serializers.ModelSerializer):
 
 
 class UserSerializer(serializers.ModelSerializer):
-    password = serializers.CharField()
+    password = serializers.CharField(required=False)
     
     class Meta:
         model = CustomUser

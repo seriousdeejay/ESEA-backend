@@ -21,6 +21,7 @@ class CampaignViewSet(viewsets.ModelViewSet):
         return Response(serializer.data)
 
     def update(self, request, network_pk, pk):
+        print(self.request.data)
         campaign = get_object_or_404(Campaign, pk=pk)
         serializer = CampaignSerializer(campaign, data=request.data)
         serializer.is_valid(raise_exception=True)

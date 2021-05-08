@@ -11,7 +11,7 @@ class NetworkSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Network
-        fields = ['id', 'ispublic', 'name', 'description', 'created_by', 'organisations', 'methods']
+        fields = ['id', 'ispublic', 'name', 'description', 'image', 'created_by', 'organisations', 'methods']
 
     # methods = serializers.SlugRelatedField(queryset=Method.objects.all(), many=True, required=False, slug_field='id')
     # organisations = OrganisationSerializer(many=True, read_only=True)

@@ -27,6 +27,7 @@ class NetworkViewSet(viewsets.ModelViewSet):
 
     def partial_update(self, request, pk):
         networkobject = get_object_or_404(Network, pk=pk)
+        print('>>>', request.data)
         if not 'surveys' in request.data[0].keys():
             for instance in request.data:
                 try: 
