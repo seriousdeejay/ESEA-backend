@@ -19,12 +19,18 @@ class CampaignSerializer(serializers.ModelSerializer):
         depth = 1
 
     def validate_open_survey_date(self, value):
+        
         if datetime.now(pytz.utc) > value:
             raise serializers.ValidationError('Opening date should be in the future.')
         return value
 
     def validate_close_survey_date(self, value):
-        start_date = datetime.strptime(self.initial_data['open_survey_date'], '%Y-%m-%dT%H:%M:%S%z') #.%f
+        print('my time:', value)
+        try:
+            start_date = datetime.strptime(self.initial_data['open_survey_date'], '%Y-%m-%dT%H:%M:%S%z') #.%f
+        except:
+            start_date = datetime.strptime(self.initial_data['open_survey_date'], '%Y-%m-%dT%H:%M:%S.%f%z')
+        
         if start_date > value:
             raise serializers.ValidationError('Closing date must be after Opening date.')
         return value
@@ -34,7 +40,7 @@ class CampaignSerializer(serializers.ModelSerializer):
         for organisation in campaign.network.organisations.all():
             eseaaccount = EseaAccount.objects.create(organisation=organisation, method=campaign.method, campaign=campaign)
             r = Respondent.objects.create(organisation=organisation, email="accountant@localhost.com", first_name="accountant", last_name_prefix="of", last_name=organisation.name)
-            accountant_survey = Survey.objects.filter(method=campaign.method, stakeholder_groups__name="accountant").first()
+            accountant_survey = Survey.objects.filter(method=campaign.method, stakeholdergroup__name="accountant").first()
             SurveyResponse.objects.create(survey=accountant_survey.id, respondent=r, esea_account=eseaaccount)
         return campaign
 
