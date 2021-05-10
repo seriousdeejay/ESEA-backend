@@ -99,7 +99,7 @@ class SurveyDetailSerializer(serializers.Serializer):
     name = serializers.CharField(read_only=True)
     description = serializers.CharField(read_only=True)
     stakeholdergroup = serializers.CharField(read_only=True) #serializers.StringRelatedField(read_only=True, many=True)
-    rate = serializers.CharField(read_only=True)
+    min_threshold = serializers.CharField(read_only=True)
     topics = SurveyTopicSerializer(many=True)
 
     def to_representation(self, instance):
@@ -158,7 +158,7 @@ class SurveyDetailSerializer(serializers.Serializer):
                 'description': instance.description,
                 'method': instance.method,
                 'stakeholdergroup': instance.stakeholdergroup,
-                'rate': instance.rate,
+                'min_threshold': instance.min_threshold,
                 'topics': topic_list,
             }
         )
