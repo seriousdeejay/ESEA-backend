@@ -4,18 +4,13 @@ import re
 find_square_bracket_keys = re.compile(r"\[(.*?)\]")
 
 class IndirectIndicator(models.Model):
-    key = models.CharField(max_length=255, blank=False)
-    name = models.CharField(max_length=255, unique=False, blank=False)
-    formula = models.CharField(max_length=255, unique=False, blank=False)
-    description = models.TextField(blank=True, null=True)
     topic = models.ForeignKey('Topic', related_name='indirect_indicators', on_delete=models.CASCADE)
-    calculation = ''
-    value = None
-    has_conditionals = False
-    exception = None
-    exception_detail = None
-    responses = None
 
+    key = models.CharField(max_length=255, blank=False)
+    formula = models.CharField(max_length=255, unique=False, blank=False)
+    name = models.CharField(max_length=255, unique=False, blank=False)
+    description = models.TextField(blank=True, null=True)
+    
     TEXT = "TEXT"
     INTEGER = "INTEGER"
     DOUBLE = "DOUBLE"
@@ -29,6 +24,15 @@ class IndirectIndicator(models.Model):
         (DATE, "Date"),
     )
     datatype = models.CharField(max_length=100, blank=False, choices=DATA_TYPES, default="TEXT")
+    
+    calculation = ''
+    value = None
+    has_conditionals = False
+    exception = None
+    exception_detail = None
+    responses = None
+
+
 
     class Meta: 
         unique_together = ['key', 'topic']

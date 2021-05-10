@@ -24,13 +24,12 @@ class SurveyResponseManager(models.Manager):
 
 class SurveyResponse(models.Model):
     objects = SurveyResponseManager()
-    # id = models.BigIntegerField(primary_key = True)
-    # id = models.AutoField(primary_key=True)
-    esea_account = models.ForeignKey('EseaAccount', related_name="responses", on_delete=models.CASCADE) # null=True
     survey = models.ForeignKey('Survey', related_name="responses", on_delete=models.CASCADE)
+    esea_account = models.ForeignKey('EseaAccount', related_name="responses", on_delete=models.CASCADE) # null=True
     respondent = models.OneToOneField('Respondent', related_name="response", on_delete=models.CASCADE) # , primary_key=True, null=True for now!
+
     token = models.CharField(max_length=8)
-    finished = models.BooleanField(default=False)
+    finished = models.BooleanField(default=False) # Might be replaced by 'State: Enum' in the future
 
     class Meta:
         verbose_name = _('survey_response')

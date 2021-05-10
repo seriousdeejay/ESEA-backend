@@ -26,15 +26,17 @@ class questionManager(models.Manager):
         return question
 
 class Question(models.Model):
+    topic = models.ForeignKey('Topic', related_name="questions_of_topic", on_delete=models.CASCADE)     # Needed, cause a many to many field can not be 'on_delete=models.CASCADE'
+    topics = models.ManyToManyField("Topic", through="DirectIndicator")
+    
     objects = questionManager()
     order = models.IntegerField(default=1)
-    isMandatory = models.BooleanField(default=True)
+    isMandatory = models.BooleanField(default=True) # Change to required
     name = models.CharField(max_length=255, blank=False)
     description = models.TextField(blank=True, null=True)
     instruction = models.TextField(blank=True, null=True)
     default = models.CharField(max_length=255, blank=True, default="")
-    topic = models.ForeignKey('Topic', related_name="questions_of_topic", on_delete=models.CASCADE)     # Needed, cause a many to many field can not be 'on_delete=models.CASCADE'
-    topics = models.ManyToManyField("Topic", through="DirectIndicator")
+
 
     TEXT = "TEXT"
     NUMBER = "NUMBER"

@@ -18,11 +18,16 @@ class directIndicatorManager(models.Manager):
 
 class DirectIndicator(models.Model):
     objects = directIndicatorManager()
-    key = models.CharField(max_length=45, blank=False)
-    min_number = models.IntegerField(null=True)
-    max_number = models.IntegerField(null=True)
     question = models.ForeignKey("Question", related_name="direct_indicators", on_delete=models.CASCADE)
     topic = models.ForeignKey("Topic", related_name="direct_indicators", on_delete=models.CASCADE)
+
+    key = models.CharField(max_length=45, blank=False)
+    description = models.TextField(max_length=1000, blank=True, null=True)
+    min_number = models.IntegerField(null=True)
+    max_number = models.IntegerField(null=True)
+    
+    # Datatype attribute?
+
     responses = []
     value = None
     calculation_keys = None

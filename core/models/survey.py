@@ -27,14 +27,18 @@ class SurveyManager(models.Manager):
 
 class Survey(models.Model):
     objects = SurveyManager()
+    method =  models.ForeignKey('Method', related_name="surveys", on_delete=models.CASCADE)
+    # stakeholdergroup = models.OneToOneField('StakeholderGroup', related_name="response", on_delete=models.CASCADE)
+    questions = models.ManyToManyField('DirectIndicator', related_name="surveys", blank=False) # Might be removable?
+
     name=models.CharField(max_length=255, unique=False, blank=False)
     description = models.CharField(max_length=1000, blank=True, null=True)
     welcome_text = models.CharField(max_length=1000, blank=True, null=True)
     closing_text = models.CharField(max_length=1000, blank=True, null=True)
     min_threshold = models.PositiveSmallIntegerField(null=True, default=100) # models.DecimalField(max_digits=5, decimal_places=2, default=0)
     anonymous = models.BooleanField(null=False, default=False)
-    questions = models.ManyToManyField('DirectIndicator', related_name="surveys", blank=False)
-    method =  models.ForeignKey('Method', related_name="surveys", on_delete=models.CASCADE)
+    
+    
     stakeholdergroup = models.ForeignKey('StakeholderGroup', related_name="surveys", on_delete=models.CASCADE) 
     # stakeholder_groups = models.ManyToManyField('StakeholderGroup')
     finished_responses = []
