@@ -1,6 +1,7 @@
 from django.db import models
 from .respondent import Respondent
 from .survey_response import SurveyResponse
+from datetime import date
 
 # STATUS = (
 #     ('Complete', 'Complete'),
@@ -9,18 +10,30 @@ from .survey_response import SurveyResponse
 # # )
 
 class EseaAccount(models.Model):
-    sufficient_responses = models.BooleanField(default=False)
-    organisation = models.ForeignKey("Organisation", on_delete=models.CASCADE)
     method = models.ForeignKey("Method", on_delete=models.CASCADE)
+    organisation = models.ForeignKey("Organisation", on_delete=models.CASCADE)
     campaign = models.ForeignKey('Campaign', related_name="organisation_accounts", on_delete=models.CASCADE)
+
+    year = models.IntegerField(default=date.today().year)
+    sufficient_responses = models.BooleanField(default=False)      # Same as Status: Enum for now
     response_rate = models.DecimalField(max_digits=5, decimal_places=2, default=0)
-    # responses (Many to one Relationship with survey_response)
-    #response_rate = models.DecimalField(max_digits=5, decimal_places=2, default=0.00)
+
+    '''
+    SUFFICIENT = "SUFFICIENT"
+    UNSUFFICIENT = "UNSUFFICIENT"
+
+    STATUS_OPTIONS = (
+        (SUFFICIENT, "Sufficient"),
+        (UNSUFFICIENT, "Unsufficient"),
+        # Add in more status options
+    )
+    status = models.CharField(max_length=100, blank=False, choices=STATUS_OPTIONS, default="UNSUFFICIENT")
+    '''
 
     def __str__(self):
         return f'organisation:{self.organisation} - campaign:{self.campaign}'
     
-    @property
+    @property           # Should i keep this network property?
     def network(self):
         return self.campaign.network.id
 
@@ -30,7 +43,7 @@ class EseaAccount(models.Model):
             tempdict = {'id': survey.id, 'name': survey.name, 'questions': len(survey.questions.all()), 'stakeholdergroup': str(survey.stakeholdergroup)}
             tempdict['respondees'] = [{'name':str(respondee)} for respondee in Respondent.objects.filter(response__esea_account=self, response__survey=survey).distinct()]
             tempdict['responses'] = len(self.responses.filter(survey=survey, finished=True))
-            tempdict['required_response_rate'] = survey.rate
+            tempdict['required_response_rate'] = survey.min_threshold
             tempdict['current_response_rate'] = (tempdict['responses'])/(len((tempdict['respondees'])) or 1)
             tempdict['sufficient_responses'] = tempdict['current_response_rate'] >= tempdict['required_response_rate']
             arr.append(tempdict)

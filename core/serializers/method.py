@@ -12,7 +12,7 @@ class MethodSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Method
-        fields = ['id', 'ispublic', 'name', 'description', 'created_by', 'networks', 'organisations', 'surveys']
+        fields = ['id', 'ispublic', 'name', 'description', 'created_by', 'version', 'networks', 'organisations', 'surveys']
 
 
 

@@ -7,6 +7,7 @@ from .respondent import Respondent
 from .method import Method
 from .survey import Survey
 from .stakeholder_group import StakeholderGroup
+# from .section import Section
 from .topic import Topic
 from .question import Question
 from .question_option import QuestionOption
@@ -19,5 +20,5 @@ from .survey_response import SurveyResponse
 from .question_response import QuestionResponse
 
 #from .network_method import NetworkMethod
-#from .certification_grade import CertificationGrade
+#from .certification_level import CertificationLevel
 from .report import Report

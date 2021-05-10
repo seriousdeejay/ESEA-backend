@@ -1,9 +1,10 @@
 from django.db import models
 from ..apps import AppConfig
 
-
+# Change to Answer Option
 class QuestionOption(models.Model):
-    text = models.CharField(max_length=140, blank=False)
+    order = models.IntegerField(default=1)
+    text = models.CharField(max_length=255, blank=False)
     value = models.IntegerField(blank=False)
     question = models.ForeignKey('Question', related_name="options", on_delete=models.CASCADE)
     question_responses = models.ManyToManyField('QuestionResponse', related_name='values', blank=True)

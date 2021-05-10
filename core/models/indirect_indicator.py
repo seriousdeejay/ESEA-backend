@@ -16,6 +16,20 @@ class IndirectIndicator(models.Model):
     exception_detail = None
     responses = None
 
+    TEXT = "TEXT"
+    INTEGER = "INTEGER"
+    DOUBLE = "DOUBLE"
+    BOOLEAN = "BOOLEAN"
+    DATE = "DATE"
+
+    DATA_TYPES = (
+        (TEXT, "Text"),
+        (INTEGER, "Integer"),
+        (DOUBLE, "Double"),
+        (DATE, "Date"),
+    )
+    datatype = models.CharField(max_length=100, blank=False, choices=DATA_TYPES, default="TEXT")
+
     class Meta: 
         unique_together = ['key', 'topic']
 

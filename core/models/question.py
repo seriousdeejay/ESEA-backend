@@ -27,6 +27,7 @@ class questionManager(models.Manager):
 
 class Question(models.Model):
     objects = questionManager()
+    order = models.IntegerField(default=1)
     isMandatory = models.BooleanField(default=True)
     name = models.CharField(max_length=255, blank=False)
     description = models.TextField(blank=True, null=True)
@@ -109,3 +110,5 @@ class Question(models.Model):
  
     #options = models.ManyToManyField(QuestionOption, blank=True, related_name="ooo") 
     # options: QuestionOption
+
+    ## TODO: Can i savely remove topic(s) fields from this model?

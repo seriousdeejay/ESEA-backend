@@ -4,12 +4,15 @@ from django.utils.translation import gettext_lazy as _
 from .stakeholder_group import StakeholderGroup
 # from .direct_indicator import DirectIndicator
 
+def validate_max(value):
+    if value > 100:
+        raise ValidationError()
 
 class SurveyManager(models.Manager):
-    def create(self, name, method, description=None, stakeholdergroup=None, rate=None, questions=None, anonymous=False):
+    def create(self, name, method, description=None, stakeholdergroup=None, minThreshold=None, questions=None, anonymous=False):
         if stakeholdergroup:
             stakeholdergroup, _ = StakeholderGroup.objects.get_or_create(name=stakeholdergroup)
-        survey = Survey(name=name, description=description, rate=rate, anonymous=anonymous, method=method, stakeholdergroup=stakeholdergroup)
+        survey = Survey(name=name, description=description, minThreshold=minTHreshold, anonymous=anonymous, method=method, stakeholdergroup=stakeholdergroup)
         survey.save()
         # if stakeholdergroup:
         #     survey.stakeholder_groups.add(stakeholdergroup)
@@ -26,13 +29,24 @@ class Survey(models.Model):
     objects = SurveyManager()
     name=models.CharField(max_length=255, unique=False, blank=False)
     description = models.CharField(max_length=1000, blank=True, null=True)
-    rate = models.PositiveSmallIntegerField(null=True, default=100) # models.DecimalField(max_digits=5, decimal_places=2, default=0)
+    welcome_text = models.CharField(max_length=1000, blank=True, null=True)
+    closing_text = models.CharField(max_length=1000, blank=True, null=True)
+    min_threshold = models.PositiveSmallIntegerField(null=True, default=100) # models.DecimalField(max_digits=5, decimal_places=2, default=0)
     anonymous = models.BooleanField(null=False, default=False)
     questions = models.ManyToManyField('DirectIndicator', related_name="surveys", blank=False)
     method =  models.ForeignKey('Method', related_name="surveys", on_delete=models.CASCADE)
     stakeholdergroup = models.ForeignKey('StakeholderGroup', related_name="surveys", on_delete=models.CASCADE) 
     # stakeholder_groups = models.ManyToManyField('StakeholderGroup')
     finished_responses = []
+
+    MULTIPLE = "MULTIPLE"
+    SINGLE = "SINGLE"
+
+    RESPONSE_TYPES = (
+        (MULTIPLE, "Multiple"),
+        (SINGLE, "Single")
+    )
+    responseType = models.CharField(max_length=100, blank=False, choices=RESPONSE_TYPES, default="SINGLE")
 
     class Meta:
         verbose_name = _('survey')
@@ -43,7 +57,7 @@ class Survey(models.Model):
 
     def finresponses(self):
         fresponses = [response for response in self.responses.all() if response.finished]
-        self.finresponses = fresponses
+        self.finished_responses = fresponses
     
     def response_rate(self):
         responserate = (len(self.finished_responses)/(len(self.responses.all()) or 1)) * 100 #/

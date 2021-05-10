@@ -14,7 +14,7 @@ class SurveyOverviewSerializer(serializers.ModelSerializer):
  
     class Meta:
         model = Survey
-        fields = ['id', 'name', 'description', 'rate', 'anonymous', 'questions', 'method', 'stakeholdergroup', 'responses', 'finished_responses', 'response_rate'] #'stakeholdergroup'
+        fields = ['id', 'name', 'description', 'min_threshold', 'anonymous', 'questions', 'method', 'stakeholdergroup', 'responses', 'finished_responses', 'response_rate'] #'stakeholdergroup'
 
     def validate_name(self, value):
         if self.instance and self.instance.name == value:
@@ -27,7 +27,7 @@ class SurveyOverviewSerializer(serializers.ModelSerializer):
 
         return value
 
-    def validate_rate(self, value):
+    def validate_minThreshold(self, value):
         if value > 100:
             raise serializers.ValidationError('Response rate should be a value between 0 and 100%')
         return value
@@ -55,7 +55,7 @@ class SurveyOverviewSerializer(serializers.ModelSerializer):
            'id': instance.id,
             'name': instance.name,
             'description': instance.description,
-            'rate': instance.rate,
+            'min_threshold': instance.min_threshold,
             'anonymous': instance.anonymous,
             'questions': instance.questions,
             'method': instance.method,
