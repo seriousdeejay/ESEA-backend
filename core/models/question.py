@@ -43,13 +43,15 @@ class Question(models.Model):
     RADIO = "RADIO"
     CHECKBOX = "CHECKBOX"
     SCALE = "SCALE"
+    # BOOLEAN = "BOOLEAN"
     # DROPDOWN = "DROPDOWN"
     QUESTION_TYPES = (
         (TEXT, "text"),
         (NUMBER, "number"),
         (RADIO, "radio"),
         (CHECKBOX, "checkbox"),
-        (SCALE, "scale")
+        (SCALE, "scale"),
+        # (BOOLEAN, "boolean")
     )
     QUESTION_TYPES_WITH_OPTIONS = [RADIO, CHECKBOX, SCALE]
     answertype = models.CharField(max_length=100, blank=False, choices=QUESTION_TYPES, default="TEXT")

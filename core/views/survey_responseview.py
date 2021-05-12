@@ -50,11 +50,12 @@ class SurveyResponseViewSet(BaseModelViewSet):
     permission_classes = [AllowAny,]
     def get_queryset(self):
         ## Gets responses of esea-account
-        return SurveyResponse.objects.filter(esea_account=self.kwargs['esea_account_pk'], finished=False)
+        print(self.kwargs['esea_account_pk'])
+        return SurveyResponse.objects.filter(esea_account=34) #esea_account=self.kwargs['esea_account_pk'], finished=False
         
     def retrieve(self, request, network_pk, campaign_pk, esea_account_pk, token):
         if token == 'accountant':
-            surveyresponse = get_object_or_404(SurveyResponse, survey__stakeholder_groups__name='accountant', esea_account=esea_account_pk)
+            surveyresponse = get_object_or_404(SurveyResponse, survey__stakeholdergroup__name='accountant', esea_account=esea_account_pk)
         else:
             surveyresponse = get_object_or_404(SurveyResponse, token=token)
         print(surveyresponse)

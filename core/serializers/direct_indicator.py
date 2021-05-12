@@ -90,7 +90,6 @@ class DirectIndicatorSerializer(serializers.Serializer):
                 "default": instance.question.default,
                 # "prefix": instance.question.prefix,
                 # "suffix": instance.question.suffix,
-                # "default": instance.question.default,
                 "options": instance.question.options,
             }
         else:

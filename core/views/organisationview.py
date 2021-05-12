@@ -35,8 +35,8 @@ class OrganisationViewSet(viewsets.ModelViewSet):
             return Organisation.objects.exclude(networks=excludenetwork)
         if campaign is not None:
             return Organisation.objects.filter(esea_accounts__campaign=campaign)
-        if excludecampaign is not None:
-            return Organisation.objects.exclude(esea_accounts__campaign=excludecampaign)
+        if (network is not None) and (excludecampaign is not None):
+            return Organisation.objects.filter(networks=network).exclude(esea_accounts__campaign=excludecampaign)
         return Organisation.objects.filter(Q(created_by=self.request.user) | Q(ispublic = True))
     
     def create(self, serializer):

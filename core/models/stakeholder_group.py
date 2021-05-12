@@ -4,7 +4,7 @@ from django.utils.translation import gettext_lazy as _
 
 class StakeholderGroup(models.Model):
     name = models.CharField(max_length=120, unique=True, blank=False)
-    description = models.CharField(max_length=1000)
+    description = models.CharField(max_length=1000, blank=True)
 
     class Meta:
         verbose_name = _('stakeholder_group')
@@ -18,3 +18,5 @@ class StakeholderGroup(models.Model):
         self.save()
         return self
 
+    def clean(self):
+        self.name = self.name.capitalize()

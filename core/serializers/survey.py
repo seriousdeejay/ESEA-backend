@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from ..models import Survey, StakeholderGroup, DirectIndicator, SurveyResponse
+from ..models import Survey, StakeholderGroup, DirectIndicator, SurveyResponse, Method
 from .direct_indicator import DirectIndicatorSerializer
 
 
@@ -9,35 +9,47 @@ class SurveyOverviewSerializer(serializers.ModelSerializer):
     finished_responses = serializers.StringRelatedField(many=True, required=False)
     responses = serializers.PrimaryKeyRelatedField(queryset=SurveyResponse.objects.all() , many=True, required=False)
     questions = serializers.SlugRelatedField(queryset=DirectIndicator.objects.all(), many=True, slug_field='key')
+    #method = serializers.PrimaryKeyRelatedField(queryset=Method.objects.all(), required=True)
     # stakeholdergroup = serializers.StringRelatedField(many=True, required=False)
 
  
     class Meta:
         model = Survey
-        fields = ['id', 'name', 'description', 'min_threshold', 'anonymous', 'questions', 'method', 'stakeholdergroup', 'responses', 'finished_responses', 'response_rate'] #'stakeholdergroup'
+        fields = ['id', 'name', 'description', 'min_threshold', 'anonymous', 'questions', 'stakeholdergroup', 'response_type', 'method', 'responses', 'finished_responses', 'response_rate'] #'stakeholdergroup'
+
 
     def validate_name(self, value):
         if self.instance and self.instance.name == value:
             return value
 
         survey = Survey.objects.filter(name=value)
-
         if survey.exists():
             raise serializers.ValidationError('Survey with this name exists already')
 
         return value
 
-    def validate_minThreshold(self, value):
-        if value > 100:
+    def validate_min_threshold(self, value):
+        if value < 0 or value > 100:
             raise serializers.ValidationError('Response rate should be a value between 0 and 100%')
         return value
     
     def validate_questions(self, value):
         if not len(value):
-            raise serializers.ValidationError('A survey requires at least one question')
+            raise serializers.ValidationError('A survey needs to contain at least one question')
         return value
 
+    def validate_response_type(self, value):
+        if value == 'SINGLE':
+            surveys = Survey.objects.filter(method=self.initial_data['method'], response_type='SINGLE')
+            if len(surveys) > 1:
+                raise serializers.ValidationError("More than 1 survey with response_type 'single'")
+        
+        return value
+
+
     def create(self, validated_data):
+        print('inital:', self.initial_data)
+        print(validated_data)
         return Survey.objects.create(**validated_data)
 
     def update(self, instance, validated_data):
@@ -60,6 +72,7 @@ class SurveyOverviewSerializer(serializers.ModelSerializer):
             'questions': instance.questions,
             'method': instance.method,
             'stakeholdergroup': instance.stakeholdergroup,
+            'response_type': instance.response_type,
             'responses': instance.responses,
             'finished_responses': instance.finished_responses,
             'response_rate': instance.response_rate
@@ -100,6 +113,7 @@ class SurveyDetailSerializer(serializers.Serializer):
     description = serializers.CharField(read_only=True)
     stakeholdergroup = serializers.CharField(read_only=True) #serializers.StringRelatedField(read_only=True, many=True)
     min_threshold = serializers.CharField(read_only=True)
+    response_type = serializers.CharField(read_only=True)
     topics = SurveyTopicSerializer(many=True)
 
     def to_representation(self, instance):
@@ -159,6 +173,7 @@ class SurveyDetailSerializer(serializers.Serializer):
                 'method': instance.method,
                 'stakeholdergroup': instance.stakeholdergroup,
                 'min_threshold': instance.min_threshold,
+                'response_type': instance.response_type,
                 'topics': topic_list,
             }
         )

@@ -9,6 +9,8 @@ class CampaignSerializer(serializers.ModelSerializer):
     organisation_accounts = EseaAccountSerializer(many=True, read_only=True)
     network = serializers.PrimaryKeyRelatedField(queryset=Network.objects.all())
     method = serializers.PrimaryKeyRelatedField(queryset=Method.objects.all())
+    # start = serializers.DateTimeField()
+    # finish = serializers.DateTimeField()
     # open_survey_date = serializers.DateTimeField()
     # method = serializers.SlugRelatedField(queryset=Method.objects.all(), slug_field='name')
 
@@ -18,8 +20,8 @@ class CampaignSerializer(serializers.ModelSerializer):
         fields = ['id', 'name', 'image', 'network', 'method', 'organisation_accounts', 'open_survey_date', 'close_survey_date']
         depth = 1
 
-    def validate_open_survey_date(self, value):
-        
+    def validate_open_survey_date(self, value): # validate(self, value)
+        # if data[]
         if datetime.now(pytz.utc) > value:
             raise serializers.ValidationError('Opening date should be in the future.')
         return value

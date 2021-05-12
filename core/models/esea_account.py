@@ -1,13 +1,9 @@
 from django.db import models
+from django.shortcuts import get_object_or_404
 from .respondent import Respondent
 from .survey_response import SurveyResponse
 from datetime import date
 
-# STATUS = (
-#     ('Complete', 'Complete'),
-#     ('Incomplete', 'Incomplete'),
-#     ('Ongoing', 'Ongoing'),
-# # )
 
 class EseaAccount(models.Model):
     method = models.ForeignKey("Method", on_delete=models.CASCADE)
@@ -23,8 +19,9 @@ class EseaAccount(models.Model):
     UNSUFFICIENT = "UNSUFFICIENT"
 
     STATUS_OPTIONS = (
-        (SUFFICIENT, "Sufficient"),
-        (UNSUFFICIENT, "Unsufficient"),
+        (SUFFICIENT, "Sufficient"),  # or Complete
+        (UNSUFFICIENT, "Unsufficient"), # or Incomplete
+        (ONGOING, 'Ongoing'),
         # Add in more status options
     )
     status = models.CharField(max_length=100, blank=False, choices=STATUS_OPTIONS, default="UNSUFFICIENT")
@@ -63,6 +60,15 @@ class EseaAccount(models.Model):
     def all_responses(self):
         responses = SurveyResponse.objects.filter(esea_account=self, finished=True)
         return responses
+
+
+
+
+
+
+
+
+
 
 '''
     @property

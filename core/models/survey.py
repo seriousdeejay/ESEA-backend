@@ -9,10 +9,10 @@ def validate_max(value):
         raise ValidationError()
 
 class SurveyManager(models.Manager):
-    def create(self, name, method, description=None, stakeholdergroup=None, minThreshold=None, questions=None, anonymous=False):
+    def create(self, name, method, description=None, stakeholdergroup=None, min_threshold=None, response_type=None, questions=None, anonymous=False):
         if stakeholdergroup:
             stakeholdergroup, _ = StakeholderGroup.objects.get_or_create(name=stakeholdergroup)
-        survey = Survey(name=name, description=description, minThreshold=minTHreshold, anonymous=anonymous, method=method, stakeholdergroup=stakeholdergroup)
+        survey = Survey(name=name, description=description, min_threshold=min_threshold, response_type=response_type, anonymous=anonymous, method=method, stakeholdergroup=stakeholdergroup)
         survey.save()
         # if stakeholdergroup:
         #     survey.stakeholder_groups.add(stakeholdergroup)
@@ -32,15 +32,14 @@ class Survey(models.Model):
     questions = models.ManyToManyField('DirectIndicator', related_name="surveys", blank=False) # Might be removable?
 
     name=models.CharField(max_length=255, unique=False, blank=False)
-    description = models.CharField(max_length=1000, blank=True, null=True)
-    welcome_text = models.CharField(max_length=1000, blank=True, null=True)
-    closing_text = models.CharField(max_length=1000, blank=True, null=True)
+    description = models.CharField(max_length=1000, blank=True, null=True, default="")
+    welcome_text = models.CharField(max_length=1000, blank=True, null=True, default="")
+    closing_text = models.CharField(max_length=1000, blank=True, null=True, default="")
     min_threshold = models.PositiveSmallIntegerField(null=True, default=100) # models.DecimalField(max_digits=5, decimal_places=2, default=0)
     anonymous = models.BooleanField(null=False, default=False)
     
     
     stakeholdergroup = models.ForeignKey('StakeholderGroup', related_name="surveys", on_delete=models.CASCADE) 
-    # stakeholder_groups = models.ManyToManyField('StakeholderGroup')
     finished_responses = []
 
     MULTIPLE = "MULTIPLE"
@@ -50,7 +49,7 @@ class Survey(models.Model):
         (MULTIPLE, "Multiple"),
         (SINGLE, "Single")
     )
-    responseType = models.CharField(max_length=100, blank=False, choices=RESPONSE_TYPES, default="SINGLE")
+    response_type = models.CharField(max_length=100, blank=False, choices=RESPONSE_TYPES, default="SINGLE")
 
     class Meta:
         verbose_name = _('survey')

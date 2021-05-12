@@ -33,8 +33,11 @@ class IndirectIndicatorSerializer(WritableNestedModelSerializer):
             question = question[1:-1]
             try:
                 DirectIndicator.objects.get(key=question, topic__method=method_pk)
-            except Exception:
-                raise serializers.ValidationError(f"Question with id '{question}' not found")
+            except:
+                try:
+                    IndirectIndicator.objects.get(key=question, topic__method=method_pk)
+                except Exception:
+                    raise serializers.ValidationError(f"Question with id '{question}' not found")
             
             testformula = testformula.replace(f"[{question}]", " 1 ")
 
@@ -64,10 +67,10 @@ class IndirectIndicatorSerializer(WritableNestedModelSerializer):
                         eval(cleanedcond.replace('if', '').strip())
                     except:
                         raise serializers.ValidationError(f"'{cond}': Invalid conditional")
-                    expectif = False
+                    expecting_if = False
 
                 if expecting_if:
-                    raise serializers.ValidationError(f" '{splittedvalue[index-1]}': Should contain valid if-statement or assignment")
+                    raise serializers.ValidationError(f" '{splittedvalue[index-1] + '^^' + splittedvalue[index]}': Should contain valid if-statement or assignment")
                 if 'then' in cond or 'else' in cond:
                     if '=' in cond:
                         [var, val] = cleanedcond.replace('then', '').replace('else', '').split('=')
@@ -77,7 +80,7 @@ class IndirectIndicatorSerializer(WritableNestedModelSerializer):
                             raise serializers.ValidationError(f" '{cond}': Assigment requires a value")
                         if not len(var):
                             raise serializers.ValidationError(f" '{cond}': Assignment requires a variable")
-                        if var != '123':
+                        if var != '123' and var != self.initial_data['key']:
                             raise serializers.ValidationError(f" '{cond}': Assignment variable is an invalid bracket indicator")
 
                         continue
