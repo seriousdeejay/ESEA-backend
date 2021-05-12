@@ -10,7 +10,7 @@ class Network(models.Model):
     ispublic = models.BooleanField(default=True) # Change to is_public
     name = models.CharField(max_length=255, unique=False, blank=False)
     description = models.TextField(max_length=1000, blank=True)
-    image = models.ImageField(blank=True, upload_to="network/", default="network/default/sustainability-circle.png")
+    image = models.ImageField(blank=True, upload_to="network/", default="network/sustainability-circle.png")
     
     class Meta: 
         verbose_name = _('network')
