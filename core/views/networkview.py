@@ -19,10 +19,10 @@ class NetworkViewSet(viewsets.ModelViewSet):
             return Network.objects.exclude(organisations=excludeorganisation)
         return Network.objects.filter(Q(created_by=self.request.user) | Q(ispublic = True))
     
-    def create(self, serializer):
-        serializer = NetworkSerializer(data=self.request.data)
+    def create(self, request):
+        serializer = NetworkSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        serializer.save(created_by=self.request.user)
+        serializer.save(created_by=request.user)
         return Response(serializer.data)
 
     def partial_update(self, request, pk):

@@ -15,7 +15,7 @@ class SurveyOverviewSerializer(serializers.ModelSerializer):
  
     class Meta:
         model = Survey
-        fields = ['id', 'name', 'description', 'min_threshold', 'anonymous', 'questions', 'stakeholdergroup', 'response_type', 'method', 'responses', 'finished_responses', 'response_rate'] #'stakeholdergroup'
+        fields = ['id', 'name', 'description', 'welcome_text', 'closing_text', 'min_threshold', 'anonymous', 'questions', 'stakeholdergroup', 'response_type', 'method', 'responses', 'finished_responses', 'response_rate'] #'stakeholdergroup'
 
 
     def validate_name(self, value):
@@ -67,6 +67,8 @@ class SurveyOverviewSerializer(serializers.ModelSerializer):
            'id': instance.id,
             'name': instance.name,
             'description': instance.description,
+            'welcome_text': instance.welcome_text,
+            'closing_text': instance.closing_text,
             'min_threshold': instance.min_threshold,
             'anonymous': instance.anonymous,
             'questions': instance.questions,
@@ -111,6 +113,8 @@ class SurveyDetailSerializer(serializers.Serializer):
     method = serializers.PrimaryKeyRelatedField(read_only=True)
     name = serializers.CharField(read_only=True)
     description = serializers.CharField(read_only=True)
+    welcoming_text = serializers.CharField(read_only=True)
+    closing_text = serializers.CharField(read_only=True)
     stakeholdergroup = serializers.CharField(read_only=True) #serializers.StringRelatedField(read_only=True, many=True)
     min_threshold = serializers.CharField(read_only=True)
     response_type = serializers.CharField(read_only=True)
@@ -170,6 +174,8 @@ class SurveyDetailSerializer(serializers.Serializer):
                 'id': instance.id,
                 'name': instance.name,
                 'description': instance.description,
+                'welcome_text': instance.welcome_text,
+                'closing_text': instance.closing_text,
                 'method': instance.method,
                 'stakeholdergroup': instance.stakeholdergroup,
                 'min_threshold': instance.min_threshold,

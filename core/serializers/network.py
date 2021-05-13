@@ -7,6 +7,7 @@ from .organisation import OrganisationSerializer
 class NetworkSerializer(serializers.ModelSerializer):
     created_by = serializers.StringRelatedField(read_only=True)
     methods = serializers.StringRelatedField(many=True, read_only=True)
+    image = serializers.ImageField(required=False)
     organisations = serializers.SlugRelatedField(queryset=Organisation.objects.all(), many=True, required=False, slug_field='name')
     
     class Meta:
