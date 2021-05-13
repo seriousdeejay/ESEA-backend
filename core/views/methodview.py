@@ -41,19 +41,21 @@ class MethodViewSet(viewsets.ModelViewSet):
         serializer.save(created_by=self.request.user)
         return Response(serializer.data)
 
-    def partial_update(self, request, *args, **kwargs):
-        method_object = get_object_or_404(Method, pk=self.get_object().id)
-        for instance in request.data:
-            try:
-                organisation = get_object_or_404(Organisation, id=instance['id'])
-                if method_object.organisations.filter(id=organisation.id).exists():
-                    method_object.organisations.remove(organisation)
-                else:
-                    method_object.organisations.add(organisation)
-            except Exception as e:
-                print('%s (%s)' % (e.message, type(e)))
-        serializer = MethodSerializer(method_object)
-        return Response(serializer.data)
+
+
+    # def partial_update(self, request, *args, **kwargs):
+    #     method_object = get_object_or_404(Method, pk=self.get_object().id)
+    #     for instance in request.data:
+    #         try:
+    #             organisation = get_object_or_404(Organisation, id=instance['id'])
+    #             if method_object.organisations.filter(id=organisation.id).exists():
+    #                 method_object.organisations.remove(organisation)
+    #             else:
+    #                 method_object.organisations.add(organisation)
+    #         except Exception as e:
+    #             print('%s (%s)' % (e.message, type(e)))
+    #     serializer = MethodSerializer(method_object)
+    #     return Response(serializer.data)
     
     @action(detail=False, methods=['get'])
     def indicators(self, request):

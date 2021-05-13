@@ -13,10 +13,14 @@ class TopicViewSet(viewsets.ModelViewSet):
         return Topic.objects.filter(method=self.kwargs['method_pk']) 
 
     def perform_create(self, serializer):
-        print(self.request.data)
         method = get_object_or_404(Method, pk=self.kwargs['method_pk'])
-        print(method)
         serializer.save(method=method)
+
+
+
+
+
+
     # def create(self, serializer, method_pk):
     #     print(self.request.data)
     #     method = get_object_or_404(Method, pk=self.kwargs['method_pk'])
@@ -24,9 +28,6 @@ class TopicViewSet(viewsets.ModelViewSet):
     #     if serializer.is_valid():
     #         serializer.save(method=method)
     #         return Response(serializer.data)
-
-
-
 
     # return Response(serializer.data, status=status.HTTP_201_CREATED)
 

@@ -41,7 +41,7 @@ class EseaAccount(models.Model):
             tempdict['respondees'] = [{'name':str(respondee)} for respondee in Respondent.objects.filter(response__esea_account=self, response__survey=survey).distinct()]
             tempdict['responses'] = len(self.responses.filter(survey=survey, finished=True))
             tempdict['required_response_rate'] = survey.min_threshold
-            tempdict['current_response_rate'] = (tempdict['responses'])/(len((tempdict['respondees'])) or 1)
+            tempdict['current_response_rate'] = int((tempdict['responses'])/(len((tempdict['respondees'])) or 1))
             tempdict['sufficient_responses'] = tempdict['current_response_rate'] >= tempdict['required_response_rate']
             arr.append(tempdict)
         responserates = [item['current_response_rate'] for item in arr]

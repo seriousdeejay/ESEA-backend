@@ -10,6 +10,8 @@ class IndirectIndicator(models.Model):
     formula = models.CharField(max_length=255, unique=False, blank=False)
     name = models.CharField(max_length=255, unique=False, blank=False)
     description = models.TextField(blank=True, null=True)
+    pre_unit = models.CharField(max_length=30, blank=True, default="")      # Examples: $,€
+    post_unit = models.CharField(max_length=30, blank=True, default="")     # Examples: %, points, persons
     
     TEXT = "TEXT"
     INTEGER = "INTEGER"

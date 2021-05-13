@@ -19,27 +19,34 @@ class EseaAccountViewSet(viewsets.ModelViewSet):
     serializer_class = EseaAccountSerializer
 
     def get_queryset(self):
-        print(self.kwargs)
         organisation = self.request.GET.get('organisation', None)
         if organisation is not None:
             return EseaAccount.objects.filter(organisation=organisation)
         return EseaAccount.objects.filter(campaign = self.kwargs['campaign_pk'])
 
-    def create(self, serializer, network_pk, campaign_pk):
-        print('>>>>', self.request.data)
-        serializer = EseaAccountSerializer(data=self.request.data)
-        serializer.is_valid(raise_exception=True)
-        serializer.save() # goes to serializer def create()
-        return Response(serializer.data)
+    def create(self, request, campaign_pk, *args, **kwargs):
+       request.data['campaign'] = campaign_pk
+       return super().create(request, *args, **kwargs)
+
+    def update(self, request, campaign_pk, *args, **kwargs):
+        request.data['campaign'] = campaign_pk
+        return super().update(request, *args, **kwargs)
+
+    # def create(self, serializer, network_pk, campaign_pk):
+    #     print('>>>>', self.request.data)
+    #     serializer = EseaAccountSerializer(data=self.request.data)
+    #     serializer.is_valid(raise_exception=True)
+    #     serializer.save() # goes to serializer def create()
+    #     return Response(serializer.data)
 
 
-    def update(self, request, network_pk, campaign_pk, pk):
-        esea_account = get_object_or_404(EseaAccount, pk=pk)
-        serializer = EseaAccountSerializer(esea_account, data=request.data)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-        print(esea_account.sufficient_response_rate()) # Maybe i have to put this in the serializer update method? If sufficient_response_rate gets returned a report can be created
-        return Response(serializer.data)
+    # def update(self, request, network_pk, campaign_pk, pk):
+    #     esea_account = get_object_or_404(EseaAccount, pk=pk)
+    #     serializer = EseaAccountSerializer(esea_account, data=request.data)
+    #     serializer.is_valid(raise_exception=True)
+    #     serializer.save()
+    #     print(esea_account.sufficient_response_rate()) # Maybe i have to put this in the serializer update method? If sufficient_response_rate gets returned a report can be created
+    #     return Response(serializer.data)
 
 @method_decorator(csrf_exempt, name='dispatch')
 @api_view(['GET', 'POST'])

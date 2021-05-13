@@ -6,12 +6,10 @@ from .direct_indicator import DirectIndicatorSerializer
 
 class SurveyOverviewSerializer(serializers.ModelSerializer):
     stakeholdergroup = serializers.SlugRelatedField(queryset=StakeholderGroup.objects.all(), slug_field="name")
-    finished_responses = serializers.StringRelatedField(many=True, required=False)
-    responses = serializers.PrimaryKeyRelatedField(queryset=SurveyResponse.objects.all() , many=True, required=False)
+    finished_responses = serializers.StringRelatedField(read_only=True, many=True)
+    responses = serializers.StringRelatedField(read_only=True, many=True) # erializers.PrimaryKeyRelatedField(queryset=SurveyResponse.objects.all() , many=True, required=False)
     questions = serializers.SlugRelatedField(queryset=DirectIndicator.objects.all(), many=True, slug_field='key')
-    #method = serializers.PrimaryKeyRelatedField(queryset=Method.objects.all(), required=True)
-    # stakeholdergroup = serializers.StringRelatedField(many=True, required=False)
-
+    # response_type = serializers.ReadOnlyField()
  
     class Meta:
         model = Survey
@@ -31,6 +29,7 @@ class SurveyOverviewSerializer(serializers.ModelSerializer):
     def validate_min_threshold(self, value):
         if value < 0 or value > 100:
             raise serializers.ValidationError('Response rate should be a value between 0 and 100%')
+
         return value
     
     def validate_questions(self, value):
@@ -54,12 +53,6 @@ class SurveyOverviewSerializer(serializers.ModelSerializer):
 
     def update(self, instance, validated_data):
         print(validated_data)
-        # instance.stakeholder_groups.set(validated_data['stakeholders'])
-        # if 'stakeholder_groups' in validated_data:
-        #     validated_data['stakeholder_groups'] = self.update_stakeholders(
-        #     stakeholder_groups=instance.stakeholder_groups, 
-        #     name=validated_data['stakeholder_groups'], 
-        #     method=instance.method)
         return super().update(instance, validated_data)
     
     def to_representation(self,instance):
@@ -80,12 +73,6 @@ class SurveyOverviewSerializer(serializers.ModelSerializer):
             'response_rate': instance.response_rate
         }
         return super().to_representation(internal)
-
-    # def update_stakeholder(self, stakeholder_groups, name, method):
-    #     if len(stakeholder_group.surveys.all()) > 1:
-    #         stakeholder, _ = StakeholderGroup.objects.get_or_create(name=name, method=method)
-    #         return stakeholder
-    #     return stakeholder_group.update(name=name)
 
     
 class SurveyQuestionOptionSerializer(serializers.Serializer):
@@ -110,7 +97,7 @@ class SurveyTopicSerializer(serializers.Serializer):
 
 class SurveyDetailSerializer(serializers.Serializer):
     id = serializers.IntegerField(read_only=True)
-    method = serializers.PrimaryKeyRelatedField(read_only=True)
+    method = serializers.StringRelatedField(read_only=True)
     name = serializers.CharField(read_only=True)
     description = serializers.CharField(read_only=True)
     welcoming_text = serializers.CharField(read_only=True)

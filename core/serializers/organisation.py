@@ -1,22 +1,29 @@
 from rest_framework import serializers
-from ..models import Organisation, SurveyResponse
-
-
-class SurveyResponseSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = SurveyResponse
-        fields = ['id', 'finished', 'survey']
+from ..models import Organisation, Network
 
 
 class OrganisationSerializer(serializers.ModelSerializer):
     created_by = serializers.StringRelatedField()
     image = serializers.ImageField(required=False)
-    # organisation_members = UserOrganisationSerializer(many=True, required=False, source="relevant_survey_responses", read_only=True)
+    esea_accounts = serializers.StringRelatedField(read_only=True, many=True)
+    networks = serializers.SlugRelatedField(queryset=Network.objects.all(), many=True, required=False, slug_field='name')
 
     class Meta:
         model = Organisation
         fields = ['id', 'ispublic', 'name', 'description', 'image', 'created_by', 'networks', 'esea_accounts']
-        extra_kwargs = {'networks': {'required': False}, 'methods': {'required': False}}
+        # extra_kwargs = {'networks': {'required': False}} 
+
+
+
+
+# class SurveyResponseSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = SurveyResponse
+#         fields = ['id', 'finished', 'survey']
+
+
+# organisation_members = UserOrganisationSerializer(many=True, required=False, source="relevant_survey_responses", read_only=True)
+#, 'methods': {'required': False}}
 
 
 # from rest_framework.fields import CurrentUserDefault

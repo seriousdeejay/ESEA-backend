@@ -6,12 +6,12 @@ from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 from django.db.models import Q, Prefetch
 from django.shortcuts import get_object_or_404
-from django_backend.settings import EMAIL_HOST_USER
-from django.core.mail import send_mail
-import base64
+# from django_backend.settings import EMAIL_HOST_USER
+# from django.core.mail import send_mail
+# import base64
 
-from ..models import Organisation, CustomUser, StakeholderGroup, SurveyResponse
-from ..serializers import OrganisationSerializer, SurveyResponseSerializer
+from ..models import Organisation
+from ..serializers import OrganisationSerializer
 
 
 class OrganisationViewSet(viewsets.ModelViewSet):
@@ -24,7 +24,7 @@ class OrganisationViewSet(viewsets.ModelViewSet):
         excludemethod = self.request.GET.get('excludemethod', None)
         campaign = self.request.GET.get('campaign', None)
         excludecampaign = self.request.GET.get('excludecampaign', None)
-
+        print(Organisation._meta.get_fields())
         if network is not None:
             if method is not None:
                 return Organisation.objects.filter(networks=network, esea_accounts=method).distinct()
@@ -42,26 +42,26 @@ class OrganisationViewSet(viewsets.ModelViewSet):
     def create(self, serializer):
         serializer = OrganisationSerializer(data=self.request.data)
         serializer.is_valid(raise_exception=True)
-        organisation = serializer.save(created_by=self.request.user)
+        serializer.save(created_by=self.request.user)
         return Response(serializer.data)
 
-    def update(self, request, pk):
-        print(request.data)
-        # request.data.pop('image')
-        #image = base64.urlsafe_b64decode(request.data['image'])
-        #request.data['image'] = image
-        # print('>>', request.data['image']).decode("base64")
-        #print('headers:', request.headers)
-        print(request.FILES)
-        organisation = get_object_or_404(Organisation, pk=pk)
-        serializer = OrganisationSerializer(organisation, data=request.data)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
+    # def update(self, request, pk):
+    #     print(request.data)
+    #     # request.data.pop('image')
+    #     #image = base64.urlsafe_b64decode(request.data['image'])
+    #     #request.data['image'] = image
+    #     # print('>>', request.data['image']).decode("base64")
+    #     #print('headers:', request.headers)
+    #     print(request.FILES)
+    #     organisation = get_object_or_404(Organisation, pk=pk)
+    #     serializer = OrganisationSerializer(organisation, data=request.data)
+    #     serializer.is_valid(raise_exception=True)
+    #     serializer.save()
 
-        return Response(serializer.data, status=status.HTTP_200_OK)
+    #     return Response(serializer.data, status=status.HTTP_200_OK)
 
-    def partial_update(self, request, *args, **kwargs):
-        pass
+    # def partial_update(self, request, *args, **kwargs):
+    #     pass
         # Should be reworked
 
         # organisation_object = get_object_or_404(Organisation, pk=self.get_object().id)

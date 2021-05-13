@@ -38,6 +38,8 @@ class UsersViewSet(viewsets.ModelViewSet): # ReadOnlyModelViewSet
             return CustomUser.objects.filter(organisation=organisation)
         return CustomUser.objects.all()
 
+
+
 '''
 @method_decorator(csrf_exempt, name='dispatch')
 @api_view(['GET', 'POST'])

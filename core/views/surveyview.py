@@ -74,41 +74,57 @@ class SurveyViewSet(BaseModelViewSet):
     
     def create(self, request, method_pk):
         request.data['method'] = int(method_pk)
-        # for index, question in enumerate(request.data['questions']):
-        #     di = get_object_or_404(DirectIndicator, key=question, topic__method=method_pk)
-        #     request.data['questions'][index] = di.key
         serializer = SurveyOverviewSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
-
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
-    def update(self, request, method_pk, pk):
-        request.data['method'] = int(method_pk)
-        print(request.data)
-        print()
+    def update(self, request, method_pk, *args, **kwargs):
+        request.data['method'] = method_pk
+
         if 'stakeholdergroup' in request.data.keys():
             cleanedName = request.data['stakeholdergroup'].lower()
             request.data['stakeholdergroup'], _ = StakeholderGroup.objects.get_or_create(name=cleanedName)
-        #     for index, stakeholdergroup in enumerate(request.data['stakeholders']):
-        #         print(stakeholdergroup)
-        #         request.data['stakeholders'][index], _ = StakeholderGroup.objects.get_or_create(name=stakeholdergroup)
 
-        # print(request.data['questions'])
-        # for index, question in enumerate(request.data['questions']):
-        #     di = get_object_or_404(DirectIndicator, key=question, topic__method=method_pk)
-        #     request.data['questions'][index] = di.key
-        survey = get_object_or_404(Survey, pk=pk, method=method_pk)
-        serializer = SurveyOverviewSerializer(survey, data=request.data)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        return super().update(request, *args, **kwargs)
 
     def retrieve(self, request, method_pk, pk):
         survey = get_object_or_404(Survey, pk=pk)
         serializer = SurveyDetailSerializer(survey)
         return Response(serializer.data) 
+
+        # for index, question in enumerate(request.data['questions']):
+        #     di = get_object_or_404(DirectIndicator, key=question, topic__method=method_pk)
+        #     request.data['questions'][index] = di.key
+
+    # def partial_update(self, request, *args, **kwargs):
+
+    #     serializer = SurveyOverviewSerializer(self.get_object(), data=request.data, partial=True)
+    #     serializer.is_valid(raise_exception=True)
+    #     serializer.save()
+    #     return Response(serializer.data)
+    # def update(self, request, method_pk, pk):
+    #     request.data['method'] = int(method_pk)
+    #     print(request.data)
+    #     print()
+    #     if 'stakeholdergroup' in request.data.keys():
+    #         cleanedName = request.data['stakeholdergroup'].lower()
+    #         request.data['stakeholdergroup'], _ = StakeholderGroup.objects.get_or_create(name=cleanedName)
+    #     #     for index, stakeholdergroup in enumerate(request.data['stakeholders']):
+    #     #         print(stakeholdergroup)
+    #     #         request.data['stakeholders'][index], _ = StakeholderGroup.objects.get_or_create(name=stakeholdergroup)
+
+    #     # print(request.data['questions'])
+    #     # for index, question in enumerate(request.data['questions']):
+    #     #     di = get_object_or_404(DirectIndicator, key=question, topic__method=method_pk)
+    #     #     request.data['questions'][index] = di.key
+    #     survey = get_object_or_404(Survey, pk=pk, method=method_pk)
+    #     serializer = SurveyOverviewSerializer(survey, data=request.data)
+    #     serializer.is_valid(raise_exception=True)
+    #     serializer.save()
+
+    #     return Response(serializer.data, status=status.HTTP_200_OK)
+
 
 # Not really implemented!
 class PublicSurveyViewSet(viewsets.ReadOnlyModelViewSet):

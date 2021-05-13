@@ -6,9 +6,9 @@ from .question import Question
 
 class directIndicatorManager(models.Manager):
     def create(self, isMandatory, key, topic, name, answertype, survey=None,
-        description=None, instruction=None, default=None, max_number=None, min_number=None, options=None):
-        question = Question.objects.create(name=name, isMandatory=isMandatory, answertype=answertype, topic=topic, description=description, instruction=instruction, default=default, options=options)
-        direct_indicator = DirectIndicator(key=key, max_number=max_number, min_number=min_number, question=question, topic=topic)
+        description="", pre_unit="", post_unit="", instruction="", default="", min_number=None, max_number=None, options=None):
+        question = Question.objects.create(name=name, isMandatory=isMandatory, answertype=answertype, topic=topic, description=description, instruction=instruction, default=default, min_number=min_number, max_number=max_number, options=options)
+        direct_indicator = DirectIndicator(key=key, question=question, topic=topic, pre_unit=pre_unit, post_unit=post_unit)
         direct_indicator.save()
         if survey:
             survey.questions.add(direct_indicator)
@@ -22,9 +22,9 @@ class DirectIndicator(models.Model):
     topic = models.ForeignKey("Topic", related_name="direct_indicators", on_delete=models.CASCADE)
 
     key = models.CharField(max_length=45, blank=False)
-    description = models.TextField(max_length=1000, blank=True, null=True)
-    min_number = models.IntegerField(null=True)
-    max_number = models.IntegerField(null=True)
+    description = models.TextField(max_length=1000, blank=True, null=True, default="") 
+    pre_unit = models.CharField(max_length=30, blank=True)      # Examples: $,€
+    post_unit = models.CharField(max_length=30, blank=True)     # Examples: %, points, persons
     
     # Datatype attribute?
 
@@ -44,12 +44,12 @@ class DirectIndicator(models.Model):
     def __str__(self):
         return self.question.name
 
-    def update(self, isMandatory, key, topic, name, answertype, options=None, description=None, instruction=None, default=None, min_number=None, max_number=None):
+    def update(self, key, topic, name, answertype, isMandatory=True, options=None, description=None, instruction=None, default=None, min_number=None, max_number=None, pre_unit="", post_unit=""):
         self.key = key
-        self.min_number = min_number
-        self.max_number = max_number
         self.topic = topic
-        self.question = self.question.update(name=name, answertype=answertype, options=options, description=description, instruction=instruction, default=default)
+        self.pre_unit = pre_unit
+        self.post_unit = post_unit
+        self.question = self.question.update(name=name, answertype=answertype, isMandatory=isMandatory, options=options, description=description, instruction=instruction, default=default, min_number=min_number, max_number=max_number)
         self.save()
         return self
 
@@ -81,7 +81,7 @@ class DirectIndicator(models.Model):
         if (
             self.question.answertype == self.question.RADIO
             or self.question.answertype == self.question.CHECKBOX
-            or self.question.answertype == self.question.SCALE
+            # or self.question.answertype == self.question.SCALE
         ):
             #print(self.question.answertype)
             response_values = self.checkbox_values(responses)

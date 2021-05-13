@@ -8,9 +8,9 @@ class Network(models.Model):
     methods = models.ManyToManyField('Method', related_name="networks", blank=True)
 
     ispublic = models.BooleanField(default=True) # Change to is_public
-    name = models.CharField(max_length=255, unique=False, blank=False)
+    name = models.CharField(max_length=255, unique=True, blank=False)
     description = models.TextField(max_length=1000, blank=True)
-    image = models.ImageField(blank=True, upload_to="network/", default="network/sustainability-circle.png")
+    image = models.ImageField(upload_to="network/", default="network/sustainability-circle.png", blank=True)
     
     class Meta: 
         verbose_name = _('network')
@@ -20,7 +20,7 @@ class Network(models.Model):
         return self.name
 
 '''
-- Should have a campaign?
-- Should have image?
+- Should use through class like below:
+    --> esea_accounts = models.ManyToManyField('Method', through="EseaAccount", through_fields=('organisation', 'method'), related_name='organisations', blank=True)
 ( - m2m network_methods class to add a campaign class to?)
 '''

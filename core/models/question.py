@@ -7,8 +7,8 @@ from .question_option import QuestionOption
 
 
 class questionManager(models.Manager):
-    def create(self, isMandatory, name, topic, answertype, description=None, instruction=None, default=None, options=None):
-        question = Question(isMandatory=isMandatory, name=name, topic=topic, answertype=answertype, description=description, instruction=instruction, default=default)
+    def create(self, isMandatory, name, topic, answertype, min_number, max_number, description="", instruction="", default="", options=None):
+        question = Question(isMandatory=isMandatory, name=name, topic=topic, answertype=answertype, description=description, instruction=instruction, default=default, min_number=min_number, max_number=max_number)
         question.save()
 
         if question.answertype in (question.QUESTION_TYPES_WITH_OPTIONS):
@@ -26,33 +26,34 @@ class questionManager(models.Manager):
         return question
 
 class Question(models.Model):
+    objects = questionManager()
     topic = models.ForeignKey('Topic', related_name="questions_of_topic", on_delete=models.CASCADE)     # Needed, cause a many to many field can not be 'on_delete=models.CASCADE'
     topics = models.ManyToManyField("Topic", through="DirectIndicator")
     
-    objects = questionManager()
     order = models.IntegerField(default=1)
     isMandatory = models.BooleanField(default=True) # Change to required
     name = models.CharField(max_length=255, blank=False)
-    description = models.TextField(blank=True, null=True)
-    instruction = models.TextField(blank=True, null=True)
+    description = models.TextField(max_length=1000, blank=True, null=True)
+    instruction = models.TextField(max_length=1000, blank=True, null=True)
     default = models.CharField(max_length=255, blank=True, default="")
+    min_number= models.IntegerField(blank=True, null=True)
+    max_number = models.IntegerField(blank=True, null=True)
 
 
     TEXT = "TEXT"
     NUMBER = "NUMBER"
-    RADIO = "RADIO"
+    RADIO = "RADIO" # boolean is also a radibutton
     CHECKBOX = "CHECKBOX"
     SCALE = "SCALE"
-    # BOOLEAN = "BOOLEAN"
-    # DROPDOWN = "DROPDOWN"
+
     QUESTION_TYPES = (
         (TEXT, "text"),
         (NUMBER, "number"),
         (RADIO, "radio"),
         (CHECKBOX, "checkbox"),
         (SCALE, "scale"),
-        # (BOOLEAN, "boolean")
     )
+    
     QUESTION_TYPES_WITH_OPTIONS = [RADIO, CHECKBOX, SCALE]
     answertype = models.CharField(max_length=100, blank=False, choices=QUESTION_TYPES, default="TEXT")
 
@@ -90,17 +91,20 @@ class Question(models.Model):
                 return question
         return False
 
-    def update(self, name, answertype, options, description=None, instruction=None, default=None) -> "Question":
+    def update(self, isMandatory, name, answertype, options, min_number, max_number, description="", instruction="", default="") -> "Question":
         question: Question = Question.findQuestion(name, answertype, options, description)
         if question and question.id != self.id:
             self.delete()
             return question
 
+        self.isMandatory = isMandatory
         self.name = name
         self.answertype = answertype
         self.description = description
         self.instruction = instruction
         self.default = default
+        self.min_number = min_number
+        self.max_number = max_number
         self.save()
 
         if not self.hasOptions(options):

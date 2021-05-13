@@ -67,9 +67,7 @@ class SurveyResponseViewSet(BaseModelViewSet):
         print(token)
         surveyresponse = get_object_or_404(SurveyResponse, token=token)
         serializer = SurveyResponseSerializer(surveyresponse, data = request.data)
-        print('cc')
         serializer.is_valid(raise_exception=True)
-        print('ss')
         serializer.save()
         return Response(serializer.data)
 
@@ -126,6 +124,8 @@ class SurveyResponseViewSet(BaseModelViewSet):
         serializer = SurveyResponseCalculationSerializer(indicators.values(), many=True)
 
         return Response(serializer.data)
+
+
 
 
 # class PublicSurveyResponseViewset(viewsets.ModelViewSet):

@@ -13,6 +13,8 @@ class DirectIndicatorSerializer(serializers.Serializer):
     answertype = serializers.ChoiceField(required=True, choices=Question.QUESTION_TYPES)
     key = serializers.CharField(max_length=45, required=True)
     description = serializers.CharField(required=False, allow_blank=True)
+    pre_unit = serializers.CharField(required=False)
+    post_unit = serializers.CharField(required=False)
     instruction = serializers.CharField(required=False, allow_blank=True)
     default = serializers.CharField(required=False, allow_blank=True)
     options = QuestionOptionSerializer(many=True)
@@ -79,17 +81,17 @@ class DirectIndicatorSerializer(serializers.Serializer):
             internal = {
                 "id": instance.id,
                 "key": instance.key,
-                "max_number": instance.max_number,
-                "min_number": instance.min_number,
+                "max_number": instance.question.max_number,
+                "min_number": instance.question.min_number,
                 "topic": instance.topic,
                 "isMandatory": instance.question.isMandatory,
                 "name": instance.question.name,
                 "answertype": instance.question.answertype,
                 "description": instance.question.description,
+                "pre_unit": instance.pre_unit,
+                "post_unit": instance.post_unit,
                 "instruction": instance.question.instruction,
                 "default": instance.question.default,
-                # "prefix": instance.question.prefix,
-                # "suffix": instance.question.suffix,
                 "options": instance.question.options,
             }
         else:

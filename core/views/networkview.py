@@ -25,34 +25,50 @@ class NetworkViewSet(viewsets.ModelViewSet):
         serializer.save(created_by=request.user)
         return Response(serializer.data)
 
-    def partial_update(self, request, pk):
-        networkobject = get_object_or_404(Network, pk=pk)
+
+
+
+
+
+
+
+
+
+
+
+
+
+    # def update(self, request, *args, **kwargs):
+    #     return super().update(request, *args, **kwargs)
+        networkobject = self.get_object() #get_object_or_404(Network, pk=pk)
         print('>>>', request.data)
-        if not 'surveys' in request.data[0].keys():
-            for instance in request.data:
-                try: 
-                    organisation = get_object_or_404(Organisation, name=instance['name'])
-                    if networkobject.organisations.filter(name=organisation.name).exists():
-                        networkobject.organisations.remove(organisation)
-                    else:
-                        networkobject.organisations.add(organisation)
-                except Exception as e:
-                    return Response({'error': f'{e}'})
-                    # print('%s (%s)' % (type(e)))
-        else:
-            for instance in request.data:
-                print('>>>', instance)
-                try: 
-                    method = get_object_or_404(Method, pk=instance['id'])
-                    print(method)
-                    if networkobject.methods.filter(name=method.name).exists():
-                        networkobject.methods.remove(method)
-                    else:
-                        networkobject.methods.add(method)
-                except Exception as e:
-                    return Response({'error': f'{e}'})
-                    print(f'{type(e)}') #print('%s (%s)' % (e.message, type(e)))
-        serializer = NetworkSerializer(networkobject)
+        print(networkobject)
+        # if not 'surveys' in request.data[0].keys():
+        #     for instance in request.data:
+        #         try: 
+        #             organisation = get_object_or_404(Organisation, name=instance['name'])
+        #             if networkobject.organisations.filter(name=organisation.name).exists():
+        #                 networkobject.organisations.remove(organisation)
+        #             else:
+        #                 networkobject.organisations.add(organisation)
+        #         except Exception as e:
+        #             return Response({'error': f'{e}'})
+        #             # print('%s (%s)' % (type(e)))
+        # else:
+        #     for instance in request.data:
+        #         print('>>>', instance)
+        #         try: 
+        #             method = get_object_or_404(Method, pk=instance['id'])
+        #             print(method)
+        #             if networkobject.methods.filter(name=method.name).exists():
+        #                 networkobject.methods.remove(method)
+        #             else:
+        #                 networkobject.methods.add(method)
+        #         except Exception as e:
+        #             return Response({'error': f'{e}'})
+        #             print(f'{type(e)}') #print('%s (%s)' % (e.message, type(e)))
+        serializer = NetworkSerializer(networkobject, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
         return Response(serializer.data)
 
 '''

@@ -2,20 +2,13 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 
 from .stakeholder_group import StakeholderGroup
-# from .direct_indicator import DirectIndicator
-
-def validate_max(value):
-    if value > 100:
-        raise ValidationError()
 
 class SurveyManager(models.Manager):
-    def create(self, name, method, description=None, stakeholdergroup=None, min_threshold=None, response_type=None, questions=None, anonymous=False):
+    def create(self, name, method, questions, stakeholdergroup, description="", welcome_text="", closing_text="", min_threshold=100, response_type="SINGLE", anonymous=False):
         if stakeholdergroup:
             stakeholdergroup, _ = StakeholderGroup.objects.get_or_create(name=stakeholdergroup)
-        survey = Survey(name=name, description=description, min_threshold=min_threshold, response_type=response_type, anonymous=anonymous, method=method, stakeholdergroup=stakeholdergroup)
+        survey = Survey(name=name, method=method, stakeholdergroup=stakeholdergroup, description=description, welcome_text=welcome_text, closing_text=closing_text, min_threshold=min_threshold, response_type=response_type, anonymous=anonymous,) # 
         survey.save()
-        # if stakeholdergroup:
-        #     survey.stakeholder_groups.add(stakeholdergroup)
         survey.questions.set(questions)
 
         # directindicators = DirectIndicator.objects.filter(topic__method=method.id)
@@ -28,18 +21,16 @@ class SurveyManager(models.Manager):
 class Survey(models.Model):
     objects = SurveyManager()
     method =  models.ForeignKey('Method', related_name="surveys", on_delete=models.CASCADE)
-    # stakeholdergroup = models.OneToOneField('StakeholderGroup', related_name="response", on_delete=models.CASCADE)
     questions = models.ManyToManyField('DirectIndicator', related_name="surveys", blank=False) # Might be removable?
+    stakeholdergroup = models.ForeignKey('StakeholderGroup', related_name="surveys", on_delete=models.CASCADE) 
 
     name=models.CharField(max_length=255, unique=False, blank=False)
-    description = models.CharField(max_length=1000, blank=True, null=True, default="")
-    welcome_text = models.CharField(max_length=1000, blank=True, null=True, default="")
-    closing_text = models.CharField(max_length=1000, blank=True, null=True, default="")
-    min_threshold = models.PositiveSmallIntegerField(null=True, default=100) # models.DecimalField(max_digits=5, decimal_places=2, default=0)
+    description = models.CharField(max_length=1000, blank=True)
+    welcome_text = models.CharField(max_length=1000, blank=True)
+    closing_text = models.CharField(max_length=1000, blank=True)
+    min_threshold = models.PositiveSmallIntegerField(default=100)
     anonymous = models.BooleanField(null=False, default=False)
     
-    
-    stakeholdergroup = models.ForeignKey('StakeholderGroup', related_name="surveys", on_delete=models.CASCADE) 
     finished_responses = []
 
     MULTIPLE = "MULTIPLE"
@@ -49,7 +40,7 @@ class Survey(models.Model):
         (MULTIPLE, "Multiple"),
         (SINGLE, "Single")
     )
-    response_type = models.CharField(max_length=100, blank=False, choices=RESPONSE_TYPES, default="SINGLE")
+    response_type = models.CharField(max_length=100, choices=RESPONSE_TYPES, default="SINGLE")
 
     class Meta:
         verbose_name = _('survey')
