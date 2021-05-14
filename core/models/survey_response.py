@@ -9,8 +9,9 @@ import random
 import string
 
 class SurveyResponseManager(models.Manager):
-    def create(self, survey, respondent, esea_account):
-        token = "".join(random.choice(string.ascii_letters) for i in range(8))
+    def create(self, survey, respondent, esea_account, token=None):
+        if token is None:
+            token = "".join(random.choice(string.ascii_letters) for i in range(10))
         survey = get_object_or_404(Survey, id=survey)
         surveyresponse = SurveyResponse(survey=survey, respondent=respondent, esea_account=esea_account, token=token)
         surveyresponse.save()
@@ -28,7 +29,7 @@ class SurveyResponse(models.Model):
     esea_account = models.ForeignKey('EseaAccount', related_name="responses", on_delete=models.CASCADE) # null=True
     respondent = models.OneToOneField('Respondent', related_name="response", on_delete=models.CASCADE) # , primary_key=True, null=True for now!
 
-    token = models.CharField(max_length=8)
+    token = models.CharField(max_length=10)
     finished = models.BooleanField(default=False) # Might be replaced by 'State: Enum' in the future
 
     class Meta:

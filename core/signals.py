@@ -17,7 +17,7 @@ def create_accountant_objects(sender, instance, created, **kwargs):
         respondent.delete()
         return
     
-    surveyresponse = SurveyResponse.objects.create(survey=survey.id, esea_account=instance, respondent=respondent)
+    surveyresponse = SurveyResponse.objects.create(survey=survey.id, esea_account=instance, respondent=respondent, token="accountant")
     print(surveyresponse)
     
 @receiver(post_save, sender=Campaign)

@@ -49,9 +49,8 @@ class SurveyResponseViewSet(BaseModelViewSet):
     }
     permission_classes = [AllowAny,]
     def get_queryset(self):
-        ## Gets responses of esea-account
-        print(self.kwargs['esea_account_pk'])
-        return SurveyResponse.objects.filter(esea_account=34) #esea_account=self.kwargs['esea_account_pk'], finished=False
+        print(self.kwargs)
+        return SurveyResponse.objects.filter(esea_account=self.kwargs['esea_account_pk']) # finished=False
         
     def retrieve(self, request, network_pk, campaign_pk, esea_account_pk, token):
         if token == 'accountant':
@@ -90,9 +89,6 @@ class SurveyResponseViewSet(BaseModelViewSet):
             #     s = QuestionResponseSerializer(item, many=True)
           
             map_responses_by_indicator(direct_indicators, question_responses)
-            # for di in direct_indicators:
-            #     print(di.key)
-            #serializer = SurveyResponseCalculationSerializer(direct_indicators, many=True)
             indicators = calculate_indicators(indirect_indicators, direct_indicators)
 
             for indicator in indicators.values():
@@ -126,6 +122,10 @@ class SurveyResponseViewSet(BaseModelViewSet):
         return Response(serializer.data)
 
 
+
+# for di in direct_indicators:
+#     print(di.key)
+# serializer = SurveyResponseCalculationSerializer(direct_indicators, many=True)
 
 
 # class PublicSurveyResponseViewset(viewsets.ModelViewSet):

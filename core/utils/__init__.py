@@ -1,2 +1,3 @@
 from .calculate_indicators import (map_responses_by_indicator, calculate_indicators, merge_indicators)
 from .process_yaml_method import process_yaml_method
+from .import_respondents import import_respondents
