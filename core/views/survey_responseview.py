@@ -57,13 +57,10 @@ class SurveyResponseViewSet(BaseModelViewSet):
             surveyresponse = get_object_or_404(SurveyResponse, survey__stakeholdergroup__name='accountant', esea_account=esea_account_pk)
         else:
             surveyresponse = get_object_or_404(SurveyResponse, token=token)
-        print(surveyresponse)
         serializer = SurveyResponseSerializer(surveyresponse)
         return Response(serializer.data)
     
     def update(self, request, network_pk, campaign_pk, esea_account_pk, token):
-        print('>>>>>', request.data)
-        print(token)
         surveyresponse = get_object_or_404(SurveyResponse, token=token)
         serializer = SurveyResponseSerializer(surveyresponse, data = request.data)
         serializer.is_valid(raise_exception=True)

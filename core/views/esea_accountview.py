@@ -51,9 +51,28 @@ def import_employees(request, eseaaccount_pk, survey_pk):
         # TODO magic.from_buffer() to validate that uploaded file is actually a csv file.
 
         output = import_respondents(file, eseaaccount, survey)
-        print(output)
+        
         return Response({output})
     return Response({'No Excel file uploaded'})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     '''
     eseaaccount = get_object_or_404(EseaAccount, pk=eseaaccount_pk)
