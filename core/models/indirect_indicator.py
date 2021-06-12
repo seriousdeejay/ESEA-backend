@@ -27,11 +27,11 @@ class IndirectIndicator(models.Model):
         (INTEGER, "Integer"),
         (DOUBLE, "Double"),
         (DATE, "Date"),
-        # (BOOLEAN, "boolean"),
-        # (SINGLECHOICE, "singlechoice"),
-        # (MULTIPLECHOICE, "multiplechoice")
+        (BOOLEAN, "boolean"),
+        (SINGLECHOICE, "singlechoice"),
+        (MULTIPLECHOICE, "multiplechoice")
     )
-    datatype = models.CharField(max_length=100, blank=False, choices=DATA_TYPES, default="TEXT")
+    datatype = models.CharField(max_length=50, blank=False, choices=DATA_TYPES, default="TEXT")
     
     calculation = ''
     value = None

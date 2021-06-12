@@ -14,7 +14,7 @@ import yaml
 
 from ..models import Method, Organisation, CustomUser, Topic, DirectIndicator, IndirectIndicator, Survey
 from ..serializers import MethodSerializer, SurveyResponseCalculationSerializer
-from ..utils import process_yaml_method, merge_indicators
+from ..utils import process_yaml_method, process_textual_method, merge_indicators
 
 
 class MethodViewSet(viewsets.ModelViewSet):
@@ -78,16 +78,23 @@ class MethodViewSet(viewsets.ModelViewSet):
 @permission_classes((AllowAny, ))
 def upload_yaml(request):
     if request.method == 'POST':
+        print(request.FILES.keys())
+        print(request.user)
+        if 'file' in request.FILES.keys():
+            # with open(request.FILES['file'], encoding='utf-8') as file:
+            textfile = request.FILES['file'].readlines()
+            process_textual_method(textfile, request.user)
+    return Response({})
     # if request.method == 'POST' and 'file' in request.FILES.keys():
         # with open(request.FILES['file'], encoding='utf-8') as file:
-        with open(os.path.join(os.getcwd(), "core\\uploadedfiles\\newmethod2.yaml"), encoding='utf-8') as file:
-            YAML_dict = yaml.safe_load(file)
-            method_instance, errors = process_yaml_method(YAML_dict)
-            if len(errors):
-               return Response({'errors': errors})
+        # with open(os.path.join(os.getcwd(), "core\\uploadedfiles\\newmethod2.yaml"), encoding='utf-8') as file:
+        #     YAML_dict = yaml.safe_load(file)
+        #     method_instance, errors = process_yaml_method(YAML_dict)
+        #     if len(errors):
+        #        return Response({'errors': errors})
             
-            serializer = MethodSerializer(method_instance)
-            return Response(serializer.data)
+        #     serializer = MethodSerializer(method_instance)
+        #     return Response(serializer.data)
 
 
     # def partial_update(self, request, *args, **kwargs):
@@ -104,7 +111,7 @@ def upload_yaml(request):
     #     serializer = MethodSerializer(method_object)
     #     return Response(serializer.data)
 
-    '''
+    ''''
     if request.method == 'POST' and request.FILES['file']:
         myfile = request.FILES['file']
         ##Try/Except to catch YAML related errors

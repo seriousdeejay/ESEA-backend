@@ -11,6 +11,7 @@ class DirectIndicatorSerializer(serializers.Serializer):
     isMandatory = serializers.BooleanField()
     name = serializers.CharField(max_length=255, required=True)
     answertype = serializers.ChoiceField(required=True, choices=Question.QUESTION_TYPES)
+    datatype = serializers.ChoiceField(required=True, choices=DirectIndicator.DATA_TYPES)
     key = serializers.CharField(max_length=45, required=True)
     description = serializers.CharField(required=False, allow_blank=True)
     pre_unit = serializers.CharField(required=False)
@@ -87,6 +88,7 @@ class DirectIndicatorSerializer(serializers.Serializer):
                 "isMandatory": instance.question.isMandatory,
                 "name": instance.question.name,
                 "answertype": instance.question.answertype,
+                "datatype": instance.datatype,
                 "description": instance.question.description,
                 "pre_unit": instance.pre_unit,
                 "post_unit": instance.post_unit,

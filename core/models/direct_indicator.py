@@ -34,18 +34,17 @@ class DirectIndicator(models.Model):
     SINGLECHOICE = "SINGLECHOICE" # UI: RadioButton, Scale, Dropdown
     MULTIPLECHOICE = "MULTIPLECHOICE" # UI: Checkbox, Scale (1-3 on 1:10 scale for example)
 
+    DATA_TYPES = (
+        (TEXT, "text"),
+        (INTEGER, "integer"),
+        (DOUBLE, "double"),
+        (DATE, "date"),
+        (BOOLEAN, "boolean"),
+        (SINGLECHOICE, "singlechoice"),
+        (MULTIPLECHOICE, "multiplechoice")
+    )
 
-    # QUESTION_TYPES = (
-    #     (TEXT, "text"),
-    #     (INTEGER, "integer"),
-    #     (DOUBLE, "double"),
-    #     (DATE, "date"),
-    #     (BOOLEAN, "boolean"),
-    #     (SINGLECHOICE, "singlechoice"),
-    #     (MULTIPLECHOICE, "multiplechoice")
-    # )
-
-    # Datatype = models.CharField(max_length=50, blank=False, choices=QUESTION_TYPES, default="TEXT")
+    datatype = models.CharField(max_length=50, blank=False, choices=DATA_TYPES, default="TEXT")
 
     responses = []
     value = None
@@ -63,7 +62,7 @@ class DirectIndicator(models.Model):
     def __str__(self):
         return self.question.name
 
-    def update(self, key, topic, name, answertype, isMandatory=True, options=None, description=None, instruction=None, default=None, min_number=None, max_number=None, pre_unit="", post_unit=""):
+    def update(self, key, topic, name, answertype, isMandatory=True, options=None, description=None, instruction=None, default=None, min_number=None, max_number=None, pre_unit="", post_unit=""): # Add datatype?
         self.key = key
         self.topic = topic
         self.pre_unit = pre_unit
