@@ -3,6 +3,18 @@ from django.utils.translation import gettext_lazy as _
 
 from .stakeholder_group import StakeholderGroup
 
+
+# method
+# questions (M2M)
+# stakeholdergroup - Needs to be updated!
+# name
+# (description)
+# (welcome_text)
+# (closing_text)
+# min_threshold
+# (anonymous)
+# ResponseType/SurveyType
+
 class SurveyManager(models.Manager):
     def create(self, name, method, questions, stakeholdergroup='', description="", welcome_text="", closing_text="", min_threshold=100, response_type="SINGLE", anonymous=False):
         stakeholdergroup = 'anyone'
@@ -12,11 +24,6 @@ class SurveyManager(models.Manager):
         survey.save()
         survey.questions.set(questions)
 
-        # directindicators = DirectIndicator.objects.filter(topic__method=method.id)
-        # print('---', directindicators)
-        # for di in directindicators: #.iterator()
-        #     print(di)
-        #     survey.questions.add(di)
         return survey
 
 class Survey(models.Model):
@@ -62,3 +69,10 @@ class Survey(models.Model):
 '''
 - objects manager def create() should get parameter stakeholdergroup from yaml file
 '''
+
+
+        # directindicators = DirectIndicator.objects.filter(topic__method=method.id)
+        # print('---', directindicators)
+        # for di in directindicators: #.iterator()
+        #     print(di)
+        #     survey.questions.add(di)

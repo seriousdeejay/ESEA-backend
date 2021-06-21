@@ -2,9 +2,13 @@ from typing import Union
 from collections import OrderedDict
 from rest_framework import serializers
 
-from ..models import Question, DirectIndicator, Topic
+from ..models import Question, DirectIndicator, Topic, AnswerOption
 from .question_option import QuestionOptionSerializer
 
+class AnswerOptionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AnswerOption
+        fields = ['id', 'order', 'text']
 
 class DirectIndicatorSerializer(serializers.Serializer):
     id = serializers.IntegerField(read_only=True)
@@ -12,13 +16,16 @@ class DirectIndicatorSerializer(serializers.Serializer):
     name = serializers.CharField(max_length=255, required=True)
     answertype = serializers.ChoiceField(required=True, choices=Question.QUESTION_TYPES)
     datatype = serializers.ChoiceField(required=True, choices=DirectIndicator.DATA_TYPES)
+    uiComponent = serializers.ChoiceField(required=True, choices=Question.UI_COMPONENT_TYPES)
     key = serializers.CharField(max_length=45, required=True)
     description = serializers.CharField(required=False, allow_blank=True)
+    order = serializers.IntegerField(required=False)
     pre_unit = serializers.CharField(required=False)
     post_unit = serializers.CharField(required=False)
     instruction = serializers.CharField(required=False, allow_blank=True)
     default = serializers.CharField(required=False, allow_blank=True)
     options = QuestionOptionSerializer(many=True)
+    optionss = AnswerOptionSerializer(many=True)
     min_number = serializers.IntegerField(required=False)
     max_number = serializers.IntegerField(required=False)
     topic = serializers.PrimaryKeyRelatedField(queryset=Topic.objects.all())
@@ -86,6 +93,8 @@ class DirectIndicatorSerializer(serializers.Serializer):
                 "min_number": instance.question.min_number,
                 "topic": instance.topic,
                 "isMandatory": instance.question.isMandatory,
+                "indicator_name": instance.indicator_name,
+                "order": instance.question.order,
                 "name": instance.question.name,
                 "answertype": instance.question.answertype,
                 "datatype": instance.datatype,
@@ -93,8 +102,10 @@ class DirectIndicatorSerializer(serializers.Serializer):
                 "pre_unit": instance.pre_unit,
                 "post_unit": instance.post_unit,
                 "instruction": instance.question.instruction,
+                "uiComponent": instance.question.uiComponent,
                 "default": instance.question.default,
                 "options": instance.question.options,
+                "optionss": instance.options
             }
         else:
             internal = instance

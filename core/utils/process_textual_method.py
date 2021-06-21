@@ -66,7 +66,7 @@ def processor(index):
             if key in ['Order', 'Text']:
                 if key in result[-1]['Answer_options'][-1]:
                     result[-1]['Answer_options'].append({})
-                result[-1]['Answer_options'][-1][key] = value
+                result[-1]['Answer_options'][-1][key] = value.strip().strip('"')
             
             result[-1][key] = value.strip('"')
         except:
@@ -129,11 +129,9 @@ def process_topics(topics, method_instance):
 def process_indicators(indicators, topic_dict):
     for indicator in indicators:
         if indicator['Indicator_type'] == 'Direct':
-            I = DirectIndicator.objects.create(key=indicator['Indicator_id'], name=indicator['Name'], description=indicator['Description'], topic=topic_dict[indicator['Topic']], pre_unit=indicator.get('PreUnit', ''), post_unit=indicator.get('PostUnit', ''), datatype=indicator['DataType']) # DataType=indicator['DataType']
+            I = DirectIndicator.objects.create(key=indicator['Indicator_id'], name=indicator['Name'], description=indicator['Description'], topic=topic_dict[indicator['Topic']], pre_unit=indicator.get('PreUnit', ''), post_unit=indicator.get('PostUnit', ''), datatype=indicator['DataType'], answer_options=indicator.get('Answer_options')) # DataType=indicator['DataType']
         if indicator['Indicator_type'] == 'Indirect':
-            print('---', indicator)
             I = IndirectIndicator.objects.create(key=indicator['Indicator_id'], name=indicator['Name'], description=indicator['Description'], topic=topic_dict[indicator['Topic']], formula=indicator['Formula'], pre_unit=indicator.get('PreUnit', ''), post_unit=indicator.get('PostUnit', ''), type= indicator['Type']) # DataType=indicator['DataType'] indicator.get('Type')
-        print('\n',I, '\n')
     print('**', indicators)
 
 def process_surveys(index, method_instance):
@@ -194,7 +192,7 @@ def process_surveys(index, method_instance):
                 i = DirectIndicator.objects.filter(key=question['Indicator']).first()
                 topic = i.topic
                 # Question.objects.filter(name=question['Name']).delete()
-                q = Question.objects.create(name=question['Name'], isMandatory=question['isMandatory'], topic=topic)
+                q = Question.objects.create(name=question['Name'], description=question['Description'], isMandatory=question['isMandatory'], indicator=i, uiComponent=question['UIComponent'], order=question['Order'], instruction=question['Instruction'], topic=topic)
                 surveyQuestions.append(i.id)
 
                 print('zzzzzzzzzz', q)

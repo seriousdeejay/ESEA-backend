@@ -2,18 +2,39 @@ from django.db import models
 from django.utils.translation import gettext_lazy as  _
 
 from .question import Question
+from .answer_option import AnswerOption
 
+# question (FK) - Should be change to 1to1
+# topic (FK)
+# key
+# name (= self.question.name)
+# indicator_name
+# (description)
+# (pre_unit)
+# (post_unit)
+# datatype
 
 class directIndicatorManager(models.Manager):
-    def create(self, key, topic, datatype, name, description="", pre_unit="", post_unit="", question=None, survey=None, wizard=False,
+    def create(self, topic, key, name, datatype, description="", pre_unit="", post_unit="", question=None, answer_options=None, survey=None, wizard=False,
         answertype="TEXT", isMandatory=True, instruction="", default="", min_number=None, max_number=None, options=None):
-        
+
         # If method creation wizard is used
         if wizard:
             question = Question.objects.create(name=name, isMandatory=isMandatory, answertype=answertype, topic=topic, description=description, instruction=instruction, default=default, min_number=min_number, max_number=max_number, options=options)
 
         direct_indicator = DirectIndicator(key=key, indicator_name=name, description=description, question=question, topic=topic, pre_unit=pre_unit, post_unit=post_unit, datatype=datatype)
         direct_indicator.save()
+
+        if answer_options:
+            for option in answer_options:
+                print(option)
+                answer_option, _ = AnswerOption.objects.get_or_create(order=option['Order'], text=option['Text'])
+                direct_indicator.options.add(answer_option.id)
+                #direct_indicator.options.add(answer_option)
+    
+        direct_indicator.save()
+
+        print(direct_indicator.options)
 
         if survey:
             survey.questions.add(direct_indicator)
@@ -24,13 +45,15 @@ class directIndicatorManager(models.Manager):
 class DirectIndicator(models.Model):
     objects = directIndicatorManager()
     question = models.ForeignKey("Question", related_name="direct_indicators", on_delete=models.CASCADE, null=True)
-    topic = models.ForeignKey("Topic", related_name="direct_indicators", on_delete=models.CASCADE)
+    #question2 = models.OneToOneField("Question", on_delete=models.CASCADE, null=True, primary_key=False)
+    topic = models.ForeignKey("Topic", related_name="direct_indicator", on_delete=models.CASCADE)
 
     key = models.CharField(max_length=255, blank=False)
     indicator_name = models.CharField(max_length=255, unique=False, blank=False)
     description = models.TextField(max_length=1000, blank=True, null=True, default="") 
     pre_unit = models.CharField(max_length=30, blank=True, default="")      # Examples: $,€
     post_unit = models.CharField(max_length=30, blank=True, default="")     # Examples: %, points, persons
+    options = models.ManyToManyField(AnswerOption, blank=True, related_name="direct_indicator") 
     #min number
     #max number
 

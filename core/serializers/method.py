@@ -2,10 +2,12 @@ from rest_framework import serializers
 
 from ..models import Method
 from .survey import SurveyDetailSerializer
+from .survey2 import SurveyDisplaySerializer
 
 class MethodSerializer(serializers.ModelSerializer):
     created_by = serializers.StringRelatedField()
-    surveys = SurveyDetailSerializer(read_only=True, many=True)
+    # surveys = SurveyDetailSerializer(read_only=True, many=True)
+    surveys = SurveyDisplaySerializer(read_only=True, many=True)
     organisations = serializers.StringRelatedField(read_only=True, many=True)
     networks = serializers.StringRelatedField(read_only=True, many=True)
     version = serializers.FloatField(required=False)

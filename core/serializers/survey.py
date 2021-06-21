@@ -100,7 +100,7 @@ class SurveyDetailSerializer(serializers.Serializer):
     method = serializers.StringRelatedField(read_only=True)
     name = serializers.CharField(read_only=True)
     description = serializers.CharField(read_only=True)
-    welcoming_text = serializers.CharField(read_only=True)
+    welcome_text = serializers.CharField(read_only=True)
     closing_text = serializers.CharField(read_only=True)
     stakeholdergroup = serializers.CharField(read_only=True) #serializers.StringRelatedField(read_only=True, many=True)
     min_threshold = serializers.CharField(read_only=True)

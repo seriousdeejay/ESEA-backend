@@ -7,9 +7,15 @@ from .question_option import QuestionOption
 
 
 class questionManager(models.Manager):
-    def create(self, isMandatory, name, topic, answertype="TEXT", min_number=1, max_number=5, description="", instruction="", default="", options=None):
-        question = Question(isMandatory=isMandatory, name=name, topic=topic, answertype=answertype, description=description, instruction=instruction, default=default, min_number=min_number, max_number=max_number)
+    def create(self, isMandatory, name, topic, order, uiComponent, indicator=None, answertype="TEXT", min_number=1, max_number=5, description="", instruction="", default="", options=None):
+        question = Question(isMandatory=isMandatory, name=name, order=order, uiComponent=uiComponent, topic=topic, answertype=answertype, description=description, instruction=instruction, default=default, min_number=min_number, max_number=max_number)
         question.save()
+
+        if indicator:
+            from .direct_indicator import DirectIndicator
+            # i = DirectIndicator.objects.get_object_or_404(DirectIndicator, key=indicator)
+            indicator.question = question
+            indicator.save(update_fields=['question'])
 
         if question.answertype in (question.QUESTION_TYPES_WITH_OPTIONS):
             print(question, answertype, options)
@@ -36,6 +42,7 @@ class Question(models.Model):
     name = models.CharField(max_length=255, blank=False)
     description = models.TextField(max_length=1000, blank=True, null=True)
     instruction = models.TextField(max_length=1000, blank=True, null=True)
+
     default = models.CharField(max_length=255, blank=True, default="")
     min_number= models.IntegerField(blank=True, null=True)
     max_number = models.IntegerField(blank=True, null=True)

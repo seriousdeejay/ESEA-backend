@@ -5,6 +5,7 @@ from .respondent import RespondentSerializer
 
 from .method import MethodSerializer
 from .survey import (SurveyOverviewSerializer, SurveyDetailSerializer)
+from .survey2 import SurveyDisplaySerializer
 from .topic import TopicSerializer
 from .direct_indicator import DirectIndicatorSerializer
 from .indirect_indicator import IndirectIndicatorSerializer
