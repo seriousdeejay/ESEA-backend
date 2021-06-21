@@ -1,5 +1,4 @@
-from ..models import Method, Survey, Topic, DirectIndicator, IndirectIndicator
-import re
+from ..models import Method, Survey, Topic, Question, DirectIndicator, IndirectIndicator
 
 def process_textual_method(file, uploader):
     global start
@@ -16,16 +15,18 @@ def process_textual_method(file, uploader):
    
     for index, entry in enumerate(myList):
         if entry.startswith('Topics:'):
-        #if re.search('^Topics:', entry):
             method_instance = process_method(processor(index), uploader)
 
         if entry.startswith('Indicators:'):
-        #if re.search('^Indicators:', entry):
             topic_dict = process_topics(processor(index), method_instance)
 
         if entry.startswith('Surveys:'):
         #if re.search('^Surveys:', entry):
             process_indicators(processor(index), topic_dict)
+        
+        if entry.startswith('Surveys:'):
+            process_surveys(index, method_instance)
+
 
 
 def processor(index):
@@ -53,6 +54,7 @@ def processor(index):
     for item in partialList:
         try:
             key, value = item.split(":", 1)
+            key = key.strip()
 
             if key in result[-1] and key in ['Indicator_id', 'topic_id']:
                 result.append({})
@@ -113,7 +115,7 @@ def process_topics(topics, method_instance):
         else:
             topic_instance = Topic.objects.create(name=topic['Name'], description=topic['Description'], parent_topic=None, method=method_instance)
 
-        topic_dict[topic['topic_id']] = topic_instance	# has to be topic_instance
+        topic_dict[topic['topic_id']] = topic_instance
         print(topic_instance.__dict__)
 
         
@@ -124,11 +126,77 @@ def process_topics(topics, method_instance):
     #print('==', topics)
     return topic_dict
 
-def process_indicators(indicators, topic_dict): #topic_dict
+def process_indicators(indicators, topic_dict):
     for indicator in indicators:
         if indicator['Indicator_type'] == 'Direct':
-            DI = DirectIndicator.objects.create(name=indicator['Name'], description=indicator['Description'], topic=topic_dict[indicator['topic']], pre_unit=indicator.get('PreUnit'), post_unit=indicator.get('PostUnit'), datatype=indicator['DataType']) # DataType=indicator['DataType']
+            I = DirectIndicator.objects.create(key=indicator['Indicator_id'], name=indicator['Name'], description=indicator['Description'], topic=topic_dict[indicator['Topic']], pre_unit=indicator.get('PreUnit', ''), post_unit=indicator.get('PostUnit', ''), datatype=indicator['DataType']) # DataType=indicator['DataType']
         if indicator['Indicator_type'] == 'Indirect':
-            II = IndirectIndicator.objects.create(name=indicator['Name'], description=indicator['Description'], topic=topic_dict[indicator['topic']], formula=indicator['formula'], PreUnit=indicator.get('PreUnit'), PostUnit=indicator.get('PostUnit'), type=indicator.get('Type')) # DataType=indicator['DataType']
+            print('---', indicator)
+            I = IndirectIndicator.objects.create(key=indicator['Indicator_id'], name=indicator['Name'], description=indicator['Description'], topic=topic_dict[indicator['Topic']], formula=indicator['Formula'], pre_unit=indicator.get('PreUnit', ''), post_unit=indicator.get('PostUnit', ''), type= indicator['Type']) # DataType=indicator['DataType'] indicator.get('Type')
+        print('\n',I, '\n')
+    print('**', indicators)
 
-    #print('**', indicators)
+def process_surveys(index, method_instance):
+    result = []
+    partialList = myList[index+1:]
+
+    segmentsDict = {'Questions': False, 'TextFragments': False, 'Certification_levels': False, 'Validation_rules': False}
+    Sections = False
+    
+    for item in partialList:
+        key, value = [x.strip('"') for x in item.split(":", 1)]
+        if value in ['true', 'false']:
+            value = eval(value.capitalize())
+
+        if key == 'survey_id':
+            result.append({})
+            Sections = False
+        
+        elif item.startswith('Sections:'):
+            Sections = True
+            result[-1]['Sections'] = []
+            continue
+        
+        elif Sections:
+            if key == 'section_id':
+                segmentsDict = {x: False for x in segmentsDict}
+                result[-1]['Sections'].append({})
+            
+            elif item.startswith(tuple(segmentsDict)):
+                segment = next(filter(item.startswith, tuple(segmentsDict)))
+                segmentsDict = {x: False for x in segmentsDict}
+                segmentsDict[segment] = True
+
+                result[-1]['Sections'][-1][segment] = []
+                continue
+
+            elif True in segmentsDict.values():
+                segment, = [x for x in segmentsDict if segmentsDict[x] is True]
+                
+                if key in ['question_id', 'certification_id', 'Text', 'Type']:
+                    result[-1]['Sections'][-1][segment].append({})
+
+                result[-1]['Sections'][-1][segment][-1][key] = value
+            
+            elif True not in segmentsDict.values():
+                result[-1]['Sections'][-1][key] = value
+        
+        if not Sections:
+            result[-1][key] = value
+    
+    print(result)
+
+    for survey in result:
+        surveyQuestions = []
+        for section in survey['Sections']:
+            for question in section['Questions']:
+                # q, created = Question.objects.get_or_create()
+                i = DirectIndicator.objects.filter(key=question['Indicator']).first()
+                topic = i.topic
+                # Question.objects.filter(name=question['Name']).delete()
+                q = Question.objects.create(name=question['Name'], isMandatory=question['isMandatory'], topic=topic)
+                surveyQuestions.append(i.id)
+
+                print('zzzzzzzzzz', q)
+        print(survey)
+        Survey.objects.create(method=method_instance, name=survey['Name'], questions=surveyQuestions, description=survey['Description'], response_type=survey['SurveyType'], welcome_text=survey.get('WelcomeTxt', ''), closing_text=survey.get('ClosingTxt', ''), min_threshold=float(survey['MinThreshold']), anonymous=survey.get('Anonymous', False))

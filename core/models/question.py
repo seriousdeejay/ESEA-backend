@@ -7,7 +7,7 @@ from .question_option import QuestionOption
 
 
 class questionManager(models.Manager):
-    def create(self, isMandatory, name, topic, answertype, min_number, max_number, description="", instruction="", default="", options=None):
+    def create(self, isMandatory, name, topic, answertype="TEXT", min_number=1, max_number=5, description="", instruction="", default="", options=None):
         question = Question(isMandatory=isMandatory, name=name, topic=topic, answertype=answertype, description=description, instruction=instruction, default=default, min_number=min_number, max_number=max_number)
         question.save()
 
@@ -32,6 +32,7 @@ class Question(models.Model):
     
     order = models.IntegerField(default=1)
     isMandatory = models.BooleanField(default=True) # Change to required
+
     name = models.CharField(max_length=255, blank=False)
     description = models.TextField(max_length=1000, blank=True, null=True)
     instruction = models.TextField(max_length=1000, blank=True, null=True)
@@ -42,7 +43,7 @@ class Question(models.Model):
 
     TEXT = "TEXT"
     NUMBER = "NUMBER"
-    RADIO = "RADIO" # boolean is also a radibutton
+    RADIO = "RADIO" # boolean is also a radiobutton
     CHECKBOX = "CHECKBOX"
     SCALE = "SCALE"
 
@@ -56,6 +57,23 @@ class Question(models.Model):
     
     QUESTION_TYPES_WITH_OPTIONS = [RADIO, CHECKBOX, SCALE]
     answertype = models.CharField(max_length=100, blank=False, choices=QUESTION_TYPES, default="TEXT")
+
+    FIELD = "FIELD"
+    LINE = "LINE"
+    TEXTBOX = "TEXTBOX" # Adjustable Text Area
+    CHECKBOX = "CHECKBOX"
+    DROPDOWN = "DROPDOWN"
+    RADIOBUTTON = "RADIOBUTTON"
+
+    UI_COMPONENT_TYPES = (
+        (FIELD, "field"),
+        (LINE, "line"),
+        (TEXTBOX, "textBox"),
+        (CHECKBOX, "checkBox"),
+        (DROPDOWN, "dropDown"),
+        (RADIOBUTTON, "radioButton")
+    )
+    uiComponent = models.CharField(max_length=100, blank=False, choices=UI_COMPONENT_TYPES, default="field")
 
     class Meta:
         verbose_name = _("question")

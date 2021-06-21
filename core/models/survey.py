@@ -4,7 +4,8 @@ from django.utils.translation import gettext_lazy as _
 from .stakeholder_group import StakeholderGroup
 
 class SurveyManager(models.Manager):
-    def create(self, name, method, questions, stakeholdergroup, description="", welcome_text="", closing_text="", min_threshold=100, response_type="SINGLE", anonymous=False):
+    def create(self, name, method, questions, stakeholdergroup='', description="", welcome_text="", closing_text="", min_threshold=100, response_type="SINGLE", anonymous=False):
+        stakeholdergroup = 'anyone'
         if stakeholdergroup:
             stakeholdergroup, _ = StakeholderGroup.objects.get_or_create(name=stakeholdergroup)
         survey = Survey(name=name, method=method, stakeholdergroup=stakeholdergroup, description=description, welcome_text=welcome_text, closing_text=closing_text, min_threshold=min_threshold, response_type=response_type, anonymous=anonymous,) # 

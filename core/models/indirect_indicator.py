@@ -7,7 +7,7 @@ class IndirectIndicator(models.Model):
     topic = models.ForeignKey('Topic', related_name='indirect_indicators', on_delete=models.CASCADE)
 
     key = models.CharField(max_length=255, blank=False)
-    formula = models.CharField(max_length=255, unique=False, blank=False)
+    formula = models.CharField(max_length=511, unique=False, blank=False)
     name = models.CharField(max_length=255, unique=False, blank=False)
     description = models.TextField(blank=True, null=True)
     pre_unit = models.CharField(max_length=30, blank=True, default="")      # Examples: $,€
@@ -23,16 +23,28 @@ class IndirectIndicator(models.Model):
     
 
     DATA_TYPES = (
-        (TEXT, "Text"),
-        (INTEGER, "Integer"),
-        (DOUBLE, "Double"),
-        (DATE, "Date"),
+        (TEXT, "text"),
+        (INTEGER, "integer"),
+        (DOUBLE, "double"),
+        (DATE, "date"),
         (BOOLEAN, "boolean"),
         (SINGLECHOICE, "singlechoice"),
         (MULTIPLECHOICE, "multiplechoice")
     )
+
     datatype = models.CharField(max_length=50, blank=False, choices=DATA_TYPES, default="TEXT")
     
+    PERFORMANCE = "PERFORMANCE"
+    SCORING = "SCORING"
+
+    INDICATOR_TYPES = (
+        (PERFORMANCE, "performance"),
+        (SCORING, "scoring")
+    )
+
+    
+    type = models.CharField(max_length=50, blank=False, choices=INDICATOR_TYPES, default="SCORING")
+
     calculation = ''
     value = None
     has_conditionals = False

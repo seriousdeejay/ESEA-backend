@@ -5,11 +5,16 @@ from .question import Question
 
 
 class directIndicatorManager(models.Manager):
-    def create(self, isMandatory, key, topic, name, answertype, survey=None,
-        description="", pre_unit="", post_unit="", instruction="", default="", min_number=None, max_number=None, options=None):
-        question = Question.objects.create(name=name, isMandatory=isMandatory, answertype=answertype, topic=topic, description=description, instruction=instruction, default=default, min_number=min_number, max_number=max_number, options=options)
-        direct_indicator = DirectIndicator(key=key, question=question, topic=topic, pre_unit=pre_unit, post_unit=post_unit)
+    def create(self, key, topic, datatype, name, description="", pre_unit="", post_unit="", question=None, survey=None, wizard=False,
+        answertype="TEXT", isMandatory=True, instruction="", default="", min_number=None, max_number=None, options=None):
+        
+        # If method creation wizard is used
+        if wizard:
+            question = Question.objects.create(name=name, isMandatory=isMandatory, answertype=answertype, topic=topic, description=description, instruction=instruction, default=default, min_number=min_number, max_number=max_number, options=options)
+
+        direct_indicator = DirectIndicator(key=key, indicator_name=name, description=description, question=question, topic=topic, pre_unit=pre_unit, post_unit=post_unit, datatype=datatype)
         direct_indicator.save()
+
         if survey:
             survey.questions.add(direct_indicator)
 
@@ -18,14 +23,17 @@ class directIndicatorManager(models.Manager):
 
 class DirectIndicator(models.Model):
     objects = directIndicatorManager()
-    question = models.ForeignKey("Question", related_name="direct_indicators", on_delete=models.CASCADE)
+    question = models.ForeignKey("Question", related_name="direct_indicators", on_delete=models.CASCADE, null=True)
     topic = models.ForeignKey("Topic", related_name="direct_indicators", on_delete=models.CASCADE)
 
-    key = models.CharField(max_length=45, blank=False)
+    key = models.CharField(max_length=255, blank=False)
+    indicator_name = models.CharField(max_length=255, unique=False, blank=False)
     description = models.TextField(max_length=1000, blank=True, null=True, default="") 
-    pre_unit = models.CharField(max_length=30, blank=True)      # Examples: $,€
-    post_unit = models.CharField(max_length=30, blank=True)     # Examples: %, points, persons
-    
+    pre_unit = models.CharField(max_length=30, blank=True, default="")      # Examples: $,€
+    post_unit = models.CharField(max_length=30, blank=True, default="")     # Examples: %, points, persons
+    #min number
+    #max number
+
     TEXT = "TEXT"
     INTEGER = "INTEGER"
     DOUBLE = "DOUBLE"
@@ -57,10 +65,13 @@ class DirectIndicator(models.Model):
 
     @property
     def name(self):
-        return self.question.name
+        if self.question:
+            return self.question.name
+        return ''
 
     def __str__(self):
-        return self.question.name
+        return self.indicator_name
+        #return self.question.name
 
     def update(self, key, topic, name, answertype, isMandatory=True, options=None, description=None, instruction=None, default=None, min_number=None, max_number=None, pre_unit="", post_unit=""): # Add datatype?
         self.key = key
