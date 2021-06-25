@@ -6,8 +6,11 @@ from .respondent import Respondent
 
 from .method import Method
 from .survey import Survey
+from .section import Section
+from .text_fragment import TextFragment
 from .stakeholder_group import StakeholderGroup
-# from .section import Section
+
+
 from .topic import Topic
 from .question import Question
 from .question_option import QuestionOption

@@ -7,8 +7,8 @@ from .question_option import QuestionOption
 
 
 class questionManager(models.Manager):
-    def create(self, isMandatory, name, topic, order, uiComponent, indicator=None, answertype="TEXT", min_number=1, max_number=5, description="", instruction="", default="", options=None):
-        question = Question(isMandatory=isMandatory, name=name, order=order, uiComponent=uiComponent, topic=topic, answertype=answertype, description=description, instruction=instruction, default=default, min_number=min_number, max_number=max_number)
+    def create(self,  name, section, uiComponent, order=1, topic=None, indicator=None, isMandatory=True, answertype="TEXT", min_number=1, max_number=5, description="", instruction="", default="", options=None):
+        question = Question(isMandatory=isMandatory, name=name, order=order, uiComponent=uiComponent, section=section, topic=topic, answertype=answertype, description=description, instruction=instruction, default=default, min_number=min_number, max_number=max_number)
         question.save()
 
         if indicator:
@@ -33,7 +33,8 @@ class questionManager(models.Manager):
 
 class Question(models.Model):
     objects = questionManager()
-    topic = models.ForeignKey('Topic', related_name="questions_of_topic", on_delete=models.CASCADE)     # Needed, cause a many to many field can not be 'on_delete=models.CASCADE'
+    section = models.ForeignKey('Section', related_name='questions', on_delete=models.CASCADE, null=True)
+    topic = models.ForeignKey('Topic', related_name="questions_of_topic", on_delete=models.CASCADE, null=True)     # Needed, cause a many to many field can not be 'on_delete=models.CASCADE'
     topics = models.ManyToManyField("Topic", through="DirectIndicator")
     
     order = models.IntegerField(default=1)
@@ -65,12 +66,12 @@ class Question(models.Model):
     QUESTION_TYPES_WITH_OPTIONS = [RADIO, CHECKBOX, SCALE]
     answertype = models.CharField(max_length=100, blank=False, choices=QUESTION_TYPES, default="TEXT")
 
-    FIELD = "FIELD"
-    LINE = "LINE"
-    TEXTBOX = "TEXTBOX" # Adjustable Text Area
-    CHECKBOX = "CHECKBOX"
-    DROPDOWN = "DROPDOWN"
-    RADIOBUTTON = "RADIOBUTTON"
+    FIELD = "field"
+    LINE = "line"
+    TEXTBOX = "textbox" # Adjustable Text Area
+    CHECKBOX = "checkbox"
+    DROPDOWN = "dropdown"
+    RADIOBUTTON = "radiobutton"
 
     UI_COMPONENT_TYPES = (
         (FIELD, "field"),
@@ -80,6 +81,7 @@ class Question(models.Model):
         (DROPDOWN, "dropDown"),
         (RADIOBUTTON, "radioButton")
     )
+    UI_COMPONENTS_FOR_OPTIONS= [CHECKBOX, DROPDOWN, RADIOBUTTON]
     uiComponent = models.CharField(max_length=100, blank=False, choices=UI_COMPONENT_TYPES, default="field")
 
     class Meta:

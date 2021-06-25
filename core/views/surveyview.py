@@ -5,7 +5,7 @@ from django.shortcuts import get_object_or_404
 
 
 from ..models import Survey, Method, Organisation, SurveyResponse, DirectIndicator, StakeholderGroup
-from ..serializers import SurveyOverviewSerializer, SurveyDetailSerializer
+from ..serializers import SurveyOverviewSerializer, SurveyDetailSerializer, SurveyDisplaySerializer
 
 class BaseModelViewSet(viewsets.ModelViewSet):
     queryset = ''
@@ -36,7 +36,7 @@ class BaseModelViewSet(viewsets.ModelViewSet):
 
 class SurveyViewSet(BaseModelViewSet):
     # authentication_classes = []
-    serializer_class = SurveyOverviewSerializer
+    serializer_class = SurveyDisplaySerializer # SurveyOverviewSerializer
     permission_classes_by_action = {
         'create': (AllowAny,),
         'list': (AllowAny,),                # Should be isAuthenticated, need to find a way to access retrieve survey with an unauthenticated user, and list with authenticated user!
@@ -74,7 +74,7 @@ class SurveyViewSet(BaseModelViewSet):
     
     def create(self, request, method_pk):
         request.data['method'] = int(method_pk)
-        serializer = SurveyOverviewSerializer(data=request.data)
+        serializer = SurveyDisplaySerializer(data=request.data)   # SurveyOverviewSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -90,7 +90,7 @@ class SurveyViewSet(BaseModelViewSet):
 
     def retrieve(self, request, method_pk, pk):
         survey = get_object_or_404(Survey, pk=pk)
-        serializer = SurveyDetailSerializer(survey)
+        serializer = SurveyDisplaySerializer(survey) # SurveyDetailSerializer(survey)
         return Response(serializer.data) 
 
         # for index, question in enumerate(request.data['questions']):

@@ -16,20 +16,20 @@ from .stakeholder_group import StakeholderGroup
 # ResponseType/SurveyType
 
 class SurveyManager(models.Manager):
-    def create(self, name, method, questions, stakeholdergroup='', description="", welcome_text="", closing_text="", min_threshold=100, response_type="SINGLE", anonymous=False):
+    def create(self, name, method, stakeholdergroup='', description="", welcome_text="", closing_text="", min_threshold=100, response_type="SINGLE", anonymous=False):
         stakeholdergroup = 'anyone'
         if stakeholdergroup:
             stakeholdergroup, _ = StakeholderGroup.objects.get_or_create(name=stakeholdergroup)
         survey = Survey(name=name, method=method, stakeholdergroup=stakeholdergroup, description=description, welcome_text=welcome_text, closing_text=closing_text, min_threshold=min_threshold, response_type=response_type, anonymous=anonymous,) # 
         survey.save()
-        survey.questions.set(questions)
+        #survey.questions.set(questions)
 
         return survey
 
 class Survey(models.Model):
     objects = SurveyManager()
     method =  models.ForeignKey('Method', related_name="surveys", on_delete=models.CASCADE)
-    questions = models.ManyToManyField('DirectIndicator', related_name="surveys", blank=False) # Might be removable?
+    # questions = models.ManyToManyField('DirectIndicator', related_name="surveys", blank=False) # Might be removable?
     stakeholdergroup = models.ForeignKey('StakeholderGroup', related_name="surveys", on_delete=models.CASCADE) 
 
     name=models.CharField(max_length=255, unique=False, blank=False)
@@ -41,8 +41,8 @@ class Survey(models.Model):
     
     finished_responses = []
 
-    MULTIPLE = "MULTIPLE"
-    SINGLE = "SINGLE"
+    MULTIPLE = "multiple"
+    SINGLE = "single"
 
     RESPONSE_TYPES = (
         (MULTIPLE, "Multiple"),

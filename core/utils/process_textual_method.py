@@ -1,4 +1,4 @@
-from ..models import Method, Survey, Topic, Question, DirectIndicator, IndirectIndicator
+from ..models import Method, Survey, Section, Topic, Question, DirectIndicator, IndirectIndicator
 
 def process_textual_method(file, uploader):
     global start
@@ -22,7 +22,7 @@ def process_textual_method(file, uploader):
 
         if entry.startswith('Surveys:'):
         #if re.search('^Surveys:', entry):
-            process_indicators(processor(index), topic_dict)
+            process_indicators(processor(index), method_instance, topic_dict)
         
         if entry.startswith('Surveys:'):
             process_surveys(index, method_instance)
@@ -126,10 +126,10 @@ def process_topics(topics, method_instance):
     #print('==', topics)
     return topic_dict
 
-def process_indicators(indicators, topic_dict):
+def process_indicators(indicators, method_instance, topic_dict):
     for indicator in indicators:
         if indicator['Indicator_type'] == 'Direct':
-            I = DirectIndicator.objects.create(key=indicator['Indicator_id'], name=indicator['Name'], description=indicator['Description'], topic=topic_dict[indicator['Topic']], pre_unit=indicator.get('PreUnit', ''), post_unit=indicator.get('PostUnit', ''), datatype=indicator['DataType'], answer_options=indicator.get('Answer_options')) # DataType=indicator['DataType']
+            I = DirectIndicator.objects.create(method=method_instance, key=indicator['Indicator_id'], name=indicator['Name'], description=indicator['Description'], topic=topic_dict[indicator['Topic']], pre_unit=indicator.get('PreUnit', ''), post_unit=indicator.get('PostUnit', ''), datatype=indicator['DataType'], answer_options=indicator.get('Answer_options')) # DataType=indicator['DataType']
         if indicator['Indicator_type'] == 'Indirect':
             I = IndirectIndicator.objects.create(key=indicator['Indicator_id'], name=indicator['Name'], description=indicator['Description'], topic=topic_dict[indicator['Topic']], formula=indicator['Formula'], pre_unit=indicator.get('PreUnit', ''), post_unit=indicator.get('PostUnit', ''), type= indicator['Type']) # DataType=indicator['DataType'] indicator.get('Type')
     print('**', indicators)
@@ -143,7 +143,7 @@ def process_surveys(index, method_instance):
     
     for item in partialList:
         key, value = [x.strip('"') for x in item.split(":", 1)]
-        if value in ['true', 'false']:
+        if value in ['true', 'True', 'false', 'False']:
             value = eval(value.capitalize())
 
         if key == 'survey_id':
@@ -185,16 +185,18 @@ def process_surveys(index, method_instance):
     print(result)
 
     for survey in result:
+        surv = Survey.objects.create(method=method_instance, name=survey['Name'], description=survey['Description'], response_type=survey['SurveyType'], welcome_text=survey.get('WelcomeTxt', ''), closing_text=survey.get('ClosingTxt', ''), min_threshold=float(survey['MinThreshold']), anonymous=survey.get('Anonymous', False))
+        
         surveyQuestions = []
         for section in survey['Sections']:
+            sect = Section.objects.create(survey=surv, order=section['Order'], title=section['Title'])
             for question in section['Questions']:
                 # q, created = Question.objects.get_or_create()
                 i = DirectIndicator.objects.filter(key=question['Indicator']).first()
                 topic = i.topic
                 # Question.objects.filter(name=question['Name']).delete()
-                q = Question.objects.create(name=question['Name'], description=question['Description'], isMandatory=question['isMandatory'], indicator=i, uiComponent=question['UIComponent'], order=question['Order'], instruction=question['Instruction'], topic=topic)
+                q = Question.objects.create(section=sect, name=question['Name'], description=question['Description'], isMandatory=question['isMandatory'], indicator=i, uiComponent=question['UIComponent'], order=question['Order'], instruction=question['Instruction'], topic=topic)
                 surveyQuestions.append(i.id)
 
                 print('zzzzzzzzzz', q)
         print(survey)
-        Survey.objects.create(method=method_instance, name=survey['Name'], questions=surveyQuestions, description=survey['Description'], response_type=survey['SurveyType'], welcome_text=survey.get('WelcomeTxt', ''), closing_text=survey.get('ClosingTxt', ''), min_threshold=float(survey['MinThreshold']), anonymous=survey.get('Anonymous', False))
