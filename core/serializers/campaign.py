@@ -13,7 +13,7 @@ class CampaignSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Campaign
-        fields = ['id', 'name', 'image', 'network', 'method', 'organisation_accounts', 'open_survey_date', 'close_survey_date', 'close_validation_date']
+        fields = ['id', 'name', 'image', 'network', 'method', 'organisation_accounts', 'year', 'open_survey_date', 'close_survey_date', 'close_validation_date']
         depth = 1
 
     def validate_open_survey_date(self, value): # validate(self, value)

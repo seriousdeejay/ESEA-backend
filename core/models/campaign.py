@@ -1,6 +1,6 @@
 from django.db import models
 from django.utils.timezone import now
-from datetime import timedelta
+from datetime import timedelta, date
 
 def defaultrespondingwindow():
         return now() + timedelta(days = 30)
@@ -14,6 +14,7 @@ class Campaign(models.Model):
     name = models.CharField(max_length=255)
     image = models.ImageField(blank=True, upload_to="campaign/", default="campaign/campaign-default.png")
     # created_on = models.DateTimeField(default=now, editable=False)
+    year = models.IntegerField(default=date.today().year)
     open_survey_date = models.DateTimeField(default=now)
     close_survey_date = models.DateTimeField(default=defaultrespondingwindow)
     close_validation_date = models.DateTimeField(blank=True, null=True)

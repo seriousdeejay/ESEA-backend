@@ -23,5 +23,4 @@ class CustomUser(AbstractUser):
 
 ''' 
 - Should have Email as Login Field
-- No need for uniquetoken
 '''

@@ -19,15 +19,15 @@ class EseaAccountViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         campaign = self.request.GET.get('campaign', None)
         if campaign is not None:
-            return EseaAccount.objects.filter(organisation=campaign)
+            return EseaAccount.objects.filter(campaign=campaign)
         return EseaAccount.objects.filter(organisation = self.kwargs['organisation_pk'])
 
     def create(self, request, organisation_pk, *args, **kwargs):
        request.data['organisation'] = int(organisation_pk)
        return super().create(request, *args, **kwargs)
 
-    def update(self, request, campaign_pk, *args, **kwargs):
-        request.data['campaign'] = campaign_pk
+    def update(self, request, organisation_pk, *args, **kwargs):
+        request.data['organisation'] = organisation_pk
         return super().update(request, *args, **kwargs)
 
 @method_decorator(csrf_exempt, name='dispatch')

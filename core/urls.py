@@ -15,13 +15,13 @@ router.register(r'methods', methodview.MethodViewSet, basename='methods')   ## /
 network_router = routers.NestedSimpleRouter(router, r'networks', lookup="network")
 network_router.register(r'campaigns', campaignview.CampaignViewSet, basename="network-campaigns" )
 
-campaign_router = routers.NestedSimpleRouter(network_router, r'campaigns', lookup="campaign")
-campaign_router.register(r'esea-accounts', esea_accountview.EseaAccountViewSet, basename="campaign-esea-accounts")
+# campaign_router = routers.NestedSimpleRouter(network_router, r'campaigns', lookup="campaign")
+# campaign_router.register(r'esea-accounts', esea_accountview.EseaAccountViewSet, basename="campaign-esea-accounts")
 
 organisation_router = routers.NestedSimpleRouter(router, r'organisations', lookup="organisation")
 organisation_router.register(r'esea-accounts', esea_accountview.EseaAccountViewSet, basename="organisation-esea-accounts")
 
-esea_account_router = routers.NestedSimpleRouter(campaign_router, r'esea-accounts', lookup="esea_account")
+esea_account_router = routers.NestedSimpleRouter(organisation_router, r'esea-accounts', lookup="esea_account")
 esea_account_router.register(r'responses', survey_responseview.SurveyResponseViewSet, basename='esea-account-responses')
 
 method_router = routers.NestedSimpleRouter(router, r'methods', lookup="method")
@@ -66,7 +66,7 @@ urlpatterns = [
     path('send-surveys/', organisationview.send_surveys, name="send_surveys_to_emails"),
     path('', include(router.urls)),
     path('', include(network_router.urls)),
-    path('', include(campaign_router.urls)),
+    # path('', include(campaign_router.urls)),
     path('', include(method_router.urls)),
     path('', include(survey_router.urls)),
     path('', include(esea_account_router.urls)),
