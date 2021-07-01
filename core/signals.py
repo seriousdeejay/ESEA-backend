@@ -6,27 +6,29 @@ from .models import EseaAccount, Respondent, Survey, SurveyResponse, Campaign
 
 @receiver(post_save, sender=EseaAccount)
 def create_accountant_objects(sender, instance, created, **kwargs):
+    print('--------------------------')
     respondent = Respondent.objects.create(organisation=instance.organisation, email="accountant@mail.com", first_name="Accountant", last_name=f"of {instance.organisation.name}")
     print(respondent)
+
     try:
-        survey = instance.method.surveys.all().get(response_type="SINGLE")
-        print(survey)
+        surveys = instance.method.surveys.all().filter(response_type="single")
+        print(surveys)
     except ObjectDoesNotExist:
         print('No survey with responsetype "SINGLE" was found in the connected method.')
-        instance.delete()
+        # instance.delete()
         respondent.delete()
         return
     
-    surveyresponse = SurveyResponse.objects.create(survey=survey.id, esea_account=instance, respondent=respondent, token="accountant")
-    print(surveyresponse)
+    for survey in surveys:
+        print('ddddd', survey.id)
+        surveyresponse = SurveyResponse.objects.create(survey=survey, esea_account=instance, respondent=respondent, token="accountant")
     
 @receiver(post_save, sender=Campaign)
 def create_esea_accounts(sender, instance, created, **kwargs):
-    print(instance.method.surveys.all().filter(response_type="SINGLE"))
     for organisation in instance.network.organisations.all():
-        eseaaccount = EseaAccount.objects.get_or_create(organisation=organisation, method=instance.method, campaign=instance)
-        print("my eseaaccount")
-    print('campaign saved', instance.organisation_accounts)
+        eseaaccount, _ = EseaAccount.objects.get_or_create(organisation=organisation, method=instance.method, campaign=instance)
+        
+    print('campaign saved', instance.organisation_accounts.all())
 
 
     

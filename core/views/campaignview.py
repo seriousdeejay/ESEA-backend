@@ -13,9 +13,18 @@ class CampaignViewSet(viewsets.ModelViewSet):
             return Campaign.objects.all()
         return Campaign.objects.filter(network=self.kwargs['network_pk'])
 
-    def create(self, request, network_pk, *args, **kwargs):
-       request.data['network'] = network_pk
-       return super().create(request, *args, **kwargs)
+    # def create(self, request, network_pk, *args, **kwargs):
+    #    request.data['network'] = network_pk
+    #    print('----------', request.data)
+    #    return super().create(request, *args, **kwargs)
+    
+    def create(self, request, network_pk):
+        request.data['network'] = int(network_pk)
+        serializer = CampaignSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data)
+
 
     def update(self, request, network_pk, *args, **kwargs):
         request.data['network'] = network_pk

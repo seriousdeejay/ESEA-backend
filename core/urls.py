@@ -18,6 +18,9 @@ network_router.register(r'campaigns', campaignview.CampaignViewSet, basename="ne
 campaign_router = routers.NestedSimpleRouter(network_router, r'campaigns', lookup="campaign")
 campaign_router.register(r'esea-accounts', esea_accountview.EseaAccountViewSet, basename="campaign-esea-accounts")
 
+organisation_router = routers.NestedSimpleRouter(router, r'organisations', lookup="organisation")
+organisation_router.register(r'esea-accounts', esea_accountview.EseaAccountViewSet, basename="organisation-esea-accounts")
+
 esea_account_router = routers.NestedSimpleRouter(campaign_router, r'esea-accounts', lookup="esea_account")
 esea_account_router.register(r'responses', survey_responseview.SurveyResponseViewSet, basename='esea-account-responses')
 
@@ -67,8 +70,8 @@ urlpatterns = [
     path('', include(method_router.urls)),
     path('', include(survey_router.urls)),
     path('', include(esea_account_router.urls)),
-    path('', include(section_router.urls))
-    #path('', include(organisation_router.urls)),
+    path('', include(section_router.urls)),
+    path('', include(organisation_router.urls)),
 ]
 
 

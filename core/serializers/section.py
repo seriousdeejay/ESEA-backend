@@ -5,6 +5,7 @@ from .text_fragment import TextFragmentSerializer
 from .question import QuestionSerializer
 
 class SectionSerializer(serializers.ModelSerializer):
+    survey = serializers.StringRelatedField(read_only=True)
     questions = QuestionSerializer(many=True, read_only=True)
     text_fragments = TextFragmentSerializer(many=True, read_only=True)
 

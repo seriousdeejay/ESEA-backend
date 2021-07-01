@@ -47,7 +47,7 @@ class DirectIndicator(models.Model):
     question = models.ForeignKey("Question", related_name="direct_indicator", on_delete=models.CASCADE, null=True)
     #question2 = models.OneToOneField("Question", on_delete=models.CASCADE, null=True, primary_key=False)
     method = models.ForeignKey("Method", related_name="direct_indicators", on_delete=models.CASCADE, null=True)
-    topic = models.ForeignKey("Topic", related_name="direct_indicator", on_delete=models.CASCADE)
+    topic = models.ForeignKey("Topic", related_name="direct_indicators", on_delete=models.CASCADE)
 
     key = models.CharField(max_length=255, blank=False)
     name = models.CharField(max_length=255, unique=False, blank=False)

@@ -9,8 +9,6 @@ from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.db.models import Q
 
-import os
-import yaml
 
 from ..models import Method, Organisation, CustomUser, Topic, DirectIndicator, IndirectIndicator, Survey
 from ..serializers import MethodSerializer, SurveyResponseCalculationSerializer
@@ -33,12 +31,11 @@ class MethodViewSet(viewsets.ModelViewSet):
 
         return Method.objects.filter(Q(created_by=self.request.user) | Q(ispublic = True))
 
-    def create(self, serializer):
-        print(self.request.data)
-        serializer = MethodSerializer(data=self.request.data)
+    def create(self, request):
+        serializer = MethodSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        print('check')
-        serializer.save(created_by=self.request.user)
+        serializer.save(created_by=request.user)
+        
         return Response(serializer.data)
 
 
@@ -84,6 +81,7 @@ def upload_yaml(request):
             # with open(request.FILES['file'], encoding='utf-8') as file:
             textfile = request.FILES['file'].readlines()
             process_textual_method(textfile, request.user)
+
     return Response({})
     # if request.method == 'POST' and 'file' in request.FILES.keys():
         # with open(request.FILES['file'], encoding='utf-8') as file:

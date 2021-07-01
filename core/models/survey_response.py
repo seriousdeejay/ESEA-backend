@@ -12,14 +12,19 @@ class SurveyResponseManager(models.Manager):
     def create(self, survey, respondent, esea_account, token=None):
         if token is None:
             token = "".join(random.choice(string.ascii_letters) for i in range(10))
-        survey = get_object_or_404(Survey, id=survey)
+        print('ssssss', survey)
+        #survey = get_object_or_404(Survey, id=survey)
+        print('||||||||',survey)
         surveyresponse = SurveyResponse(survey=survey, respondent=respondent, esea_account=esea_account, token=token)
         surveyresponse.save()
 
-        direct_indicators = DirectIndicator.objects.filter(surveys=survey)
+        # print('>>>>>>>>>>>>>>', survey)
+        # print('::::::', surveyresponse)
+        direct_indicators = DirectIndicator.objects.filter(question__section__survey=survey)
+        print(direct_indicators.values())
         for direct_indicator in direct_indicators.values():
             question_response = QuestionResponse.objects.create(survey_response=surveyresponse, direct_indicator_id=direct_indicator['id'])
-            question_response.save()
+            print('new question response:', surveyresponse, question_response, surveyresponse.question_responses.all())
 
         return surveyresponse
 
@@ -27,7 +32,8 @@ class SurveyResponse(models.Model):
     objects = SurveyResponseManager()
     survey = models.ForeignKey('Survey', related_name="responses", on_delete=models.CASCADE)
     esea_account = models.ForeignKey('EseaAccount', related_name="responses", on_delete=models.CASCADE) # null=True
-    respondent = models.OneToOneField('Respondent', related_name="response", on_delete=models.CASCADE) # , primary_key=True, null=True for now!
+    respondent = models.ForeignKey('Respondent', related_name="response", on_delete=models.CASCADE, null=True)
+    # respondent = models.OneToOneField('Respondent', related_name="response", on_delete=models.CASCADE, primary_key=False) # , primary_key=True, null=True for now!
 
     token = models.CharField(max_length=10)
     finished = models.BooleanField(default=False) # Might be replaced by 'State: Enum' in the future

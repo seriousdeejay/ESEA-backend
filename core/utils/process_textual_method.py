@@ -1,4 +1,4 @@
-from ..models import Method, Survey, Section, Topic, Question, DirectIndicator, IndirectIndicator
+from ..models import Method, Survey, Section, Topic, Question, TextFragment, DirectIndicator, IndirectIndicator
 
 def process_textual_method(file, uploader):
     global start
@@ -198,5 +198,6 @@ def process_surveys(index, method_instance):
                 q = Question.objects.create(section=sect, name=question['Name'], description=question['Description'], isMandatory=question['isMandatory'], indicator=i, uiComponent=question['UIComponent'], order=question['Order'], instruction=question['Instruction'], topic=topic)
                 surveyQuestions.append(i.id)
 
-                print('zzzzzzzzzz', q)
+            for textfragment in section['TextFragments']:
+                tf = TextFragment.objects.create(section=sect, text=textfragment['Text'], order=textfragment['Order'])
         print(survey)

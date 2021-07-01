@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from ..models import Method, Survey, Section, Question, DirectIndicator, StakeholderGroup
+from ..models import Survey, StakeholderGroup
 
 from .section import SectionSerializer
 
@@ -11,16 +11,28 @@ from .section import SectionSerializer
 #     def to_internal_value(self, value):
 #         m = Method.objects.get(id=value)
 #         return m
+  #method = MethodField(queryset=Method.objects.all())
 
 class SurveyDisplaySerializer(serializers.ModelSerializer):
-    #method = MethodField(queryset=Method.objects.all())
     response_type = serializers.ChoiceField(choices=Survey.RESPONSE_TYPES)
     stakeholdergroup = serializers.SlugRelatedField(queryset=StakeholderGroup.objects.all(), slug_field="name")
     sections = SectionSerializer(many=True, read_only=True)
 
     class Meta:
         model = Survey
-        fields = ['id', 'method', 'name', 'description', 'response_type', 'min_threshold', 'anonymous', 'stakeholdergroup', 'welcome_text', 'closing_text', 'sections']
+        fields = [
+            'id',
+            'method',
+            'name',
+            'description',
+            'response_type',
+            'min_threshold',
+            'anonymous',
+            'stakeholdergroup',
+            'welcome_text',
+            'closing_text',
+            'sections'
+            ]
 
     def to_representation(self, instance):
         representation = super().to_representation(instance)

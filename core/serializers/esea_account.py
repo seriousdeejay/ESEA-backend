@@ -8,7 +8,7 @@ class MethodSerializer(serializers.ModelSerializer):
         fields = ['id', 'name', 'description']
 
 class EseaAccountSerializer(serializers.ModelSerializer):
-    organisation = serializers.SlugRelatedField(queryset=Organisation.objects.all(), slug_field='name')
+    # organisation = serializers.SlugRelatedField(queryset=Organisation.objects.all(), slug_field='name')
     method = MethodSerializer(read_only=True)
     method = serializers.PrimaryKeyRelatedField(queryset=Method.objects.all())
     report = serializers.PrimaryKeyRelatedField(read_only=True)

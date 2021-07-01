@@ -5,7 +5,7 @@ from .answer_option import AnswerOptionSerializer
 
 class DirectIndicatorSerializer2(serializers.ModelSerializer):
     datatype= serializers.ChoiceField(choices=DirectIndicator.DATA_TYPES)
-    question = serializers.StringRelatedField(read_only=True)
+    # question = serializers.StringRelatedField(read_only=True)
     question_name = serializers.ReadOnlyField()
     options = AnswerOptionSerializer(many=True)
     
@@ -16,6 +16,7 @@ class DirectIndicatorSerializer2(serializers.ModelSerializer):
             'method',
             'key', 
             'name', 
+            'question',
             'question_name', 
             'description', 
             'topic', 

@@ -8,7 +8,7 @@ from datetime import date
 class EseaAccount(models.Model):
     method = models.ForeignKey("Method", on_delete=models.CASCADE)
     organisation = models.ForeignKey("Organisation", on_delete=models.CASCADE)
-    campaign = models.ForeignKey('Campaign', related_name="organisation_accounts", on_delete=models.CASCADE)
+    campaign = models.ForeignKey('Campaign', related_name="organisation_accounts", on_delete=models.CASCADE, null=True)
 
     year = models.IntegerField(default=date.today().year)
     sufficient_responses = models.BooleanField(default=False)      # Same as Status: Enum for now
@@ -37,7 +37,7 @@ class EseaAccount(models.Model):
     def survey_response_by_survey(self):
         arr = []
         for survey in self.method.surveys.all():
-            tempdict = {'id': survey.id, 'name': survey.name, 'questions': len(survey.questions.all()), 'stakeholdergroup': str(survey.stakeholdergroup)}
+            tempdict = {'id': survey.id, 'name': survey.name, 'questions': [], 'stakeholdergroup': str(survey.stakeholdergroup), 'type': survey.response_type} # 'questions': len(survey.questions.all())
             tempdict['respondees'] = [{'name':str(respondee)} for respondee in Respondent.objects.filter(response__esea_account=self, response__survey=survey).distinct()]
             tempdict['responses'] = len(self.responses.filter(survey=survey, finished=True))
             tempdict['required_response_rate'] = survey.min_threshold

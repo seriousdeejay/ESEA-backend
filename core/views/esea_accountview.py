@@ -17,13 +17,13 @@ class EseaAccountViewSet(viewsets.ModelViewSet):
     serializer_class = EseaAccountSerializer
 
     def get_queryset(self):
-        organisation = self.request.GET.get('organisation', None)
-        if organisation is not None:
-            return EseaAccount.objects.filter(organisation=organisation)
-        return EseaAccount.objects.filter(campaign = self.kwargs['campaign_pk'])
+        campaign = self.request.GET.get('campaign', None)
+        if campaign is not None:
+            return EseaAccount.objects.filter(organisation=campaign)
+        return EseaAccount.objects.filter(organisation = self.kwargs['organisation_pk'])
 
-    def create(self, request, campaign_pk, *args, **kwargs):
-       request.data['campaign'] = campaign_pk
+    def create(self, request, organisation_pk, *args, **kwargs):
+       request.data['organisation'] = int(organisation_pk)
        return super().create(request, *args, **kwargs)
 
     def update(self, request, campaign_pk, *args, **kwargs):

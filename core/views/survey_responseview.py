@@ -53,8 +53,9 @@ class SurveyResponseViewSet(BaseModelViewSet):
         return SurveyResponse.objects.filter(esea_account=self.kwargs['esea_account_pk']) # finished=False
         
     def retrieve(self, request, network_pk, campaign_pk, esea_account_pk, token):
-        if token == 'accountant':
-            surveyresponse = get_object_or_404(SurveyResponse, survey__stakeholdergroup__name='accountant', esea_account=esea_account_pk)
+        print(token, esea_account_pk)
+        if token.isnumeric():
+            surveyresponse = get_object_or_404(SurveyResponse, survey=token, esea_account=esea_account_pk)
         else:
             surveyresponse = get_object_or_404(SurveyResponse, token=token)
         serializer = SurveyResponseSerializer(surveyresponse)
