@@ -32,7 +32,9 @@ class EseaAccount(models.Model):
     
     @property           # Should i keep this network property?
     def network(self):
-        return self.campaign.network
+        if self.campaign:
+            return self.campaign.network
+        return None
 
     def survey_response_by_survey(self):
         arr = []

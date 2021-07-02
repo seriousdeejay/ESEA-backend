@@ -19,7 +19,9 @@ class CampaignSerializer(serializers.ModelSerializer):
 
 class EseaAccountSerializer(serializers.ModelSerializer):
     # organisation = serializers.SlugRelatedField(queryset=Organisation.objects.all(), slug_field='name')
+    organisation_name = serializers.ReadOnlyField(source='organisation.name')
     method_name = serializers.ReadOnlyField(source='method.name')
+    campaign_name = serializers.ReadOnlyField(source='campaign.name')
     # method = MethodSerializer(read_only=True)
     # method = serializers.PrimaryKeyRelatedField(queryset=Method.objects.all(), write_only=True)
     report = serializers.PrimaryKeyRelatedField(read_only=True)
@@ -27,7 +29,7 @@ class EseaAccountSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = EseaAccount
-        fields = ['id', 'year', 'organisation', 'method', 'method_name', 'campaign', 'network', 'report', 'all_respondents', 'all_responses', 'survey_response_by_survey', 'sufficient_responses', 'response_rate']
+        fields = ['id', 'year', 'organisation', 'organisation_name', 'method', 'method_name', 'campaign', 'campaign_name', 'report', 'all_respondents', 'all_responses', 'survey_response_by_survey', 'sufficient_responses', 'response_rate']
 
     def create(self, validated_data):
         return EseaAccount.objects.create(**validated_data)
@@ -39,8 +41,8 @@ class EseaAccountSerializer(serializers.ModelSerializer):
         representation = super().to_representation(instance)
         # representation['method'] = instance.method.name
         if instance.campaign:
-            representation['campaign'] = instance.campaign.name
-            representation['network'] = instance.network.name
+            representation['network'] = instance.campaign.network.id
+            representation['network_name'] = instance.campaign.network.name
 
         return representation
 

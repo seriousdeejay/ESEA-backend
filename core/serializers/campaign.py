@@ -54,7 +54,7 @@ class CampaignSerializer(serializers.ModelSerializer):
     #     return campaign
 
 
-    # def to_representation(self, instance):
-    #     data = super(CampaignSerializer, self).to_representation(instance)
-    #     data['method'] = serializers.StringRelatedField()
-    #     return data
+    def to_representation(self, instance):
+        data = super(CampaignSerializer, self).to_representation(instance)
+        data['method'] = instance.method.name
+        return data
