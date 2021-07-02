@@ -18,9 +18,13 @@ class Method(models.Model):
              f"description='{self.description}' is_public='{self.ispublic}' "
          )
 
+
+
+# organisations = models.ManyToManyField('Organisation', related_name="methods", blank=True)
+
 '''
     Change ispublic to is_public
 '''
 
-# organisations = models.ManyToManyField('Organisation', related_name="methods", blank=True)
+
 

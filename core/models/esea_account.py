@@ -7,7 +7,7 @@ from datetime import date
 
 class EseaAccount(models.Model):
     method = models.ForeignKey("Method", on_delete=models.CASCADE)
-    organisation = models.ForeignKey("Organisation", on_delete=models.CASCADE)
+    organisation = models.ForeignKey("Organisation", related_name="esea_accounts", on_delete=models.CASCADE)
     campaign = models.ForeignKey('Campaign', related_name="organisation_accounts", on_delete=models.CASCADE, null=True)
 
     year = models.IntegerField(default=date.today().year)
@@ -32,7 +32,7 @@ class EseaAccount(models.Model):
     
     @property           # Should i keep this network property?
     def network(self):
-        return self.campaign.network.id
+        return self.campaign.network
 
     def survey_response_by_survey(self):
         arr = []

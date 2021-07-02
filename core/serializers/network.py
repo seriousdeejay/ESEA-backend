@@ -1,7 +1,6 @@
 from rest_framework import serializers
 
 from ..models import Network, Organisation, Method
-from .organisation import OrganisationSerializer
 
 
 class NetworkSerializer(serializers.ModelSerializer):
@@ -14,15 +13,6 @@ class NetworkSerializer(serializers.ModelSerializer):
     class Meta:
         model = Network
         fields = ['id', 'ispublic', 'name', 'description', 'image', 'created_by', 'organisations', 'methods', 'campaigns']
-
-
-
-
-
-
-
-
-
 
 
 

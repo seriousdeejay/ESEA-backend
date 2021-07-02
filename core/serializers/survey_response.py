@@ -30,7 +30,7 @@ class SurveyResponseSerializer(serializers.ModelSerializer):
                     if key == 'values':
                         question_response.values.clear()
                         for answer in item_data['values']:
-                            print(QuestionOption.objects.filter(text='ddd').exists())
+                            # print(QuestionOption.objects.filter(text='ddd').exists())
                             try:
                                 question_response.values.add(answer)
                                 print('bb')

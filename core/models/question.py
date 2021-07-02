@@ -38,7 +38,7 @@ class Question(models.Model):
     topics = models.ManyToManyField("Topic", through="DirectIndicator")
     
     order = models.IntegerField(default=1)
-    isMandatory = models.BooleanField(default=True) # Change to required
+    isMandatory = models.BooleanField(default=True)
 
     name = models.CharField(max_length=255, blank=False)
     description = models.TextField(max_length=1000, blank=True, null=True)
@@ -51,7 +51,7 @@ class Question(models.Model):
 
     TEXT = "TEXT"
     NUMBER = "NUMBER"
-    RADIO = "RADIO" # boolean is also a radiobutton
+    RADIO = "RADIO"
     CHECKBOX = "CHECKBOX"
     SCALE = "SCALE"
 
@@ -68,7 +68,7 @@ class Question(models.Model):
 
     FIELD = "field"
     LINE = "line"
-    TEXTBOX = "textbox" # Adjustable Text Area
+    TEXTBOX = "textbox"
     CHECKBOX = "checkbox"
     DROPDOWN = "dropdown"
     RADIOBUTTON = "radiobutton"
@@ -143,7 +143,12 @@ class Question(models.Model):
         return self
 
  
+
     #options = models.ManyToManyField(QuestionOption, blank=True, related_name="ooo") 
     # options: QuestionOption
 
-    ## TODO: Can i savely remove topic(s) fields from this model?
+    '''
+    - Can i savely remove topic(s) fields from this model?
+    - Remove answertype, made redundant because of instance.direct_indicator.datatype
+    - Change isMandatory to required
+    '''

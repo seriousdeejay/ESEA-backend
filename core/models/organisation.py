@@ -4,8 +4,7 @@ from django.utils.translation import gettext_lazy as _
 
 class Organisation(models.Model):
     created_by = models.ForeignKey('CustomUser', editable=False, on_delete=models.SET_NULL, null=True)
-    # esea_accounts = models.ManyToManyField('Method', through="EseaAccount", through_fields=('organisation', 'method'), related_name='organisations', blank=True)
-
+    
     ispublic = models.BooleanField(default=True)
     name = models.CharField(max_length=255, unique=True, blank=False)
     description = models.TextField(max_length=1000, blank=True)
@@ -18,15 +17,13 @@ class Organisation(models.Model):
     def __str__(self):
         return self.name
 
-'''
-    Change ispublic to is_public
-'''
+
 
     # def relevant_survey_responses(self):
     #     return UserOrganisation.objects.filter(organisation=self, survey_responses__isnull=False).distinct()
 
     # members = models.ManyToManyField('CustomUser', through="UserOrganisation", through_fields=('organisation', 'user'), related_name='organisations', blank=True)
-
+    # esea_accounts = models.ManyToManyField('Method', through="EseaAccount", through_fields=('organisation', 'method'), related_name='organisations', blank=True)
 '''
 - m2m method_organisations/ESEA_Account class to add a campaign class to?)
 - change ispublic to is_public

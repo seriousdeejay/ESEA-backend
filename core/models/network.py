@@ -19,6 +19,9 @@ class Network(models.Model):
     def __str__(self):
         return self.name
 
+
+
+
 '''
 - Should use through class like below:
     --> esea_accounts = models.ManyToManyField('Method', through="EseaAccount", through_fields=('organisation', 'method'), related_name='organisations', blank=True)

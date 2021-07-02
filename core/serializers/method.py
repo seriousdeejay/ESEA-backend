@@ -29,13 +29,13 @@ class MethodSerializer(serializers.ModelSerializer):
     surveys = SurveyDisplaySerializer(read_only=True, many=True)
     #topics = serializers.StringRelatedField(read_only=True, many=True)
     topics = TopicSerializer(read_only=True, many=True)
-    organisations = serializers.StringRelatedField(read_only=True, many=True)
+    # organisations = serializers.StringRelatedField(read_only=True, many=True)
     networks = serializers.StringRelatedField(read_only=True, many=True)
     version = serializers.FloatField(required=False)
 
     class Meta:
         model = Method
-        fields = ['id', 'created_by', 'ispublic', 'name', 'description',  'version', 'surveys', 'topics', 'networks', 'organisations']
+        fields = ['id', 'created_by', 'ispublic', 'name', 'description',  'version', 'surveys', 'topics', 'networks']
 
     def validate_version(self, value):
         value = round(value, 2)
@@ -80,10 +80,11 @@ class MethodSerializer(serializers.ModelSerializer):
             'version': instance.version,
             'surveys': instance.surveys,
             'networks': instance.networks,
-            'organisations': instance.organisations,
             'topics': topic_list
         })
         return representation
+
+
 
 # class ResponsesSerializer(serializers.ModelSerializer):
 #     user_organisation = UserOrganisationSerializer()

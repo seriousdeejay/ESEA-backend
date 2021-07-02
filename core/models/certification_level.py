@@ -6,8 +6,7 @@ class CertificationLevel(models.Model):
     name = models.CharField(max_length=255, blank=False)
     description = models.TextField(max_length=1000, blank=True)
     level = models.IntegerField()
-    # Hex color code
-    colour = models.CharField(max_length=7)
+    colour = models.CharField(max_length=7) # Hex color code
     # requirements = models.ManyToManyField
 
 

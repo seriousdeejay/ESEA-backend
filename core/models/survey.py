@@ -29,7 +29,6 @@ class SurveyManager(models.Manager):
 class Survey(models.Model):
     objects = SurveyManager()
     method =  models.ForeignKey('Method', related_name="surveys", on_delete=models.CASCADE)
-    # questions = models.ManyToManyField('DirectIndicator', related_name="surveys", blank=False) # Might be removable?
     stakeholdergroup = models.ForeignKey('StakeholderGroup', related_name="surveys", on_delete=models.CASCADE) 
 
     name=models.CharField(max_length=255, unique=False, blank=False)
@@ -62,17 +61,20 @@ class Survey(models.Model):
         self.finished_responses = fresponses
     
     def response_rate(self):
-        responserate = (len(self.finished_responses)/(len(self.responses.all()) or 1)) * 100 #/
+        responserate = (len(self.finished_responses)/(len(self.responses.all()) or 1)) * 100
         return responserate
 
+
+
+    # questions = models.ManyToManyField('DirectIndicator', related_name="surveys", blank=False) # Might be removable?
+    # directindicators = DirectIndicator.objects.filter(topic__method=method.id)
+    # print('---', directindicators)
+    # for di in directindicators: #.iterator()
+    #     print(di)
+    #     survey.questions.add(di)
 
 '''
 - objects manager def create() should get parameter stakeholdergroup from yaml file
 '''
 
 
-        # directindicators = DirectIndicator.objects.filter(topic__method=method.id)
-        # print('---', directindicators)
-        # for di in directindicators: #.iterator()
-        #     print(di)
-        #     survey.questions.add(di)
