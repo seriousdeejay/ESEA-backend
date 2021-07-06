@@ -35,7 +35,7 @@ class MethodSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Method
-        fields = ['id', 'created_by', 'ispublic', 'name', 'description',  'version', 'surveys', 'topics', 'networks']
+        fields = ['id', 'created_by', 'ispublic', 'name', 'description', 'version', 'surveys', 'topics', 'networks']
 
     def validate_version(self, value):
         value = round(value, 2)
