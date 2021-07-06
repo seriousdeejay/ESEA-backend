@@ -21,8 +21,6 @@ def calculate_indicators(indirect_indicators: List[IndirectIndicator], direct_in
     #print(type(indicators))
     for indicator in indicators.values():
         if indicator.value is None:
-            # print(indicator.key, ':', indicator.value)
-            # print('dat kan toch nie!')
             calculate_indicator(indicator, indicators)
 
     return indicators
@@ -31,14 +29,17 @@ def calculate_indicators(indirect_indicators: List[IndirectIndicator], direct_in
 def calculate_indicator(indicator, value_list) -> str:
     if indicator.value:
         return indicator.value
-    if not len(indicator.calculation_keys):
+        
+    elif isinstance(indicator, DirectIndicator):
+        print('this is a direct indicator')
+    elif not len(indicator.calculation_keys):
         return indicator.calculate()
     else:
         values = {}
         for calculation_key in indicator.calculation_keys:
             child_indicator = value_list[calculation_key]
             values[child_indicator.key] = calculate_indicator(
-                child_indicator, value_list
+               child_indicator, value_list
             )
         indicator.find_values(values)
         return indicator.calculate()
@@ -47,6 +48,7 @@ def calculate_indicator(indicator, value_list) -> str:
 def map_responses_by_indicator(direct_indicators, question_responses) -> None:
     for direct_indicator in direct_indicators:
         direct_indicator.filter_responses(question_responses)
+
 
 
 

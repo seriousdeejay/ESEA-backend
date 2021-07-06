@@ -59,8 +59,11 @@ class IndirectIndicator(models.Model):
 
     def __init__(self, *args, **kwargs):
         super(IndirectIndicator, self).__init__(*args, **kwargs)
-        self.calculation = self.formula.lower().replace("\n", "")
-        if self.calculation.startswith("if"):
+        self.calculation = self.formula.replace("\n", "") # .lower()
+
+        if self.calculation.startswith("IF"):
+            if self.key == "gender_decision_making_ratio_score":
+                print('xxxxxxxxxxxxxxxx', self.calculation.startswith("IF"))
             self.has_conditionals = True
     
     def __str__(self):
@@ -72,36 +75,35 @@ class IndirectIndicator(models.Model):
     
     @property
     def calculation_keys(self):
-        return re.findall(find_square_bracket_keys, self.calculation)
+        calculation_keys =  re.findall(find_square_bracket_keys, self.calculation)
+        calculation_keys_uniques = list(set(calculation_keys))
+
+        if self.key in calculation_keys_uniques:
+            calculation_keys_uniques.remove(self.key)
+        return calculation_keys_uniques
 
     def find_values(self, key_value_list):
         calculation = self.calculation
+
         for calculation_key in self.calculation_keys:
-            # print(calculation_key)
             if calculation_key in key_value_list:
-                # if calculation_key == 'gender_decision_making_ratio_score':
-                #     print('gottem', key_value_list['gender_decision_making_ratio_score'])
-                #     self.value="0"
+                if calculation_key == "decision_making_ratio_score":
+                    print('yyyyyyyyyyyyy', key_value_list[calculation_key])
                 if key_value_list[calculation_key] is not None:
                     value = key_value_list[calculation_key]
                     if isinstance(value, dict):
                         value = max(value, key=value.get)
                     calculation = calculation.replace(f"[{calculation_key}]", f"{value}")
-                    # if self.key == 'gender_equity_score':
-                    #     print('-------------------------',key_value_list)
-                    #     ii = IndirectIndicator.objects.filter(key='gender_pay_gap_score').first()
-                    #     print('hh', ii.value)
-                    #     print('f:', calculation, key_value_list)
-                    # if self.key == 'gender_decision_making_ratio_score':
-                    #     print('f::>>', calculation, self.value)
                 # else:
                 #     print(f'[{calculation_key}] ... could not be used, since it has a none value!')
 
         self.calculation = calculation
 
     def calculate(self):
-        if self.value:
-            return
+        # if self.value:
+        #     return
+        if self.key == 'gender_equity_score':
+                    print('--->',self.calculation, self.has_conditionals, self.calculation_keys)
 
         if len(self.calculation_keys) and not self.has_conditionals:
             self.exception = Exception("Not all keys are replaced with values")
@@ -112,56 +114,97 @@ class IndirectIndicator(models.Model):
         try:
             if self.has_conditionals:
                 self.value = None
-                #print(self.key, self.value)
                 value = self.calculate_conditionals()
-
-                #print(self.key,' = ' , value)
-                if self.key =='company_size':
-                    print(value)
-                if '=' in value:
-                    value = value.replace('”', '')
-                    [var, value] = value.split('=')
-                value = value.replace(" ", "").replace('"', "")
-
+                if not value:
+                    return
+                print('ss',value)
+                #if '=' in value:
+                #    print('check')
+                #     value = value.replace('”', '')
+                #     [var, value] = value.split('=')
+                print('dd', value)
+                # value = value.replace(" ", "").replace('"', "")
+                print('>>',value)
+                self.value = value
                 try:
                     self.value = eval(value)
+                    print(self.value)
                 except:
                     self.value = value
-                if self.key == 'gender_ratio_score':
-                    pass #print('----', self.value)
-
-                
-
-                #if self.key == 'gender_decision_making_ratio_score':
-                
+                print('>>',self.value)
             else:
-                if self.key == 'gender_equity_score':
-                    print(self.calculation)
                 self.value = eval(self.calculation)
-            # print('>>>>>>>>', type(self.value))
         except Exception as e:
+            print('reee', e)
             self.exception_detail = e
             self.exception = Exception("Invalid calculation")
+            
+    def calculate_conditionals(self):
+        conditions = self.calculation.split("ELSE")
+        #print(conditions)
+        for condition in conditions:
+            bracket_keys = list(set(re.findall(find_square_bracket_keys, condition)))
+            bracket_keys.remove(self.key)
+            if len(bracket_keys):
+                print(self.key)
+                raise Exception("invalid partial condition")
 
+            if condition == conditions[-1]:
+                val = condition
+                # print(val)
+                break
+
+            [cond, val] = [x.strip() for x in condition.split('THEN')]
+            cond = cond.replace('IF', '')
+
+            if 'AND' in cond:
+                conds = [eval(n) for n in cond.split("AND")]
+
+                if not False in conds:
+                    break
+
+                continue
+            
+            if 'OR' in cond:
+                conds = [eval(n) for n in cond.split('OR')]
+
+                if True in conds:
+                    break
+
+                continue
+
+            if eval(cond):
+                #print(cond)
+                break
+            #print(condition)
+        if '=' in val:
+            val = val.replace('"', '').replace('(', '').replace(')', '').replace('\\', '')
+            [var, val] = val.split('=')
+            var = var.replace('[', '').replace(']', '').strip()
+
+            if var != self.key:
+                raise Exception('Assignment variable does not match the key of this indirect indicator')
+
+        return val
+'''
     def calculate_conditionals(self):
         conditions = self.calculation.split("else")
 
         for condition in conditions:
-
+            print('=================', condition)
             # Checks if all required indicators have values
             if len(re.findall(find_square_bracket_keys, condition)):
-
                 raise Exception("invalid partial condition")
                 
             if condition == conditions[-1]:
                 return condition
                 break
 
-            [cond, value] = condition.split("then")
+            [cond, value] = condition.split("THEN")
             cond = cond.replace("if", "")
 
             if 'if' in cond:
-                [cond, value] = condition.split("then")
+                [cond, value] = condition.split("THEN")
                 cond = cond.replace("if", "")
 
             if '==' in cond:
@@ -170,17 +213,18 @@ class IndirectIndicator(models.Model):
                     return value
 
             if 'AND' in cond:
-                conds = [eval(n) for n in condition.split("and")]
+                conds = [eval(n) for n in condition.split("AND")]
                 if not False in conds:
                     return value
 
             if 'OR' in cond:
-                conds = [eval(n) for n in condition.split("or")]
+                conds = [eval(n) for n in condition.split("OR")]
                 if True in conds:
                     return value
 
             if eval(cond):
                 return value
+        '''
         
 
 # TODO: Accept ((cond AND cond) OR cond), instead of (cond AND cond) on itself and (cond OR cond) 

@@ -28,7 +28,7 @@ method_router = routers.NestedSimpleRouter(router, r'methods', lookup="method")
 method_router.register(r'surveys', surveyview.SurveyViewSet, basename="method-surveys")
 
 method_router.register(r'topics', topicview.TopicViewSet, basename="method-topics")     ## /methods/{pk}/topics & /methods/{pk}/topics/{pk}/
-method_router.register(r'questions', direct_indicatorview.DirectIndicatorViewSet, basename="method-questions")
+method_router.register(r'questions', direct_indicatorview2.DirectIndicatorViewSet, basename="method-questions")
 method_router.register(r'direct-indicators', direct_indicatorview2.DirectIndicatorViewSet, basename="method-direct-indicators")
 method_router.register(r'indirect-indicators', indirect_indicatorview.IndirectIndicatorViewSet, basename="method-indirect-indicators")
 # method_router.register(r'certification-levels', certification_levelview.CertificationLevelViewSet, basename="method-certification-levels")
@@ -61,7 +61,7 @@ urlpatterns = [
     path('account/register/', userview.RegisterUserView.as_view(), name='user_registration'),
     path('api-token/', TokenObtainPairView.as_view()),
     path('api-refresh/', TokenRefreshView.as_view()),
-    path('import-yaml/', methodview.upload_yaml),
+    path('import-method/', methodview.upload_method),
     path('import-employees/<int:eseaaccount_pk>/<int:survey_pk>/', esea_accountview.import_employees, name="import_employees_of_organisation"),
     path('send-surveys/', organisationview.send_surveys, name="send_surveys_to_emails"),
     path('', include(router.urls)),

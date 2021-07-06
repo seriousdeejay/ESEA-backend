@@ -6,7 +6,7 @@ def process_textual_method(file, uploader):
 
     start = 0
     myList = []
-
+    print('iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii', uploader)
     for line in file:
         line = line.decode('cp1252').strip()
 
@@ -26,6 +26,8 @@ def process_textual_method(file, uploader):
         
         if entry.startswith('Surveys:'):
             process_surveys(index, method_instance)
+
+    return(method_instance)
 
 
 

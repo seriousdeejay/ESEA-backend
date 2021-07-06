@@ -14,9 +14,6 @@ class NetworkSerializer(serializers.ModelSerializer):
         model = Network
         fields = ['id', 'ispublic', 'name', 'description', 'image', 'created_by', 'organisations', 'methods', 'campaigns']
 
-
-
-    # def update(self, instance, validated_data):
     #     print('Test')
     #     return instance
     # methods = serializers.SlugRelatedField(queryset=Method.objects.all(), many=True, required=False, slug_field='id')

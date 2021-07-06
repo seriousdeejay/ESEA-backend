@@ -19,17 +19,22 @@ class MethodViewSet(viewsets.ModelViewSet):
     serializer_class = MethodSerializer
 
     def get_queryset(self):
+        allmethods = self.request.GET.get('allmethods', None)
         network = self.request.GET.get('network', None)
         organisation = self.request.GET.get('organisation', None)
         excludenetwork = self.request.GET.get('excludenetwork', None)
+        if allmethods is not None:
+            return Method.objects.filter(Q(created_by=self.request.user) | Q(ispublic = True))
         if network is not None:
             return Method.objects.filter(networks=network)
         if excludenetwork is not None:
             return Method.objects.exclude(networks=excludenetwork)
         if organisation is not None:
             return Method.objects.filter(organisations=organisation).distinct()
+        
+        return Method.objects.filter(created_by=self.request.user)
 
-        return Method.objects.filter(Q(created_by=self.request.user) | Q(ispublic = True))
+        
 
     def create(self, request):
         serializer = MethodSerializer(data=request.data)
@@ -73,14 +78,19 @@ class MethodViewSet(viewsets.ModelViewSet):
 @method_decorator(csrf_exempt, name='dispatch')
 @api_view(['GET', 'POST'])
 @permission_classes((AllowAny, ))
-def upload_yaml(request):
+def upload_method(request):
+    print('xxxx')
     if request.method == 'POST':
         print(request.FILES.keys())
         print(request.user)
         if 'file' in request.FILES.keys():
             # with open(request.FILES['file'], encoding='utf-8') as file:
             textfile = request.FILES['file'].readlines()
-            process_textual_method(textfile, request.user)
+            method_instance = process_textual_method(textfile, request.user)
+
+            # method = get_object_or_404(Method, pk=pk)
+            serializer = MethodSerializer(method_instance)
+            return Response(serializer.data)
 
     return Response({})
     # if request.method == 'POST' and 'file' in request.FILES.keys():

@@ -52,17 +52,18 @@ class SurveyResponseViewSet(BaseModelViewSet):
         print(self.kwargs)
         return SurveyResponse.objects.filter(esea_account=self.kwargs['esea_account_pk']) # finished=False
         
-    def retrieve(self, request, network_pk, campaign_pk, esea_account_pk, token):
+    def retrieve(self, request, organisation_pk, esea_account_pk, token):
         print(token, esea_account_pk)
         if token.isnumeric():
             surveyresponse = get_object_or_404(SurveyResponse, survey=token, esea_account=esea_account_pk)
         else:
             surveyresponse = get_object_or_404(SurveyResponse, token=token)
         serializer = SurveyResponseSerializer(surveyresponse)
+        print(serializer.data, 'test')
         return Response(serializer.data)
     
-    def update(self, request, network_pk, campaign_pk, esea_account_pk, token):
-        surveyresponse = get_object_or_404(SurveyResponse, token=token)
+    def update(self, request, organisation_pk, esea_account_pk, token):
+        surveyresponse = get_object_or_404(SurveyResponse, survey=token, esea_account=esea_account_pk)
         serializer = SurveyResponseSerializer(surveyresponse, data = request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
@@ -70,7 +71,7 @@ class SurveyResponseViewSet(BaseModelViewSet):
 
     @action(detail=False, methods=['get'])
     #@permission_classes(AllowAny,)
-    def all(self, request, network_pk, campaign_pk, esea_account_pk):
+    def all(self, request, organisation_pk, esea_account_pk):
         if True: #self.request.user.is_authenticated:
             eseaaccount = get_object_or_404(EseaAccount, pk=esea_account_pk)
             respondents = SurveyResponse.objects.filter(esea_account=esea_account_pk) #Respondent.objects.filter(organisation__esea_accounts=74)
@@ -82,23 +83,24 @@ class SurveyResponseViewSet(BaseModelViewSet):
 
             indirect_indicators = IndirectIndicator.objects.filter(topic__method=eseaaccount.method)
             direct_indicators = DirectIndicator.objects.filter(topic__method=eseaaccount.method)
-            
+            for direct_indicator in direct_indicators:
+                direct_indicator.filter_responses(question_responses)
             # for item in question_responses:
             #     s = QuestionResponseSerializer(item, many=True)
           
             map_responses_by_indicator(direct_indicators, question_responses)
             indicators = calculate_indicators(indirect_indicators, direct_indicators)
 
-            for indicator in indicators.values():
+            #for indicator in indicators.values():
                 #print(indicator.key, '---', indicator.value)
-                if indicator.value is None:
-                    print(indicator.key)                        
+            #   if indicator.value is None:
+            #        print(indicator.key)                        
             serializer = SurveyResponseCalculationSerializer(indicators.values(), many=True)
             return Response(
                 {
                     "respondents": len(respondents),
                     "responses": len(responses.filter(finished=True)),
-                    "indics": [i.value for i in indicators.values()],
+                    #"indics": [i.value for i in indicators.values()],
                     "indicators": serializer.data,
                     
                 }

@@ -11,31 +11,23 @@ class NetworkViewSet(viewsets.ModelViewSet):
     serializer_class = NetworkSerializer
    
     def get_queryset(self):
+        allnetworks = self.request.GET.get('allnetworks', None)
         organisation = self.request.GET.get('organisation', None)
         excludeorganisation = self.request.GET.get('excludeorganisation', None)
+        
+        if allnetworks is not None:
+            return Network.objects.filter(Q(created_by=self.request.user) | Q(ispublic = True))
         if organisation is not None:
             return Network.objects.filter(organisations=organisation)
         if excludeorganisation is not None:
             return Network.objects.exclude(organisations=excludeorganisation)
-        return Network.objects.filter(Q(created_by=self.request.user) | Q(ispublic = True))
+        return Network.objects.filter(created_by=self.request.user)
     
     def create(self, request):
         serializer = NetworkSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save(created_by=request.user)
         return Response(serializer.data)
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     # def update(self, request, *args, **kwargs):

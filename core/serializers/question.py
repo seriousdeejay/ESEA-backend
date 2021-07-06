@@ -8,12 +8,14 @@ from .direct_indicator2 import DirectIndicatorSerializer2
 class QuestionSerializer(serializers.ModelSerializer):
     uiComponent = serializers.ChoiceField(choices=Question.UI_COMPONENT_TYPES)
     direct_indicator = DirectIndicatorSerializer2(many=True, read_only=True)
+    section_name = serializers.ReadOnlyField(source='section.title')
 
     class Meta:
         model = Question
         fields = [
         'id', 
-        'section',  
+        'section',
+        'section_name',
         'order', 
         'isMandatory', 
         'name', # R
@@ -23,10 +25,10 @@ class QuestionSerializer(serializers.ModelSerializer):
         'direct_indicator'
         ]
     
-    def to_representation(self, instance):
-        representation = super().to_representation(instance)
-        representation['section'] = instance.section.title
+    # def to_representation(self, instance):
+    #     representation = super().to_representation(instance)
+    #     representation['section'] = instance.section.title
 
-        return representation
+    #     return representation
 
     #TODO: Validation for possible UI Components.
