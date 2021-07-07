@@ -6,6 +6,13 @@ from .survey2 import SurveyDisplaySerializer
 #from .topic import TopicSerializer
 from .direct_indicator2 import DirectIndicatorSerializer2
 
+class MinimalMethodSerializer(serializers.ModelSerializer):
+    created_by = serializers.StringRelatedField()
+    
+    class Meta:
+        model = Method
+        fields = ('id', 'created_by', 'ispublic', 'name', 'description', 'version', 'surveys', 'topics', 'networks')
+
 class SubTopicSerializer(serializers.Serializer):
     id = serializers.IntegerField(read_only=True)
     name = serializers.CharField(read_only=True)

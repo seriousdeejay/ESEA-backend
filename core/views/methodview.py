@@ -11,12 +11,19 @@ from django.db.models import Q
 
 
 from ..models import Method, Organisation, CustomUser, Topic, DirectIndicator, IndirectIndicator, Survey
-from ..serializers import MethodSerializer, SurveyResponseCalculationSerializer
+from ..serializers import MinimalMethodSerializer,  MethodSerializer, SurveyResponseCalculationSerializer
 from ..utils import process_yaml_method, process_textual_method, merge_indicators
 
 
 class MethodViewSet(viewsets.ModelViewSet):
     serializer_class = MethodSerializer
+    serializer_action_classes = { 'list': MinimalMethodSerializer }
+
+    def get_serializer_class(self):
+        try:
+            return self.serializer_action_classes[self.action]
+        except (KeyError, AttributeError):
+            return super().get_serializer_class()
 
     def get_queryset(self):
         allmethods = self.request.GET.get('allmethods', None)
@@ -89,7 +96,7 @@ def upload_method(request):
             method_instance = process_textual_method(textfile, request.user)
 
             # method = get_object_or_404(Method, pk=pk)
-            serializer = MethodSerializer(method_instance)
+            serializer = MinimalMethodSerializer(method_instance)
             return Response(serializer.data)
 
     return Response({})

@@ -3,7 +3,7 @@ from .network import NetworkSerializer
 from .organisation import OrganisationSerializer
 from .respondent import RespondentSerializer
 
-from .method import MethodSerializer
+from .method import (MinimalMethodSerializer, MethodSerializer)
 from .survey import (SurveyOverviewSerializer, SurveyDetailSerializer)
 from .survey2 import SurveyDisplaySerializer
 from .section import SectionSerializer
