@@ -37,6 +37,7 @@ class SurveyResponse(models.Model):
 
     token = models.CharField(max_length=10)
     finished = models.BooleanField(default=False) # Might be replaced by 'State: Enum' in the future
+    # date = models.DateTimeField()
 
     class Meta:
         verbose_name = _('survey_response')

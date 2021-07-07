@@ -9,11 +9,12 @@ class CampaignSerializer(serializers.ModelSerializer):
     organisation_accounts = EseaAccountSerializer(many=True, read_only=True)
     network = serializers.PrimaryKeyRelatedField(queryset=Network.objects.all())
     method = serializers.PrimaryKeyRelatedField(queryset=Method.objects.all())
+    method_name = serializers.ReadOnlyField(source='method.name')
     # method = serializers.SlugRelatedField(queryset=Method.objects.all(), slug_field='name')
     
     class Meta:
         model = Campaign
-        fields = ['id', 'name', 'image', 'network', 'method', 'organisation_accounts', 'year', 'open_survey_date', 'close_survey_date', 'close_validation_date']
+        fields = ['id', 'name', 'image', 'network', 'method', 'method_name', 'organisation_accounts', 'year', 'open_survey_date', 'close_survey_date', 'close_validation_date']
         depth = 1
 
     def validate_open_survey_date(self, value): # validate(self, value)
@@ -54,7 +55,7 @@ class CampaignSerializer(serializers.ModelSerializer):
     #     return campaign
 
 
-    def to_representation(self, instance):
-        data = super(CampaignSerializer, self).to_representation(instance)
-        data['method'] = instance.method.name
-        return data
+    # def to_representation(self, instance):
+    #     data = super(CampaignSerializer, self).to_representation(instance)
+    #     data['method'] = instance.method.name
+    #     return data
