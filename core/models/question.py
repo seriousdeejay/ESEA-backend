@@ -7,7 +7,7 @@ from .question_option import QuestionOption
 
 
 class questionManager(models.Manager):
-    def create(self,  name, section, uiComponent, order=1, topic=None, indicator=None, isMandatory=True, answertype="TEXT", min_number=1, max_number=5, description="", instruction="", default="", options=None):
+    def create(self,  name, uiComponent, order=1, section=None, topic=None, indicator=None, isMandatory=True, answertype="TEXT", min_number=1, max_number=5, description="", instruction="", default="", options=None):
         question = Question(isMandatory=isMandatory, name=name, order=order, uiComponent=uiComponent, section=section, topic=topic, answertype=answertype, description=description, instruction=instruction, default=default, min_number=min_number, max_number=max_number)
         question.save()
 
@@ -33,6 +33,8 @@ class questionManager(models.Manager):
 
 class Question(models.Model):
     objects = questionManager()
+
+    method = models.ForeignKey("Method", related_name="questions", on_delete=models.CASCADE, null=True)
     section = models.ForeignKey('Section', related_name='questions', on_delete=models.CASCADE, null=True)
     topic = models.ForeignKey('Topic', related_name="questions_of_topic", on_delete=models.CASCADE, null=True)     # Needed, cause a many to many field can not be 'on_delete=models.CASCADE'
     topics = models.ManyToManyField("Topic", through="DirectIndicator")

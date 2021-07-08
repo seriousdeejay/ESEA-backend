@@ -8,11 +8,18 @@ class QuestionViewSet(viewsets.ModelViewSet):
     serializer_class = QuestionSerializer
 
     def get_queryset(self):
-        print(self.kwargs['section_pk'])
-        return Question.objects.filter(section=self.kwargs['section_pk'])
+        print(type(self.kwargs['section_pk']))
+        if (int(self.kwargs['survey_pk']) > 0) and (int(self.kwargs['section_pk']) > 0):
+            return Question.objects.filter(section=self.kwargs['section_pk'])
+        return Question.objects.filter(section__survey__method=self.kwargs['method_pk'])
+        
     
     def create(self, request, method_pk, survey_pk, section_pk):
-        request.data['section'] = int(section_pk)
+        print(request.data)
+        if int(self.kwargs['method_pk']) > 0:
+            request.data['method'] = int(method_pk)
+        if int(self.kwargs['section_pk']) > 0:
+            request.data['section'] = int(section_pk)
         serializer = QuestionSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()

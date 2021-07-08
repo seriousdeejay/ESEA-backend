@@ -28,7 +28,7 @@ method_router = routers.NestedSimpleRouter(router, r'methods', lookup="method")
 method_router.register(r'surveys', surveyview.SurveyViewSet, basename="method-surveys")
 
 method_router.register(r'topics', topicview.TopicViewSet, basename="method-topics")     ## /methods/{pk}/topics & /methods/{pk}/topics/{pk}/
-method_router.register(r'questions', direct_indicatorview2.DirectIndicatorViewSet, basename="method-questions")
+# method_router.register(r'questions', questionview.QuestionViewSet, basename="method-questions")
 method_router.register(r'direct-indicators', direct_indicatorview2.DirectIndicatorViewSet, basename="method-direct-indicators")
 method_router.register(r'indirect-indicators', indirect_indicatorview.IndirectIndicatorViewSet, basename="method-indirect-indicators")
 # method_router.register(r'certification-levels', certification_levelview.CertificationLevelViewSet, basename="method-certification-levels")
