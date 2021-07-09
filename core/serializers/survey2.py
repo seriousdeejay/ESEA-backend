@@ -14,8 +14,9 @@ from .section import SectionSerializer
   #method = MethodField(queryset=Method.objects.all())
 
 class SurveyDisplaySerializer(serializers.ModelSerializer):
+    method_name = serializers.ReadOnlyField(source='method.name')
     response_type = serializers.ChoiceField(choices=Survey.RESPONSE_TYPES)
-    stakeholdergroup = serializers.SlugRelatedField(queryset=StakeholderGroup.objects.all(), slug_field="name")
+    stakeholdergroup = serializers.SlugRelatedField(queryset=StakeholderGroup.objects.all(), slug_field="name", required=False)
     sections = SectionSerializer(many=True, read_only=True)
 
     class Meta:
@@ -23,6 +24,7 @@ class SurveyDisplaySerializer(serializers.ModelSerializer):
         fields = [
             'id',
             'method',
+            'method_name',
             'name',
             'description',
             'response_type',
@@ -34,11 +36,11 @@ class SurveyDisplaySerializer(serializers.ModelSerializer):
             'sections'
             ]
 
-    def to_representation(self, instance):
-        representation = super().to_representation(instance)
-        representation['method'] = instance.method.name
+    # def to_representation(self, instance):
+    #     representation = super().to_representation(instance)
+    #     representation['method'] = instance.method.name
 
-        return representation
+    #     return representation
 
     # def create(self, validated_data) -> Survey:
     #     return Survey.objects.create(**validated_data)

@@ -15,7 +15,7 @@ from .answer_option import AnswerOption
 # datatype
 
 class directIndicatorManager(models.Manager):
-    def create(self, method, topic, key, name, datatype, description="", pre_unit="", post_unit="", question=None, answer_options=None, survey=None, wizard=False,
+    def create(self, method,  key, name, datatype="Text", topic=None, description="", pre_unit="", post_unit="", question=None, answer_options=None, survey=None, wizard=False,
         answertype="TEXT", isMandatory=True, instruction="", default="", min_number=None, max_number=None, options=None):
 
         # If method creation wizard is used
@@ -47,7 +47,7 @@ class DirectIndicator(models.Model):
     question = models.ForeignKey("Question", related_name="direct_indicator", on_delete=models.CASCADE, null=True)
     # One to One field? question2 = models.OneToOneField("Question", on_delete=models.CASCADE, null=True, primary_key=False)
     method = models.ForeignKey("Method", related_name="direct_indicators", on_delete=models.CASCADE, null=True)
-    topic = models.ForeignKey("Topic", related_name="direct_indicators", on_delete=models.CASCADE)
+    topic = models.ForeignKey("Topic", related_name="direct_indicators", on_delete=models.CASCADE, null=True)
 
     key = models.CharField(max_length=255, blank=False)
     name = models.CharField(max_length=255, unique=False, blank=False)
@@ -62,8 +62,8 @@ class DirectIndicator(models.Model):
     DOUBLE = "Double"
     DATE = "Date"
     BOOLEAN = "Boolean"
-    SINGLECHOICE = "singleChoice" # UI: RadioButton, Scale, Dropdown
-    MULTIPLECHOICE = "multipleChoice" # UI: Checkbox, Scale (1-3 on 1:10 scale for example)
+    SINGLECHOICE = "SingleChoice" # UI: RadioButton, Scale, Dropdown
+    MULTIPLECHOICE = "MultipleChoice" # UI: Checkbox, Scale (1-3 on 1:10 scale for example)
 
     DATA_TYPES = (
         (TEXT, "Text"),

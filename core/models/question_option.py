@@ -4,7 +4,7 @@ from ..apps import AppConfig
 # Change to Answer Option
 class QuestionOption(models.Model):
     question = models.ForeignKey('Question', related_name="options", on_delete=models.CASCADE)
-    question_responses = models.ManyToManyField('QuestionResponse', related_name='values', blank=True) # Can this be removed safely?
+    question_responses = models.ManyToManyField('QuestionResponse', related_name='vals', blank=True) # Can this be removed safely?
 
     order = models.IntegerField(default=1)
     text = models.CharField(max_length=255, blank=False)

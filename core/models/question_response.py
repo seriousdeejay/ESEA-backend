@@ -4,7 +4,9 @@ from django.utils.translation import gettext_lazy as _
 
 class QuestionResponse(models.Model):
     survey_response = models.ForeignKey('SurveyResponse', related_name='question_responses', on_delete=models.CASCADE)
+    question = models.ForeignKey('Question', related_name="question_responses", on_delete=models.CASCADE)
     direct_indicator_id = models.IntegerField()
+    values = models.ManyToManyField('AnswerOption', related_name="question_responses", blank=True)
     value = models.CharField(max_length=255, blank=True, null=True)
 
     class Meta:

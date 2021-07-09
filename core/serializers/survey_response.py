@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from ..models import SurveyResponse, QuestionResponse, QuestionOption, DirectIndicator
+from ..models import Survey, SurveyResponse, QuestionResponse, QuestionOption, DirectIndicator
 from .question_response import QuestionResponseSerializer
 
 import random
@@ -12,6 +12,7 @@ class SurveyResponseSerializer(serializers.ModelSerializer):
     respondent = serializers.StringRelatedField()
     organisation = serializers.StringRelatedField(source='respondent.organisation')
     method = serializers.ReadOnlyField(source='survey.method.id')
+    survey = serializers.PrimaryKeyRelatedField(queryset=Survey.objects.all(), required=True)
     class Meta:
         model = SurveyResponse
         fields = '__all__'
@@ -21,26 +22,32 @@ class SurveyResponseSerializer(serializers.ModelSerializer):
         survey_response.finished = validated_data.get('finished', survey_response.finished)
         question_responses = validated_data.pop('question_responses')
         print(question_responses)
-        # question_responses_dict = dict((i.id, i) for i in survey_response.question_responses.all())
+                        # question_responses_dict = dict((i.id, i) for i in survey_response.question_responses.all())
         for item_data in question_responses:
-            print(item_data)
-            if 'id' in item_data:
-                question_response = QuestionResponse.objects.get(id=item_data['id']) #question_responses_dict.pop(item_data['id'])
-                for key in item_data.keys():
-                    if key == 'values':
-                        question_response.values.clear()
-                        for answer in item_data['values']:
-                            # print(QuestionOption.objects.filter(text='ddd').exists())
-                            try:
-                                question_response.values.add(answer)
-                                print('bb')
-                            except: 
-                                print('cc')
-                    elif key == 'value':
-                        question_response.value = str(item_data['value'])
-                    else:
-                        setattr(question_response, key, item_data[key])
-                question_response.save()
+            qr = QuestionResponse.objects.get_or_create(survey_response=survey_response.id, question=item_data.get('question'))
+            if 'values' in item_data.keys():
+                if item_data['values'].length:
+                    qr.values.clear()
+                    for value in item_data['values']:
+                        qr.values.add(value)
+            qr.value = item_data.get('value', qr.value)
+            qr.save()
+            #         # question_response = QuestionResponse.objects.get(id=item_data['id']) #question_responses_dict.pop(item_data['id'])
+            # for key in item_data.keys():
+            #     if key == 'values':
+            #         question_response.values.clear()
+            #         for answer in item_data['values']:
+            #             # print(QuestionOption.objects.filter(text='ddd').exists())
+            #             try:
+            #                 question_response.values.add(answer)
+            #                 print('bb')
+            #             except: 
+            #                 print('cc')
+            #     elif key == 'value':
+            #         question_response.value = str(item_data['value'])
+            #     else:
+            #         setattr(question_response, key, item_data[key])
+            # question_response.save()
         survey_response.save()
         return survey_response
 

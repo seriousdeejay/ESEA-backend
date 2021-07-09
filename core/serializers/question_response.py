@@ -1,15 +1,15 @@
 from rest_framework import serializers
 
-from ..models import QuestionResponse, QuestionOption, DirectIndicator
+from ..models import QuestionResponse, AnswerOption, DirectIndicator
 
 
 class QuestionResponseSerializer(serializers.ModelSerializer):
-    values = serializers.SlugRelatedField(queryset=QuestionOption.objects.all(), many=True, slug_field='text')
+    values = serializers.SlugRelatedField(queryset=AnswerOption.objects.all(), many=True, slug_field='text')
 
     class Meta:
         model = QuestionResponse
-        fields = ['id', 'direct_indicator_id', 'values', 'value']
-        extra_kwargs = {'id': {'read_only': False, 'required': True}}
+        fields = ['id', 'question', 'direct_indicator_id', 'values', 'value']
+        # extra_kwargs = {'id': {'read_only': False, 'required': True}}
 
     def validate(self, data):
         value = data['value']

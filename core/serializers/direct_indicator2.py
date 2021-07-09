@@ -4,16 +4,18 @@ from ..models import DirectIndicator, AnswerOption
 from .answer_option import AnswerOptionSerializer
 
 class DirectIndicatorSerializer2(serializers.ModelSerializer):
-    datatype= serializers.ChoiceField(choices=DirectIndicator.DATA_TYPES)
+    datatype= serializers.ChoiceField(choices=DirectIndicator.DATA_TYPES, required=False)
     # question = serializers.StringRelatedField(read_only=True)
+    method_name = serializers.ReadOnlyField(source='method.name')
     question_name = serializers.ReadOnlyField()
-    options = AnswerOptionSerializer(many=True)
+    options = AnswerOptionSerializer(many=True, required=False)
     
     class Meta:
         model = DirectIndicator
         fields = [
             'id',
             'method',
+            'method_name',
             'key', 
             'name', 
             'question',
@@ -23,18 +25,17 @@ class DirectIndicatorSerializer2(serializers.ModelSerializer):
             'datatype', 
             'pre_unit', 
             'post_unit', 
-            'options', 
-            'question'
+            'options'
             ]
 
     def create(self, validated_data):
         D = DirectIndicator.objects.create(**validated_data)
-
-        options = validated_data.pop('options')
+        if validated_data.get('options') is not None:
+            options = validated_data.pop('options')
        
-        for option in options:
-            option_instance, _ = AnswerOption.objects.get_or_create(order=option.get('order', 1), text=option['text'])
-            D.options.add(option_instance.id)
+            for option in options:
+                option_instance, _ = AnswerOption.objects.get_or_create(order=option.get('order', 1), text=option['text'])
+                D.options.add(option_instance.id)
 
         return D
 
@@ -58,8 +59,8 @@ class DirectIndicatorSerializer2(serializers.ModelSerializer):
 
         return instance
 
-    def to_representation(self, instance):
-        representation = super().to_representation(instance)
-        representation['method'] = instance.method.name
+    # def to_representation(self, instance):
+    #     representation = super().to_representation(instance)
+    #     representation['method'] = instance.method.name
         
-        return representation
+    #     return representation

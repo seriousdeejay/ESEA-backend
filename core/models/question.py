@@ -7,8 +7,8 @@ from .question_option import QuestionOption
 
 
 class questionManager(models.Manager):
-    def create(self,  name, uiComponent, order=1, section=None, topic=None, indicator=None, isMandatory=True, answertype="TEXT", min_number=1, max_number=5, description="", instruction="", default="", options=None):
-        question = Question(isMandatory=isMandatory, name=name, order=order, uiComponent=uiComponent, section=section, topic=topic, answertype=answertype, description=description, instruction=instruction, default=default, min_number=min_number, max_number=max_number)
+    def create(self,  name, uiComponent, method=None, order=1, section=None, topic=None, indicator=None, isMandatory=True, answertype="TEXT", min_number=1, max_number=5, description="", instruction="", default="", options=None):
+        question = Question(isMandatory=isMandatory, name=name, method=method, order=order, uiComponent=uiComponent, section=section, topic=topic, answertype=answertype, description=description, instruction=instruction, default=default, min_number=min_number, max_number=max_number)
         question.save()
 
         if indicator:

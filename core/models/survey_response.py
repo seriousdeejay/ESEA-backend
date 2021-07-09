@@ -20,11 +20,11 @@ class SurveyResponseManager(models.Manager):
 
         # print('>>>>>>>>>>>>>>', survey)
         # print('::::::', surveyresponse)
-        direct_indicators = DirectIndicator.objects.filter(question__section__survey=survey)
-        print(direct_indicators.values())
-        for direct_indicator in direct_indicators.values():
-            question_response = QuestionResponse.objects.create(survey_response=surveyresponse, direct_indicator_id=direct_indicator['id'])
-            print('new question response:', surveyresponse, question_response, surveyresponse.question_responses.all())
+        # direct_indicators = DirectIndicator.objects.filter(question__section__survey=survey)
+        # print(direct_indicators.values())
+        # for direct_indicator in direct_indicators.values():
+        #     question_response = QuestionResponse.objects.create(survey_response=surveyresponse, direct_indicator_id=direct_indicator['id'])
+        #     print('new question response:', surveyresponse, question_response, surveyresponse.question_responses.all())
 
         return surveyresponse
 
