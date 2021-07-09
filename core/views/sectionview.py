@@ -9,7 +9,9 @@ class SectionViewSet(viewsets.ModelViewSet):
     serializer_class = SectionSerializer
 
     def get_queryset(self):
-        return Section.objects.filter(survey=self.kwargs['survey_pk'])
+        if (int(self.kwargs['survey_pk']) > 0):
+            return Section.objects.filter(survey=self.kwargs['survey_pk'])
+        return Section.objects.filter(survey__method=self.kwargs['method_pk'])
     
     def create(self, request, method_pk, survey_pk):
         request.data['survey'] = int(survey_pk)
