@@ -51,40 +51,40 @@ class Question(models.Model):
     max_number = models.IntegerField(blank=True, null=True)
 
 
-    TEXT = "TEXT"
-    NUMBER = "NUMBER"
-    RADIO = "RADIO"
-    CHECKBOX = "CHECKBOX"
-    SCALE = "SCALE"
+    TEXT = "Text"
+    NUMBER = "Number"
+    RADIO = "Radio"
+    CHECKBOX = "Checkbox"
+    SCALE = "Scale"
 
     QUESTION_TYPES = (
-        (TEXT, "text"),
-        (NUMBER, "number"),
-        (RADIO, "radio"),
-        (CHECKBOX, "checkbox"),
+        (TEXT, "Text"),
+        (NUMBER, "Number"),
+        (RADIO, "Radio"),
+        (CHECKBOX, "checkBox"),
         (SCALE, "scale"),
     )
     
     QUESTION_TYPES_WITH_OPTIONS = [RADIO, CHECKBOX, SCALE]
-    answertype = models.CharField(max_length=100, blank=False, choices=QUESTION_TYPES, default="TEXT")
+    answertype = models.CharField(max_length=100, blank=False, choices=QUESTION_TYPES, default="Text")
 
-    FIELD = "field"
-    LINE = "line"
-    TEXTBOX = "textbox"
-    CHECKBOX = "checkbox"
-    DROPDOWN = "dropdown"
-    RADIOBUTTON = "radiobutton"
+    FIELD = "Field"
+    LINE = "Line"
+    TEXTBOX = "Textbox"
+    CHECKBOX = "Checkbox"
+    DROPDOWN = "Dropdown"
+    RADIOBUTTON = "radioButton"
 
     UI_COMPONENT_TYPES = (
-        (FIELD, "field"),
-        (LINE, "line"),
+        (FIELD, "Field"),
+        (LINE, "Line"),
         (TEXTBOX, "textBox"),
         (CHECKBOX, "checkBox"),
         (DROPDOWN, "dropDown"),
         (RADIOBUTTON, "radioButton")
     )
     UI_COMPONENTS_FOR_OPTIONS= [CHECKBOX, DROPDOWN, RADIOBUTTON]
-    uiComponent = models.CharField(max_length=100, blank=False, choices=UI_COMPONENT_TYPES, default="field")
+    uiComponent = models.CharField(max_length=100, blank=False, choices=UI_COMPONENT_TYPES, default="Field")
 
     class Meta:
         verbose_name = _("question")

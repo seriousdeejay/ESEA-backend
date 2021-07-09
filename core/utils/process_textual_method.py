@@ -194,10 +194,10 @@ def process_surveys(index, method_instance):
             sect = Section.objects.create(survey=surv, order=section['Order'], title=section['Title'])
             for question in section['Questions']:
                 # q, created = Question.objects.get_or_create()
-                i = DirectIndicator.objects.filter(key=question['Indicator']).first()
+                i = DirectIndicator.objects.filter(method=method_instance, key=question['Indicator']).first()
                 topic = i.topic
                 # Question.objects.filter(name=question['Name']).delete()
-                q = Question.objects.create(section=sect, name=question['Name'], description=question['Description'], isMandatory=question['isMandatory'], indicator=i, uiComponent=question['UIComponent'], order=question['Order'], instruction=question['Instruction'], topic=topic)
+                q = Question.objects.create(method=method_instance, section=sect, name=question['Name'], description=question['Description'], isMandatory=question['isMandatory'], indicator=i, uiComponent=question['UIComponent'], order=question['Order'], instruction=question['Instruction'], topic=topic)
                 surveyQuestions.append(i.id)
 
             for textfragment in section['TextFragments']:

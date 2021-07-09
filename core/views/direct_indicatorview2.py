@@ -9,7 +9,7 @@ class DirectIndicatorViewSet(viewsets.ModelViewSet):
     serializer_class = DirectIndicatorSerializer2
 
     def get_queryset(self):
-        return DirectIndicator.objects.filter(topic__method=self.kwargs['method_pk'])
+        return DirectIndicator.objects.filter(method=self.kwargs['method_pk'])
     
     def create(self, request, method_pk):
         request.data['method'] = int(method_pk)
