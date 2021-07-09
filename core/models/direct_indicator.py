@@ -57,25 +57,25 @@ class DirectIndicator(models.Model):
     #min number
     #max number
 
-    TEXT = "Text"
-    INTEGER = "Integer"
-    DOUBLE = "Double"
-    DATE = "Date"
-    BOOLEAN = "Boolean"
-    SINGLECHOICE = "singleChoice" # UI: RadioButton, Scale, Dropdown
+    TEXT = "text"
+    INTEGER = "integer"
+    DOUBLE = "double"
+    DATE = "date"
+    BOOLEAN = "boolean"
+    SINGLECHOICE = "singlechoice" # UI: RadioButton, Scale, Dropdown
     MULTIPLECHOICE = "multipleChoice" # UI: Checkbox, Scale (1-3 on 1:10 scale for example)
 
     DATA_TYPES = (
-        (TEXT, "Text"),
+        (TEXT, "text"),
         (INTEGER, "Integer"),
-        (DOUBLE, "Double"),
-        (DATE, "Date"),
-        (BOOLEAN, "Boolean"),
-        (SINGLECHOICE, "singleChoice"),
-        (MULTIPLECHOICE, "multipleChoice")
+        (DOUBLE, "double"),
+        (DATE, "date"),
+        (BOOLEAN, "boolean"),
+        (SINGLECHOICE, "singlechoice"),
+        (MULTIPLECHOICE, "multiplechoice")
     )
 
-    datatype = models.CharField(max_length=50, blank=False, choices=DATA_TYPES, default="Text")
+    datatype = models.CharField(max_length=50, blank=False, choices=DATA_TYPES, default="text")
 
     responses = []
     value = None

@@ -68,20 +68,20 @@ class Question(models.Model):
     QUESTION_TYPES_WITH_OPTIONS = [RADIO, CHECKBOX, SCALE]
     answertype = models.CharField(max_length=100, blank=False, choices=QUESTION_TYPES, default="Text")
 
-    FIELD = "Field"
-    LINE = "Line"
-    TEXTBOX = "Textbox"
-    CHECKBOX = "Checkbox"
-    DROPDOWN = "Dropdown"
+    FIELD = "field"
+    LINE = "line"
+    TEXTBOX = "textbox"
+    CHECKBOX = "checkbox"
+    DROPDOWN = "dropdown"
     RADIOBUTTON = "radioButton"
 
     UI_COMPONENT_TYPES = (
-        (FIELD, "Field"),
-        (LINE, "Line"),
-        (TEXTBOX, "textBox"),
-        (CHECKBOX, "checkBox"),
-        (DROPDOWN, "dropDown"),
-        (RADIOBUTTON, "radioButton")
+        (FIELD, "field"),
+        (LINE, "line"),
+        (TEXTBOX, "textbox"),
+        (CHECKBOX, "checkbox"),
+        (DROPDOWN, "dropdown"),
+        (RADIOBUTTON, "radiobutton")
     )
     UI_COMPONENTS_FOR_OPTIONS= [CHECKBOX, DROPDOWN, RADIOBUTTON]
     uiComponent = models.CharField(max_length=100, blank=False, choices=UI_COMPONENT_TYPES, default="Field")

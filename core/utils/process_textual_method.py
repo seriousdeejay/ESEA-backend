@@ -131,7 +131,7 @@ def process_topics(topics, method_instance):
 def process_indicators(indicators, method_instance, topic_dict):
     for indicator in indicators:
         if indicator['Indicator_type'] == 'Direct':
-            I = DirectIndicator.objects.create(method=method_instance, key=indicator['Indicator_id'], name=indicator['Name'], description=indicator['Description'], topic=topic_dict[indicator['Topic']], pre_unit=indicator.get('PreUnit', ''), post_unit=indicator.get('PostUnit', ''), datatype=indicator['DataType'], answer_options=indicator.get('Answer_options')) # DataType=indicator['DataType']
+            I = DirectIndicator.objects.create(method=method_instance, key=indicator['Indicator_id'], name=indicator['Name'], description=indicator['Description'], topic=topic_dict[indicator['Topic']], pre_unit=indicator.get('PreUnit', ''), post_unit=indicator.get('PostUnit', ''), datatype=indicator['DataType'].lower(), answer_options=indicator.get('Answer_options')) # DataType=indicator['DataType']
         if indicator['Indicator_type'] == 'Indirect':
             I = IndirectIndicator.objects.create(key=indicator['Indicator_id'], name=indicator['Name'], description=indicator['Description'], topic=topic_dict[indicator['Topic']], formula=indicator['Formula'], pre_unit=indicator.get('PreUnit', ''), post_unit=indicator.get('PostUnit', ''), type= indicator['Type']) # DataType=indicator['DataType'] indicator.get('Type')
     print('**', indicators)
@@ -197,7 +197,7 @@ def process_surveys(index, method_instance):
                 i = DirectIndicator.objects.filter(method=method_instance, key=question['Indicator']).first()
                 topic = i.topic
                 # Question.objects.filter(name=question['Name']).delete()
-                q = Question.objects.create(method=method_instance, section=sect, name=question['Name'], description=question['Description'], isMandatory=question['isMandatory'], indicator=i, uiComponent=question['UIComponent'], order=question['Order'], instruction=question['Instruction'], topic=topic)
+                q = Question.objects.create(method=method_instance, section=sect, name=question['Name'], description=question['Description'], isMandatory=question['isMandatory'], indicator=i, uiComponent=question['UIComponent'].lower(), order=question['Order'], instruction=question['Instruction'], topic=topic)
                 surveyQuestions.append(i.id)
 
             for textfragment in section['TextFragments']:
