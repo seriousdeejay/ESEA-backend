@@ -73,7 +73,7 @@ class Question(models.Model):
     TEXTBOX = "textbox"
     CHECKBOX = "checkbox"
     DROPDOWN = "dropdown"
-    RADIOBUTTON = "radioButton"
+    RADIOBUTTON = "radiobutton"
 
     UI_COMPONENT_TYPES = (
         (FIELD, "field"),
