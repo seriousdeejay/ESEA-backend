@@ -1,3 +1,4 @@
+"""
 from rest_framework import serializers
 
 from ..models import Survey, StakeholderGroup, DirectIndicator, SurveyResponse, Method
@@ -170,3 +171,4 @@ class SurveyDetailSerializer(serializers.Serializer):
                 'topics': topic_list,
             }
         )
+"""

@@ -1,7 +1,6 @@
 from rest_framework import serializers
 
 from ..models import Method
-from .survey import SurveyDetailSerializer
 from .survey2 import SurveyDisplaySerializer
 #from .topic import TopicSerializer
 from .direct_indicator2 import DirectIndicatorSerializer2

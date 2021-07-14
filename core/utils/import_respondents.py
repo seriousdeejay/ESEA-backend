@@ -35,7 +35,7 @@ def import_respondents(excel_file, eseaaccount, survey):
                 return f"error in row {i}: {row}"
     for respondent in respondents:
         respondent.save()
-        new_survey_response = SurveyResponse.objects.create(survey=survey.id, respondent=respondent, esea_account=eseaaccount)
+        new_survey_response = SurveyResponse.objects.create(survey=survey, respondent=respondent, esea_account=eseaaccount)
         print(f'{respondent}: {new_survey_response.token}')
         subject = f"Survey for {respondent} regarding {respondent.organisation}"
         message = f"Hi {respondent}!\nWe would like you to take a moment to fill in the following survey as employee of {respondent.organisation} to create a report about the organisation's position in the ethical, social and environmental fields.\n\nhttp://localhost:8080/{new_survey_response.token}/"

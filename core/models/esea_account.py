@@ -43,11 +43,11 @@ class EseaAccount(models.Model):
             tempdict['respondees'] = [{'name':str(respondee)} for respondee in Respondent.objects.filter(response__esea_account=self, response__survey=survey).distinct()]
             tempdict['responses'] = len(self.responses.filter(survey=survey, finished=True))
             tempdict['required_response_rate'] = survey.min_threshold
-            tempdict['current_response_rate'] = int((tempdict['responses'])/(len((tempdict['respondees'])) or 1))
+            tempdict['current_response_rate'] = int((tempdict['responses'])/(len((tempdict['respondees'])) or 1) * 100)
             tempdict['sufficient_responses'] = tempdict['current_response_rate'] >= tempdict['required_response_rate']
             arr.append(tempdict)
         responserates = [item['current_response_rate'] for item in arr if len(item['respondees']) > 0]
-        self.response_rate = (sum(responserates)/len(responserates)) * 100
+        self.response_rate = (sum(responserates)/(len(responserates) or 1))
         
         for survey in arr:
             if (survey['sufficient_responses'] == False):
@@ -64,11 +64,9 @@ class EseaAccount(models.Model):
         return responses
 
 
-
-
-
-
-
+''' 
+- Should change __str__ return
+'''
 
 
 
@@ -100,8 +98,4 @@ class EseaAccount(models.Model):
     
     def all_response_rate(self, finished_responses):
         self.all_response_rate = (finished_responses/(len(self.responses.all()) or 1)) * 100
-'''
-
-''' 
-- Should change __str__ return
 '''

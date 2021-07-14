@@ -40,7 +40,7 @@ def import_employees(request, eseaaccount_pk, survey_pk):
         eseaaccount = get_object_or_404(EseaAccount, pk=eseaaccount_pk)
         survey = get_object_or_404(Survey, pk=survey_pk)
 
-        Respondent.objects.filter(organisation=eseaaccount.organisation).delete()
+        Respondent.objects.filter(organisation=eseaaccount.organisation).exclude(response__token="accountant").delete()
         SurveyResponse.objects.filter(survey=survey_pk, esea_account=eseaaccount_pk)
 
         file = request.FILES['file']

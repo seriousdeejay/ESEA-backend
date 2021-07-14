@@ -35,6 +35,8 @@ class UsersViewSet(viewsets.ModelViewSet): # ReadOnlyModelViewSet
         if network is not None:
             return CustomUser.objects.filter(organisation__networks=network).distinct() # Should pass network id(s) in order to serve the participants of network(s)
         if organisation is not None:
+            users = CustomUser.objects.filter(email='test@test.com')
+            users
             return CustomUser.objects.filter(organisation=organisation)
         return CustomUser.objects.all()
 

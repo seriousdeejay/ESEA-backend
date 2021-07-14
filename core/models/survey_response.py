@@ -12,19 +12,18 @@ class SurveyResponseManager(models.Manager):
     def create(self, survey, respondent, esea_account, token=None):
         if token is None:
             token = "".join(random.choice(string.ascii_letters) for i in range(10))
-        print('ssssss', survey)
-        #survey = get_object_or_404(Survey, id=survey)
-        print('||||||||',survey)
+
         surveyresponse = SurveyResponse(survey=survey, respondent=respondent, esea_account=esea_account, token=token)
         surveyresponse.save()
 
-        # print('>>>>>>>>>>>>>>', survey)
-        # print('::::::', surveyresponse)
-        # direct_indicators = DirectIndicator.objects.filter(question__section__survey=survey)
-        # print(direct_indicators.values())
-        # for direct_indicator in direct_indicators.values():
-        #     question_response = QuestionResponse.objects.create(survey_response=surveyresponse, direct_indicator_id=direct_indicator['id'])
-        #     print('new question response:', surveyresponse, question_response, surveyresponse.question_responses.all())
+        # Possibly not needed anymore
+        '''
+        direct_indicators = DirectIndicator.objects.filter(question__section__survey=survey)
+        print(direct_indicators.values())
+        for direct_indicator in direct_indicators.values():
+            question_response = QuestionResponse.objects.create(survey_response=surveyresponse, direct_indicator_id=direct_indicator['id'])
+            print('new question response:', surveyresponse, question_response, surveyresponse.question_responses.all())
+        '''
 
         return surveyresponse
 
@@ -81,17 +80,19 @@ class SurveyResponse(models.Model):
                 question_response_list.append(self.question_responses.create(**data))    
             else:
                 pass
-                # for value in data['values']:
-                #     print(value)
-                #     if value is not in (question_response.values):
-                #          question_response.values.set(data['values'])
-                #          question_response.save()
-                # # question_response.values is not data['values']:
-                # # question_response.values.set(data['values'])
-                #         question_response_list.append(question_response)
-
+            
         # Perform deletions.
         for id, question_response in question_response_mapping.items():
             if id not in data_mapping:
                 question_response.delete()
         return question_response_list
+
+
+    # for value in data['values']:
+            #     print(value)
+            #     if value is not in (question_response.values):
+            #          question_response.values.set(data['values'])
+            #          question_response.save()
+            # # question_response.values is not data['values']:
+            # # question_response.values.set(data['values'])
+            #         question_response_list.append(question_response)

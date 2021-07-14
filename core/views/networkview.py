@@ -10,6 +10,7 @@ from ..serializers import NetworkSerializer, OrganisationSerializer
 class NetworkViewSet(viewsets.ModelViewSet):
     serializer_class = NetworkSerializer
    
+    # GET Request
     def get_queryset(self):
         allnetworks = self.request.GET.get('allnetworks', None)
         organisation = self.request.GET.get('organisation', None)
@@ -23,6 +24,7 @@ class NetworkViewSet(viewsets.ModelViewSet):
             return Network.objects.exclude(organisations=excludeorganisation)
         return Network.objects.filter(created_by=self.request.user)
     
+    # POST request
     def create(self, request):
         serializer = NetworkSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)

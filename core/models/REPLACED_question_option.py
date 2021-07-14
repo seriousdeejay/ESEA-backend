@@ -1,3 +1,4 @@
+"""
 from django.db import models
 from ..apps import AppConfig
 
@@ -21,4 +22,4 @@ class QuestionOption(models.Model):
 
     def __repr__(self):
         return (f"text='{self.text} '")
-        
+""""

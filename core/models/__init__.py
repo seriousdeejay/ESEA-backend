@@ -13,7 +13,6 @@ from .stakeholder_group import StakeholderGroup
 
 from .topic import Topic
 from .question import Question
-from .question_option import QuestionOption
 from .answer_option import AnswerOption
 from .direct_indicator import DirectIndicator
 from .indirect_indicator import IndirectIndicator

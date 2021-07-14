@@ -1,3 +1,4 @@
+"""
 from typing import Union
 from collections import OrderedDict
 from rest_framework import serializers
@@ -84,7 +85,7 @@ class DirectIndicatorSerializer(serializers.Serializer):
         return instance.update(**validated_data)
 
     def to_representation(self, instance):
-        """Convert instance to serializer attributes."""
+        # Convert instance to serializer attributes.
         if isinstance(instance, DirectIndicator):
             internal = {
                 "id": instance.id,
@@ -123,3 +124,4 @@ class DirectIndicatorSerializer(serializers.Serializer):
         ):
             return self.instance[key]
         return self.initial_data[key]
+"""

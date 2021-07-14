@@ -7,7 +7,3 @@ class Section(models.Model):
    
     def __str__(self):
         return self.title
-
-    
-    
-     # questions = models.ManyToManyField('Question', related_name='section') #FK As well?

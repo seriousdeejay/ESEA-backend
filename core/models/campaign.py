@@ -13,7 +13,6 @@ class Campaign(models.Model):
     required = models.BooleanField(default=True)
     name = models.CharField(max_length=255)
     image = models.ImageField(blank=True, upload_to="campaign/", default="campaign/campaign-default.png")
-    # created_on = models.DateTimeField(default=now, editable=False)
     year = models.IntegerField(default=date.today().year)
     open_survey_date = models.DateTimeField(default=now)
     close_survey_date = models.DateTimeField(default=defaultrespondingwindow)
@@ -27,7 +26,9 @@ class Campaign(models.Model):
             self.close_validation_date = self.close_survey_date + timedelta(days = 14)
         super(Campaign, self).save(*args, **kwargs)
 
+
 ''' 
 - Should have name field
-- Should return self.name in __str__
+- Could have created_on = models.DateTimeField(default=now, editable=False)
+- Should return self.name in __str__ method
 '''

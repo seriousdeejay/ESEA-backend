@@ -101,6 +101,12 @@ class DirectIndicator(models.Model):
         self.pre_unit = pre_unit
         self.post_unit = post_unit
         self.question = self.question.update(name=name, answertype=answertype, isMandatory=isMandatory, options=options, description=description, instruction=instruction, default=default, min_number=min_number, max_number=max_number)
+
+        # if not self.hasOptions(options):
+        #     self.options.all().delete()
+        #     for option in options:
+        #         QuestionOption.objects.create(question=self, **option)
+
         self.save()
         return self
 

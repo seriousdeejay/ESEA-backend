@@ -3,7 +3,6 @@ from typing import Any
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
-from .question_option import QuestionOption
 
 
 class questionManager(models.Manager):
@@ -17,12 +16,12 @@ class questionManager(models.Manager):
             indicator.question = question
             indicator.save(update_fields=['question'])
 
-        if question.answertype in (question.QUESTION_TYPES_WITH_OPTIONS):
-            print(question, answertype, options)
-            for index, option in enumerate(options):
-                questionoption = QuestionOption.objects.create(text=option, value=index + 1, question=question)
-                question.options.add(questionoption)
-            question.save()
+        # if question.answertype in (question.QUESTION_TYPES_WITH_OPTIONS):
+        #     print(question, answertype, options)
+        #     for index, option in enumerate(options):
+        #         questionoption = QuestionOption.objects.create(text=option, value=index + 1, question=question)
+        #         question.options.add(questionoption)
+        #     question.save()
         return question
     
     def get_or_create(self, **args):
@@ -136,10 +135,10 @@ class Question(models.Model):
         self.max_number = max_number
         self.save()
 
-        if not self.hasOptions(options):
-            self.options.all().delete()
-            for option in options:
-                QuestionOption.objects.create(question=self, **option)
+        # if not self.hasOptions(options):
+        #     self.options.all().delete()
+        #     for option in options:
+        #         QuestionOption.objects.create(question=self, **option)
 
         self.save()
         return self

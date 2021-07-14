@@ -18,12 +18,6 @@ class Organisation(models.Model):
         return self.name
 
 
-
-    # def relevant_survey_responses(self):
-    #     return UserOrganisation.objects.filter(organisation=self, survey_responses__isnull=False).distinct()
-
-    # members = models.ManyToManyField('CustomUser', through="UserOrganisation", through_fields=('organisation', 'user'), related_name='organisations', blank=True)
-    # esea_accounts = models.ManyToManyField('Method', through="EseaAccount", through_fields=('organisation', 'method'), related_name='organisations', blank=True)
 '''
 - m2m method_organisations/ESEA_Account class to add a campaign class to?)
 - change ispublic to is_public

@@ -73,8 +73,3 @@ class Survey(models.Model):
     #     print(di)
     #     survey.questions.add(di)
 
-'''
-- objects manager def create() should get parameter stakeholdergroup from yaml file
-'''
-
-

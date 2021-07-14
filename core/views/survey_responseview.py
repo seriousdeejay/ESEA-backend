@@ -63,7 +63,10 @@ class SurveyResponseViewSet(BaseModelViewSet):
         return Response(serializer.data)
     
     def update(self, request, organisation_pk, esea_account_pk, token):
-        surveyresponse = get_object_or_404(SurveyResponse, survey=token, esea_account=esea_account_pk)
+        if token.isnumeric():
+            surveyresponse = get_object_or_404(SurveyResponse, survey=token, esea_account=esea_account_pk)
+        else:
+            surveyresponse = get_object_or_404(SurveyResponse, token=token)
         serializer = SurveyResponseSerializer(surveyresponse, data = request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()

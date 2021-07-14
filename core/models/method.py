@@ -19,12 +19,12 @@ class Method(models.Model):
          )
 
 
-
-# organisations = models.ManyToManyField('Organisation', related_name="methods", blank=True)
-
 '''
     Change ispublic to is_public
 '''
+
+
+# organisations = models.ManyToManyField('Organisation', related_name="methods", blank=True)
 
 
 

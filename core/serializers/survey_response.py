@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from ..models import Survey, SurveyResponse, QuestionResponse, QuestionOption, DirectIndicator
+from ..models import Survey, SurveyResponse, QuestionResponse, DirectIndicator
 from .question_response import QuestionResponseSerializer
 
 import random
@@ -21,12 +21,12 @@ class SurveyResponseSerializer(serializers.ModelSerializer):
     def update(self, survey_response, validated_data):
         survey_response.finished = validated_data.get('finished', survey_response.finished)
         question_responses = validated_data.pop('question_responses')
-        print(question_responses)
+        print(survey_response)
                         # question_responses_dict = dict((i.id, i) for i in survey_response.question_responses.all())
         for item_data in question_responses:
-            qr = QuestionResponse.objects.get_or_create(survey_response=survey_response.id, question=item_data.get('question'))
+            qr, _ = QuestionResponse.objects.get_or_create(survey_response=survey_response, question=item_data.get('question'), direct_indicator_id=item_data.get('direct_indicator_id'))
             if 'values' in item_data.keys():
-                if item_data['values'].length:
+                if len(item_data['values']):
                     qr.values.clear()
                     for value in item_data['values']:
                         qr.values.add(value)

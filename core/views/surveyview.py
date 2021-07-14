@@ -5,7 +5,7 @@ from django.shortcuts import get_object_or_404
 
 
 from ..models import Survey, Method, Organisation, SurveyResponse, DirectIndicator, StakeholderGroup
-from ..serializers import SurveyOverviewSerializer, SurveyDetailSerializer, SurveyDisplaySerializer
+from ..serializers import SurveyDisplaySerializer
 
 class BaseModelViewSet(viewsets.ModelViewSet):
     queryset = ''
@@ -127,14 +127,14 @@ class SurveyViewSet(BaseModelViewSet):
 
 
 # Not really implemented!
-class PublicSurveyViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = Survey.objects.all()
-    serializer_class = SurveyOverviewSerializer
-    authentication_classes = []
-    permission_classes = []
+# class PublicSurveyViewSet(viewsets.ReadOnlyModelViewSet):
+#     queryset = Survey.objects.all()
+#     serializer_class = SurveyOverviewSerializer
+#     authentication_classes = []
+#     permission_classes = []
 
-    def retrieve(self, request, pk):
-        survey = get_object_or_404(self.get_queryset(), pk=pk)
-        serializer = SurveyDetailSerializer(survey)
+#     def retrieve(self, request, pk):
+#         survey = get_object_or_404(self.get_queryset(), pk=pk)
+#         serializer = SurveyDetailSerializer(survey)
 
-        return Response(serializer.data)
+#         return Response(serializer.data)

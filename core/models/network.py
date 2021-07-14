@@ -20,11 +20,6 @@ class Network(models.Model):
         return self.name
 
 
-
-
 '''
-- Should use through class like below:
-    --> esea_accounts = models.ManyToManyField('Method', through="EseaAccount", through_fields=('organisation', 'method'), related_name='organisations', blank=True)
-( - m2m network_methods class to add a campaign class to?)
-- Change ispublic to is_public
+- Change ispublic to is_public?
 '''
