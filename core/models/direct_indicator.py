@@ -156,6 +156,8 @@ class DirectIndicator(models.Model):
                 return max(valuesdict, key=valuesdict.get) if valuesdict else None
         return valuesdict
 
+
+
 '''
 - Should response_values not be returned to self.value (or self.values)?  [FIXED]
 '''

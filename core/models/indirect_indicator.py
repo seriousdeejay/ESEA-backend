@@ -18,8 +18,8 @@ class IndirectIndicator(models.Model):
     DOUBLE = "double"
     DATE = "date"
     BOOLEAN = "boolean"
-    SINGLECHOICE = "singlechoice" # UI: RadioButton, Scale, Dropdown
-    MULTIPLECHOICE = "multiplechoice" # UI: Checkbox, Scale (1-3 on 1:10 scale for example)
+    SINGLECHOICE = "singlechoice"
+    MULTIPLECHOICE = "multiplechoice"
     
 
     DATA_TYPES = (
@@ -102,8 +102,8 @@ class IndirectIndicator(models.Model):
     def calculate(self):
         # if self.value:
         #     return
-        if self.key == 'gender_equity_score':
-                    print('--->',self.calculation, self.has_conditionals, self.calculation_keys)
+        # if self.key == 'gender_equity_score':
+        #             print('--->',self.calculation, self.has_conditionals, self.calculation_keys)
 
         if len(self.calculation_keys) and not self.has_conditionals:
             self.exception = Exception("Not all keys are replaced with values")
@@ -174,9 +174,8 @@ class IndirectIndicator(models.Model):
                 continue
 
             if eval(cond):
-                #print(cond)
                 break
-            #print(condition)
+
         if '=' in val:
             val = val.replace('"', '').replace('(', '').replace(')', '').replace('\\', '')
             [var, val] = val.split('=')
