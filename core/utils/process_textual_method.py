@@ -6,7 +6,7 @@ def process_textual_method(file, uploader):
 
     start = 0
     myList = []
-    print('iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii', uploader)
+
     for line in file:
         line = line.decode('cp1252').strip()
 
@@ -73,27 +73,9 @@ def processor(index):
             result[-1][key] = value.strip('"')
         except:
             pass
-    '''
-    if myList[start] in ['Indicators:', 'Topics:']:
-        for item in myList[start+1:index]:
-            if any(word in item for word in ['Indicator_id', 'topic_id:']):
-                if len(subList):
-                    Info.append(subList)
-                subList = []
-            subList.append(item)
-
-        Info = [[x.split(':') for x in y] for y in Info]
-
-        for idx, nestedList in enumerate(Info):
-            ### if statement only for now, since Formula can be on multiple lines
-            Info[idx] = {lst[0]: lst[1].strip('"') for lst in nestedList if len(lst) > 1}
-    else:
-        Info = [x.split(':') for x in myList[start: index]]
-        Info = {lst[0]: lst[1].strip('"') for lst in Info}
-    '''
-
+    
     globals()['start'] = index
-    print('iii', result)
+
     return result
 
 
@@ -103,8 +85,7 @@ def process_method(M, uploader):
     isPublic = M['isPublic'] == 'true'	# Could use eval('True') If the Boolean string is capitalised
     Version = float(M['Version'])
     method_instance = Method.objects.create(created_by=uploader, name=M['Name'], description=M['Description'], ispublic=isPublic, version=Version)
-    print('++', M)
-    print('\n', method_instance.__dict__)
+    
     return method_instance
 
 
@@ -124,7 +105,7 @@ def process_topics(topics, method_instance):
     #Topic.objects.filter(method__name='newmethod2').delete()
     #Method.objects.filter(name="newmethod2").delete()
     #method_instance.delete()
-    print(topic_dict)
+    print('*Topic Dict:*', topic_dict)
     #print('==', topics)
     return topic_dict
 
@@ -134,7 +115,8 @@ def process_indicators(indicators, method_instance, topic_dict):
             I = DirectIndicator.objects.create(method=method_instance, key=indicator['Indicator_id'], name=indicator['Name'], description=indicator['Description'], topic=topic_dict[indicator['Topic']], pre_unit=indicator.get('PreUnit', ''), post_unit=indicator.get('PostUnit', ''), datatype=indicator['DataType'].lower(), answer_options=indicator.get('Answer_options')) # DataType=indicator['DataType']
         if indicator['Indicator_type'] == 'Indirect':
             I = IndirectIndicator.objects.create(key=indicator['Indicator_id'], name=indicator['Name'], description=indicator['Description'], topic=topic_dict[indicator['Topic']], formula=indicator['Formula'], pre_unit=indicator.get('PreUnit', ''), post_unit=indicator.get('PostUnit', ''), type= indicator['Type']) # DataType=indicator['DataType'] indicator.get('Type')
-    print('**', indicators)
+    
+    print('*Indicators:*', indicators)
 
 def process_surveys(index, method_instance):
     result = []
@@ -202,4 +184,25 @@ def process_surveys(index, method_instance):
 
             for textfragment in section['TextFragments']:
                 tf = TextFragment.objects.create(section=sect, text=textfragment['Text'], order=textfragment['Order'])
-        print(survey)
+
+        print('*Surveys:*', survey)
+
+
+        '''
+    if myList[start] in ['Indicators:', 'Topics:']:
+        for item in myList[start+1:index]:
+            if any(word in item for word in ['Indicator_id', 'topic_id:']):
+                if len(subList):
+                    Info.append(subList)
+                subList = []
+            subList.append(item)
+
+        Info = [[x.split(':') for x in y] for y in Info]
+
+        for idx, nestedList in enumerate(Info):
+            ### if statement only for now, since Formula can be on multiple lines
+            Info[idx] = {lst[0]: lst[1].strip('"') for lst in nestedList if len(lst) > 1}
+    else:
+        Info = [x.split(':') for x in myList[start: index]]
+        Info = {lst[0]: lst[1].strip('"') for lst in Info}
+    '''
