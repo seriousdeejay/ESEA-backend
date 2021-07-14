@@ -2,7 +2,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.core.exceptions import ObjectDoesNotExist
 
-from .models import EseaAccount, Respondent, Survey, SurveyResponse, Campaign
+from .models import EseaAccount, Respondent, Survey, SurveyResponse, Campaign, Membership
 
 @receiver(post_save, sender=EseaAccount)
 def create_accountant_objects(sender, instance, created, **kwargs):
@@ -30,5 +30,11 @@ def create_esea_accounts(sender, instance, created, **kwargs):
         
     print('campaign saved', instance.organisation_accounts.all())
 
-
+@receiver(post_save, sender=Membership)
+def accept_request(sender, instance, created, **kwargs):
+    if instance.status == 'accepted':
+        network = instance.network
+        organisation = instance.organisation
+        if organisation not in network.organisations.all():
+            network.organisations.add(organisation)
     

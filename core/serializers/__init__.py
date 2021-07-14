@@ -1,6 +1,7 @@
 from .user import RegisterUserSerializer, UserSerializer
 from .network import NetworkSerializer
 from .organisation import OrganisationSerializer
+from .membership import MembershipSerializer
 from .respondent import RespondentSerializer
 
 from .method import (MinimalMethodSerializer, MethodSerializer)

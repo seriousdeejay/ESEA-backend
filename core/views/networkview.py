@@ -32,12 +32,22 @@ class NetworkViewSet(viewsets.ModelViewSet):
         return Response(serializer.data)
 
 
-    # def update(self, request, *args, **kwargs):
+    def update(self, request, *args, **kwargs):
     #     return super().update(request, *args, **kwargs)
         networkobject = self.get_object() #get_object_or_404(Network, pk=pk)
         print('>>>', request.data)
         print(networkobject)
-        # if not 'surveys' in request.data[0].keys():
+     
+        serializer = NetworkSerializer(networkobject, data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        print('test', serializer.data)
+        return Response(serializer.data)
+
+'''
+Shouldn't i change partial update with update?
+'''
+   # if not 'surveys' in request.data[0].keys():
         #     for instance in request.data:
         #         try: 
         #             organisation = get_object_or_404(Organisation, name=instance['name'])
@@ -61,10 +71,3 @@ class NetworkViewSet(viewsets.ModelViewSet):
         #         except Exception as e:
         #             return Response({'error': f'{e}'})
         #             print(f'{type(e)}') #print('%s (%s)' % (e.message, type(e)))
-        serializer = NetworkSerializer(networkobject, data=request.data, partial=True)
-        serializer.is_valid(raise_exception=True)
-        return Response(serializer.data)
-
-'''
-Shouldn't i change partial update with update?
-'''

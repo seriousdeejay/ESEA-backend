@@ -2,6 +2,7 @@ from .customuser import CustomUser
 
 from .network import Network
 from .organisation import Organisation
+from .membership import Membership
 from .respondent import Respondent
 
 from .method import Method
