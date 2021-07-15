@@ -8,9 +8,8 @@ class NetworkSerializer(serializers.ModelSerializer):
     created_by_id = serializers.ReadOnlyField(source='created_by.id')
     campaigns = serializers.StringRelatedField(read_only=True, many=True)
     
-    organisations = serializers.PrimaryKeyRelatedField(queryset=CustomUser.objects.all(), many=True)
-    
-    methods = serializers.PrimaryKeyRelatedField(queryset=Method.objects.all(), many=True)
+    organisations = serializers.PrimaryKeyRelatedField(queryset=Organisation.objects.all(), many=True, required=False)
+    methods = serializers.PrimaryKeyRelatedField(queryset=Method.objects.all(), many=True, required=False)
     image = serializers.ImageField(required=False)
     
     class Meta:

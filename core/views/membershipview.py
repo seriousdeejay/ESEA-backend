@@ -13,9 +13,9 @@ class MembershipViewSet(viewsets.ModelViewSet):
         organisation = self.request.GET.get('organisation', None)
 
         if network is not None:
-            return Membership.objects.filter(network=network, status="pending", requester="organisation")
+            return Membership.objects.filter(network=network, status="pending")
         if organisation is not None:
-            return Membership.objects.filter(organisation=organisation, status="pending", requester="network")
+            return Membership.objects.filter(organisation=organisation, status="pending")
         return Membership.objects.all()
     
     # def create(self, request, method_pk):

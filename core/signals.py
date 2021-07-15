@@ -32,9 +32,10 @@ def create_esea_accounts(sender, instance, created, **kwargs):
 
 @receiver(post_save, sender=Membership)
 def accept_request(sender, instance, created, **kwargs):
-    if instance.status == 'accepted':
+    if instance.status == ('accepted' or 'denied'):
         network = instance.network
         organisation = instance.organisation
         if organisation not in network.organisations.all():
             network.organisations.add(organisation)
+        instance.delete()
     

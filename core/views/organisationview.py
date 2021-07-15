@@ -39,7 +39,7 @@ class OrganisationViewSet(viewsets.ModelViewSet):
                 return Organisation.objects.filter(networks=network).exclude(esea_accounts=excludemethod)
             return Organisation.objects.filter(networks=network)
         if excludenetwork is not None:
-            return Organisation.objects.exclude(networks=excludenetwork)
+            return Organisation.objects.exclude(Q(networks=excludenetwork) | Q(network_requests__network=excludenetwork))
         if campaign is not None:
             return Organisation.objects.filter(esea_accounts__campaign=campaign)
         return Organisation.objects.filter(created_by=self.request.user)

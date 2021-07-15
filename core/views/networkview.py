@@ -21,7 +21,7 @@ class NetworkViewSet(viewsets.ModelViewSet):
         if organisation is not None:
             return Network.objects.filter(organisations=organisation)
         if excludeorganisation is not None:
-            return Network.objects.exclude(organisations=excludeorganisation)
+            return Network.objects.exclude(Q(organisations=excludeorganisation) | Q(memberships__organisation=excludeorganisation))
         return Network.objects.filter(created_by=self.request.user)
     
     # POST request
@@ -32,17 +32,17 @@ class NetworkViewSet(viewsets.ModelViewSet):
         return Response(serializer.data)
 
 
-    def update(self, request, *args, **kwargs):
-    #     return super().update(request, *args, **kwargs)
-        networkobject = self.get_object() #get_object_or_404(Network, pk=pk)
-        print('>>>', request.data)
-        print(networkobject)
+    # def update(self, request, *args, **kwargs):
+    # #     return super().update(request, *args, **kwargs)
+    #     networkobject = self.get_object() #get_object_or_404(Network, pk=pk)
+    #     print('>>>', request.data)
+    #     print(networkobject)
      
-        serializer = NetworkSerializer(networkobject, data=request.data)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-        print('test', serializer.data)
-        return Response(serializer.data)
+    #     serializer = NetworkSerializer(networkobject, data=request.data)
+    #     serializer.is_valid(raise_exception=True)
+    #     serializer.save()
+    #     print('test', serializer.data)
+    #     return Response(serializer.data)
 
 '''
 Shouldn't i change partial update with update?
