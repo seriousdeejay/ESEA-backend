@@ -2,7 +2,7 @@ from django.urls import path, include
 from rest_framework_nested import routers
 from rest_framework_simplejwt.views import (TokenObtainPairView, TokenRefreshView)
 
-from .views import (membershipview, respondentview, userview, networkview, organisationview, methodview, surveyview, sectionview, questionview, text_fragmentview, 
+from .views import (membershipview, respondentview, userview, networkview, network_memberview, organisationview, methodview, surveyview, sectionview, questionview, text_fragmentview, 
                     topicview, direct_indicatorview2, indirect_indicatorview, survey_responseview, campaignview, esea_accountview)
  
 
@@ -16,6 +16,7 @@ router.register(r'methods', methodview.MethodViewSet, basename='methods')   ## /
 
 network_router = routers.NestedSimpleRouter(router, r'networks', lookup="network")
 network_router.register(r'campaigns', campaignview.CampaignViewSet, basename="network-campaigns" )
+network_router.register(r'members', network_memberview.NetworkMemberViewSet, basename="network-members")
 
 organisation_router = routers.NestedSimpleRouter(router, r'organisations', lookup="organisation")
 organisation_router.register(r'esea-accounts', esea_accountview.EseaAccountViewSet, basename="organisation-esea-accounts")

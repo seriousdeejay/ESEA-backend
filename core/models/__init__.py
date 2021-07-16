@@ -1,6 +1,8 @@
 from .customuser import CustomUser
 
 from .network import Network
+# from .network_team import NetworkTeam
+from .network_member import NetworkMember
 from .organisation import Organisation
 from .membership import Membership
 from .respondent import Respondent
