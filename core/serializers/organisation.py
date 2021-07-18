@@ -7,7 +7,7 @@ class OrganisationSerializer(serializers.ModelSerializer):
     created_by_id = serializers.ReadOnlyField(source='created_by.id')
     image = serializers.ImageField(required=False)
     esea_accounts = serializers.StringRelatedField(read_only=True, many=True)
-    networks = serializers.PrimaryKeyRelatedField(queryset=Network.objects.all(), many=True)
+    networks = serializers.PrimaryKeyRelatedField(queryset=Network.objects.all(), many=True, required=False)
 
     class Meta:
         model = Organisation
