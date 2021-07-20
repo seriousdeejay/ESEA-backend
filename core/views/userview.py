@@ -28,15 +28,17 @@ class UsersViewSet(viewsets.ModelViewSet): # ReadOnlyModelViewSet
     def get_queryset(self):
         currentuser = self.request.GET.get('currentuser', None)
         network = self.request.GET.get('network', None)
+        excludenetwork = self.request.GET.get('excludenetwork', None)
         organisation = self.request.GET.get('organisation', None)
 
         if currentuser is not None:
             return CustomUser.objects.filter(id=self.request.user.id)
         if network is not None:
-            return CustomUser.objects.filter(organisation__networks=network).distinct() # Should pass network id(s) in order to serve the participants of network(s)
+            return CustomUser.objects.filter(teams__network=network).distinct() # Should pass network id(s) in order to serve the participants of network(s)
+        if excludenetwork is not None:
+            return CustomUser.objects.exclude(teams__network=excludenetwork)
         if organisation is not None:
-            users = CustomUser.objects.filter(email='test@test.com')
-            users
+            # users = CustomUser.objects.filter(email='test@test.com')
             return CustomUser.objects.filter(organisation=organisation)
         return CustomUser.objects.all()
 

@@ -12,10 +12,11 @@ class NetworkSerializer(serializers.ModelSerializer):
     organisations = serializers.PrimaryKeyRelatedField(queryset=Organisation.objects.all(), many=True, required=False)
     methods = serializers.PrimaryKeyRelatedField(queryset=Method.objects.all(), many=True, required=False)
     image = serializers.ImageField(required=False)
+    networkadmin = serializers.PrimaryKeyRelatedField(queryset=CustomUser.objects.all(), write_only=True, required=False)
     
     class Meta:
         model = Network
-        fields = ['id', 'ispublic', 'name', 'description', 'image', 'created_by', 'created_by_id', 'organisations', 'methods', 'campaigns']
+        fields = ['id', 'ispublic', 'name', 'description', 'image', 'created_by', 'created_by_id', 'organisations', 'methods', 'campaigns', 'networkadmin']
 
     def to_representation(self, instance):
         representation = super().to_representation(instance)
@@ -33,6 +34,15 @@ class NetworkSerializer(serializers.ModelSerializer):
                 representation['accesLevel'] = member.get_role_display()
         return representation
 
+    def create(self, validated_data):
+        networkadmin = validated_data.pop('networkadmin')
+        if networkadmin:
+            network = Network.objects.create(**validated_data)
+        else:
+            networkadmin = self.context['request'].user
+
+        NetworkMember.objects.create(network=network, user=networkadmin, role=2)
+        return network
 
     # def update(self, instance, validated_data):
     #     print('check')

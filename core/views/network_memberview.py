@@ -23,6 +23,10 @@ class NetworkMemberViewSet(viewsets.ModelViewSet):
         print('test')
         serializer.save()
 
+    def update(self, request, network_pk, *args, **kwargs):
+        request.data['network'] = network_pk
+        return super().update(request, *args, **kwargs)
+
     def retrieve(self, instance, network_pk, pk):
         i = get_object_or_404(NetworkMember, pk=pk)
         print(type(i.role))

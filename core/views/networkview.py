@@ -22,11 +22,11 @@ class NetworkViewSet(viewsets.ModelViewSet):
             return Network.objects.filter(organisations=organisation)
         if excludeorganisation is not None:
             return Network.objects.exclude(Q(organisations=excludeorganisation) | Q(memberships__organisation=excludeorganisation))
-        return Network.objects.filter(created_by=self.request.user)
+        return Network.objects.filter(teammembers__user=self.request.user)
     
     # POST request
     def create(self, request):
-        serializer = NetworkSerializer(data=request.data)
+        serializer = NetworkSerializer(data=request.data, context={'request': request})
         serializer.is_valid(raise_exception=True)
         serializer.save(created_by=request.user)
         return Response(serializer.data)
