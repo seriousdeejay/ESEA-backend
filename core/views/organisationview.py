@@ -18,6 +18,8 @@ class OrganisationViewSet(viewsets.ModelViewSet):
     serializer_class = OrganisationSerializer
    
     def get_queryset(self):
+
+        myorganisations = self.request.GET.get('myorganisations', None)
         allorganisations = self.request.GET.get('allorganisations', None)
         network = self.request.GET.get('network', None)
         excludenetwork = self.request.GET.get('excludenetwork', None)
@@ -26,8 +28,16 @@ class OrganisationViewSet(viewsets.ModelViewSet):
         campaign = self.request.GET.get('campaign', None)
         excludecampaign = self.request.GET.get('excludecampaign', None)
         print(Organisation._meta.get_fields())
-        if (allorganisations is not None):
-            return Organisation.objects.filter(Q(created_by=self.request.user) | Q(ispublic = True))
+
+        if myorganisations is not None:
+            return Organisation.objects.filter(teammembers__user=self.request.user)
+        if allorganisations is not None:
+            if self.request.user.is_superuser:
+                return Organisation.objects.all()
+            else:
+                a = Organisation.objects.filter(Q(teammembers__user=self.request.user) | Q(ispublic = True)).distinct()
+                print(len(a))
+                return a
 
         if (network is not None) and (excludecampaign is not None):
             print('check')
@@ -42,7 +52,7 @@ class OrganisationViewSet(viewsets.ModelViewSet):
             return Organisation.objects.exclude(Q(networks=excludenetwork) | Q(network_requests__network=excludenetwork))
         if campaign is not None:
             return Organisation.objects.filter(esea_accounts__campaign=campaign)
-        return Organisation.objects.filter(created_by=self.request.user)
+        return Organisation.objects.all()
     
     def create(self, request):
         serializer = OrganisationSerializer(data=self.request.data, context={'request': request})

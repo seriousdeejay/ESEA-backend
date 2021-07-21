@@ -36,7 +36,7 @@ class MethodViewSet(viewsets.ModelViewSet):
             return Method.objects.filter(created_by=self.request.user)
         if allmethods is not None:
             if self.request.user.is_superuser:
-                return Method.objects.filter() # 
+                return Method.objects.all() # 
             else:
                 #return Method.objects.filter(Q(ispublic=True) | Q(created_by=self.request.user))
                 return Method.objects.filter(Q(created_by=self.request.user) | Q(ispublic = True))
