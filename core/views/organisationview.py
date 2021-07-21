@@ -44,8 +44,8 @@ class OrganisationViewSet(viewsets.ModelViewSet):
             return Organisation.objects.filter(esea_accounts__campaign=campaign)
         return Organisation.objects.filter(created_by=self.request.user)
     
-    def create(self, serializer):
-        serializer = OrganisationSerializer(data=self.request.data)
+    def create(self, request):
+        serializer = OrganisationSerializer(data=self.request.data, context={'request': request})
         serializer.is_valid(raise_exception=True)
         serializer.save(created_by=self.request.user)
         return Response(serializer.data)

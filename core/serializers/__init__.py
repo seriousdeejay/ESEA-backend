@@ -2,6 +2,7 @@ from .user import RegisterUserSerializer, UserSerializer
 from .network import NetworkSerializer
 from .network_member import NetworkMemberSerializer
 from .organisation import OrganisationSerializer
+from .organisation_member import OrganisationMemberSerializer
 from .membership import MembershipSerializer
 from .respondent import RespondentSerializer
 

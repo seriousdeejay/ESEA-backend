@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from ..models import Organisation, Network
+from ..models import Organisation, OrganisationMember, Network
 
 
 class OrganisationSerializer(serializers.ModelSerializer):
@@ -13,7 +13,29 @@ class OrganisationSerializer(serializers.ModelSerializer):
         model = Organisation
         fields = ['id', 'ispublic', 'name', 'description', 'image', 'created_by', 'created_by_id', 'networks', 'esea_accounts']
 
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        user=self.context['request'].user
 
+        if user.is_superuser:
+            representation['accesLevel'] = "admin"
+        else:
+            try:
+                member = OrganisationMember.objects.get(organisation=instance, user=user)
+            except OrganisationMember.DoesNotExist:
+                member = None
+            
+            if member:
+                representation['accesLevel'] = member.get_role_display()
+        return representation
+
+    def create(self, validated_data):
+        user=self.context['request'].user
+        
+        organisation = Organisation.objects.create(**validated_data)
+        OrganisationMember.objects.create(organisation=organisation, user=user, role=3, invitation='accepted')
+
+        return organisation
 
 # class SurveyResponseSerializer(serializers.ModelSerializer):
 #     class Meta:

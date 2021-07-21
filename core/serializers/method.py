@@ -70,6 +70,16 @@ class MethodSerializer(serializers.ModelSerializer):
                         'questions': topic.questions,
                         'direct_indicators': topic.direct_indicators,
                     })
+            else:
+                if topic.name not in mytopics.keys():
+                    mytopics[topic.name] = {
+                            'id': topic.id,
+                            'name': topic.name,
+                            'description': topic.description,
+                            'questions': topic.questions,
+                            'direct_indicators': topic.direct_indicators,
+                            'sub_topics': []
+                            }
         
         topic_list = []
         for _, topic in mytopics.items():

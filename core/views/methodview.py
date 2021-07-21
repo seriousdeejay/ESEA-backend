@@ -26,12 +26,20 @@ class MethodViewSet(viewsets.ModelViewSet):
             return super().get_serializer_class()
 
     def get_queryset(self):
+        mymethods = self.request.GET.get('mymethods', None)
         allmethods = self.request.GET.get('allmethods', None)
         network = self.request.GET.get('network', None)
         organisation = self.request.GET.get('organisation', None)
         excludenetwork = self.request.GET.get('excludenetwork', None)
+
+        if mymethods is not None:
+            return Method.objects.filter(created_by=self.request.user)
         if allmethods is not None:
-            return Method.objects.filter(Q(created_by=self.request.user) | Q(ispublic = True))
+            if self.request.user.is_superuser:
+                return Method.objects.filter() # 
+            else:
+                #return Method.objects.filter(Q(ispublic=True) | Q(created_by=self.request.user))
+                return Method.objects.filter(Q(created_by=self.request.user) | Q(ispublic = True))
         if network is not None:
             return Method.objects.filter(networks=network)
         if excludenetwork is not None:
@@ -39,7 +47,7 @@ class MethodViewSet(viewsets.ModelViewSet):
         if organisation is not None:
             return Method.objects.filter(organisations=organisation).distinct()
         
-        return Method.objects.filter(created_by=self.request.user)
+        return Method.objects.all()
 
         
 

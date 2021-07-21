@@ -30,6 +30,7 @@ class UsersViewSet(viewsets.ModelViewSet): # ReadOnlyModelViewSet
         network = self.request.GET.get('network', None)
         excludenetwork = self.request.GET.get('excludenetwork', None)
         organisation = self.request.GET.get('organisation', None)
+        excludeorganisation = self.request.GET.get('excludeorganisation', None)
 
         if currentuser is not None:
             return CustomUser.objects.filter(id=self.request.user.id)
@@ -39,7 +40,9 @@ class UsersViewSet(viewsets.ModelViewSet): # ReadOnlyModelViewSet
             return CustomUser.objects.exclude(teams__network=excludenetwork)
         if organisation is not None:
             # users = CustomUser.objects.filter(email='test@test.com')
-            return CustomUser.objects.filter(organisation=organisation)
+            return CustomUser.objects.filter(teams__organisation=organisation)
+        if excludeorganisation is not None:
+            return CustomUser.objects.exclude(organisationteams__organisation=excludeorganisation)
         return CustomUser.objects.all()
 
 

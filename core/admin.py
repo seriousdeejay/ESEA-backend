@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import (CustomUser, StakeholderGroup, Network, NetworkMember, Organisation, Membership, Respondent, Method, Survey, Section, TextFragment,
+from .models import (CustomUser, StakeholderGroup, Network, NetworkMember, Organisation, OrganisationMember, Membership, Respondent, Method, Survey, Section, TextFragment,
                      Topic, DirectIndicator, IndirectIndicator, Question, AnswerOption, SurveyResponse, QuestionResponse, Campaign, EseaAccount)
 
 
@@ -23,6 +23,7 @@ admin.site.register(Network, NetworkAdmin)
 admin.site.register(NetworkMember)
 admin.site.register(EseaAccount)
 admin.site.register(Organisation)
+admin.site.register(OrganisationMember)
 admin.site.register(Membership)
 admin.site.register(Respondent)
 

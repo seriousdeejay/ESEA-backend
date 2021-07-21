@@ -36,12 +36,17 @@ class NetworkSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         networkadmin = validated_data.pop('networkadmin')
-        if networkadmin:
-            network = Network.objects.create(**validated_data)
-        else:
-            networkadmin = self.context['request'].user
 
-        NetworkMember.objects.create(network=network, user=networkadmin, role=2)
+        if not networkadmin:
+            networkadmin = self.context['request'].user
+        
+        invitation='pending'
+        if networkadmin.is_superuser:
+            invitation='accepted'
+
+        network = Network.objects.create(**validated_data)
+
+        NetworkMember.objects.create(network=network, user=networkadmin, role=2, invitation=invitation)
         return network
 
     # def update(self, instance, validated_data):

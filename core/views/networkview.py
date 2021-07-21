@@ -12,17 +12,20 @@ class NetworkViewSet(viewsets.ModelViewSet):
    
     # GET Request
     def get_queryset(self):
+        mynetworks = self.request.GET.get('mynetworks', None)
         allnetworks = self.request.GET.get('allnetworks', None)
         organisation = self.request.GET.get('organisation', None)
         excludeorganisation = self.request.GET.get('excludeorganisation', None)
         
+        if mynetworks is not None:
+            return Network.objects.filter(teammembers__user=self.request.user)
         if allnetworks is not None:
             return Network.objects.filter(Q(created_by=self.request.user) | Q(ispublic = True))
         if organisation is not None:
             return Network.objects.filter(organisations=organisation)
         if excludeorganisation is not None:
             return Network.objects.exclude(Q(organisations=excludeorganisation) | Q(memberships__organisation=excludeorganisation))
-        return Network.objects.filter(teammembers__user=self.request.user)
+        return Network.objects.all() # filter(teammembers__user=self.request.user)
     
     # POST request
     def create(self, request):

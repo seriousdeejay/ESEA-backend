@@ -16,11 +16,13 @@ class OrganisationMember(models.Model):
     )
     invitation = models.CharField(max_length=100, blank=False, choices=STATUS_OPTIONS, default=PENDING)
 
-    ORGANISATIONADMIN = 2
+    ORGANISATIONADMIN = 3
+    ESEAACCOUNTANT = 2
     GUEST = 1
 
     ROLES = (
         (ORGANISATIONADMIN, 'organisation admin'),
+        (ESEAACCOUNTANT, 'esea accountant'),
         (GUEST, "guest")
     )
     role = models.IntegerField(blank=False, choices=ROLES, default=GUEST)
