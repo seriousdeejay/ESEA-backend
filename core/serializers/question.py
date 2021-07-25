@@ -62,6 +62,11 @@ class QuestionSerializer(serializers.ModelSerializer):
             if instance.direct_indicator.exists():
                 direct_indicator = instance.direct_indicator.all()[0]
             else:
+                try:
+                    di = DirectIndicator.objects.filter(method=instance.method, key=direct_indicator_data.get('key')).first()
+                    di.delete()
+                except DirectIndicator.DoesNotExist:
+                    pass
                 direct_indicator = DirectIndicator.objects.create(method=validated_data.get('method'), question=instance, key= direct_indicator_data.get('key'), name=direct_indicator_data.get('name'))
             direct_indicator.method = validated_data.get('method', direct_indicator.method)
             direct_indicator.key = direct_indicator_data.get('key', direct_indicator.key)
