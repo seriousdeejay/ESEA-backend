@@ -11,6 +11,8 @@ class QuestionViewSet(viewsets.ModelViewSet):
         print(type(self.kwargs['section_pk']))
         if (int(self.kwargs['survey_pk']) > 0) and (int(self.kwargs['section_pk']) > 0):
             return Question.objects.filter(section=self.kwargs['section_pk'])
+        if (int(self.kwargs['survey_pk']) > 0):
+            return Question.objects.filter(section__survey=self.kwargs['survey_pk'])
         return Question.objects.filter(method=self.kwargs['method_pk'])
         
     
