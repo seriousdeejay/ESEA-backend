@@ -7,7 +7,7 @@ from .direct_indicator2 import DirectIndicatorSerializer2
 
 class QuestionSerializer(serializers.ModelSerializer):
     uiComponent = serializers.ChoiceField(choices=Question.UI_COMPONENT_TYPES)
-    direct_indicator = DirectIndicatorSerializer2(many=True)
+    direct_indicator = serializers.PrimaryKeyRelatedField(queryset=DirectIndicator.objects.all(), many=True, required=False)
     section_name = serializers.ReadOnlyField(source='section.title')
 
     class Meta:
@@ -44,7 +44,7 @@ class QuestionSerializer(serializers.ModelSerializer):
 
     def update(self, instance, validated_data):
         print(validated_data)
-        direct_indicator_data = validated_data.pop('direct_indicator')
+        # direct_indicator_data = validated_data.pop('direct_indicator')
         instance.method = validated_data.get('method', instance.method)
         instance.topic = validated_data.get('topic', instance.topic)
         instance.section = validated_data.get('section', instance.section)
@@ -54,7 +54,13 @@ class QuestionSerializer(serializers.ModelSerializer):
         instance.description = validated_data.get('description', instance.description)
         instance.instruction = validated_data.get('instruction', instance.instruction)
         instance.uiComponent = validated_data.get('uiComponent', instance.uiComponent)
-        instance.save()
+        
+        if 'direct_indicator' in validated_data:
+            instance.direct_indicator.clear()
+            for item in validated_data.get('direct_indicator'):
+                instance.direct_indicator.add(item)
+            instance.save()
+        '''
         print('--------', direct_indicator_data)
         if len(direct_indicator_data):
             direct_indicator_data = direct_indicator_data[0]
@@ -72,7 +78,8 @@ class QuestionSerializer(serializers.ModelSerializer):
             direct_indicator.key = direct_indicator_data.get('key', direct_indicator.key)
             direct_indicator.name = direct_indicator_data.get('name', direct_indicator.name)
             direct_indicator.description = direct_indicator_data.get('description', direct_indicator.description)
-            direct_indicator.topic = validated_data.get('topic', direct_indicator.topic)
+            if isinstance(validated_data.topic, int): 
+                direct_indicator.topic = validated_data.get('topic', direct_indicator.topic)
             direct_indicator.datatype = direct_indicator_data.get('datatype', direct_indicator.datatype)
             direct_indicator.pre_unit = direct_indicator_data.get('pre_unit', direct_indicator.pre_unit)
             direct_indicator.post_unit = direct_indicator_data.get('post_unit', direct_indicator.post_unit)
@@ -82,8 +89,14 @@ class QuestionSerializer(serializers.ModelSerializer):
                 option_instance, _ = AnswerOption.objects.get_or_create(order=option.get('order', 1), text=option['text'])
                 direct_indicator.options.add(option_instance.id)
             direct_indicator.save()
-            
+        '''
         return instance
+
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        direct_indicator_serializer =  DirectIndicatorSerializer2(instance.direct_indicator, many=True)
+        representation['direct_indicator'] = direct_indicator_serializer.data
+        return representation
     # def to_representation(self, instance):
     #     representation = super().to_representation(instance)
     #     representation['section'] = instance.section.title

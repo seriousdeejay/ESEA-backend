@@ -6,22 +6,28 @@ from ..models import IndirectIndicator, DirectIndicator, Topic
 find_questions_by_square_brackets = re.compile(r"\[.*?\]")
 
 class IndirectIndicatorSerializer(WritableNestedModelSerializer):
-    topic = serializers.PrimaryKeyRelatedField(queryset=Topic.objects.all())
+    topic = serializers.PrimaryKeyRelatedField(queryset=Topic.objects.all(), required=False)
+
 
     class Meta:
         model = IndirectIndicator
         fields = '__all__'
 
-    def validate_topic(self, value):
-        method_pk = self.initial_data['method']
-        if value.method.pk != method_pk:
-            raise serializers.ValidationError('Topic not found in method')
-        return value
+    # def validate_topic(self, value):
+    #     method_pk = self.initial_data['method']
+    #     if value.method.pk != method_pk:
+    #         raise serializers.ValidationError('Topic not found in method')
+    #     return value
 
     def validate_formula(self, value):
-        method_pk = self.initial_data['method']
-        questions = re.findall(find_questions_by_square_brackets, value)
+        value = value.lower()
+        if self.instance:
+            method_pk = self.instance.method
+        else:
+            method_pk = self.initial_data['method']
 
+        questions = re.findall(find_questions_by_square_brackets, value)
+        print(questions)
         if not len(questions):
             raise serializers.ValidationError("Needs to contain atleast one question")
         
@@ -31,14 +37,15 @@ class IndirectIndicatorSerializer(WritableNestedModelSerializer):
         testformula = value
         for question in questions:
             question = question[1:-1]
-            try:
-                DirectIndicator.objects.get(key=question, topic__method=method_pk)
-            except:
+            if question != self.initial_data['key']:
                 try:
-                    IndirectIndicator.objects.get(key=question, topic__method=method_pk)
-                except Exception:
-                    raise serializers.ValidationError(f"Question with id '{question}' not found")
-            
+                    DirectIndicator.objects.get(key=question, method=method_pk)
+                except:
+                    try:
+                        IndirectIndicator.objects.get(key=question, method=method_pk)
+                    except Exception:
+                        raise serializers.ValidationError(f"Question with id '{question}' not found")
+                
             testformula = testformula.replace(f"[{question}]", " 1 ")
 
         if 'if' in value or 'then' in value or 'else' in value:
@@ -73,7 +80,7 @@ class IndirectIndicatorSerializer(WritableNestedModelSerializer):
                     raise serializers.ValidationError(f" '{splittedvalue[index-1] + '^^' + splittedvalue[index]}': Should contain valid if-statement or assignment")
                 if 'then' in cond or 'else' in cond:
                     if '=' in cond:
-                        [var, val] = cleanedcond.replace('then', '').replace('else', '').split('=')
+                        [var, val] = cleanedcond.replace('then', '').replace('else', '').replace('(', '').replace(')', '').split('=')
                         var = var.strip()
                         val = val.strip()
                         if not len(val):
@@ -81,6 +88,7 @@ class IndirectIndicatorSerializer(WritableNestedModelSerializer):
                         if not len(var):
                             raise serializers.ValidationError(f" '{cond}': Assignment requires a variable")
                         if var != '123' and var != self.initial_data['key']:
+                            print('-->', var)
                             raise serializers.ValidationError(f" '{cond}': Assignment variable is an invalid bracket indicator")
 
                         continue
@@ -99,12 +107,16 @@ class IndirectIndicatorSerializer(WritableNestedModelSerializer):
         return value
     
     def validate_name(self, value):
-        method_pk = self.initial_data['method']
+
+        if self.instance:
+            method_pk = self.instance.method
+        else:
+            method_pk = self.initial_data['method']
 
         if self.instance and self.instance.name == value:
             return value
         
-        indirect_indicator = IndirectIndicator.objects.filter(name=value, topic__method=method_pk)
+        indirect_indicator = IndirectIndicator.objects.filter(name=value, method=method_pk)
 
         if indirect_indicator.exists():
             raise serializers.ValidationError('Name is not unique')
@@ -112,12 +124,15 @@ class IndirectIndicatorSerializer(WritableNestedModelSerializer):
         return value
 
     def validate_key(self, value):
-        method_pk = self.initial_data['method']
+        if self.instance:
+            method_pk = self.instance.method
+        else:
+            method_pk = self.initial_data['method']
 
         if self.instance and self.instance.key == value:
             return value
         
-        indirect_indicator = IndirectIndicator.objects.filter(key=value, topic__method=method_pk)
+        indirect_indicator = IndirectIndicator.objects.filter(key=value, method=method_pk)
 
         if indirect_indicator.exists():
             raise serializers.ValidationError('Key is not unique')

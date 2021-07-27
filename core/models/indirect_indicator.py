@@ -4,8 +4,8 @@ import re
 find_square_bracket_keys = re.compile(r"\[(.*?)\]")
 
 class IndirectIndicator(models.Model):
-    topic = models.ForeignKey('Topic', related_name='indirect_indicators', on_delete=models.CASCADE)
-
+    topic = models.ForeignKey('Topic', related_name='indirect_indicators', on_delete=models.CASCADE, null=True)
+    method = models.ForeignKey("Method", related_name="indirect_indicators", on_delete=models.CASCADE, null=True)
     key = models.CharField(max_length=255, blank=False)
     formula = models.CharField(max_length=511, unique=False, blank=False)
     name = models.CharField(max_length=255, unique=False, blank=False)
@@ -55,7 +55,7 @@ class IndirectIndicator(models.Model):
 
 
     class Meta: 
-        unique_together = ['key', 'topic']
+        unique_together = ['key', 'method']
 
     def __init__(self, *args, **kwargs):
         super(IndirectIndicator, self).__init__(*args, **kwargs)

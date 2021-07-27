@@ -95,7 +95,8 @@ class DirectIndicator(models.Model):
     def __str__(self):
         return self.name
 
-    def update(self, key, topic, name, answertype, isMandatory=True, options=None, description=None, instruction=None, default=None, min_number=None, max_number=None, pre_unit="", post_unit=""): # Add datatype?
+    def update(self, key, name, answertype, topic=None, isMandatory=True, options=None, description=None, instruction=None, default=None, min_number=None, max_number=None, pre_unit="", post_unit=""): # Add datatype?
+        print('-->', topic)
         self.key = key
         self.topic = topic
         self.pre_unit = pre_unit
