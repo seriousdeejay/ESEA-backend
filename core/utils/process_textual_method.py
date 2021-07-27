@@ -114,7 +114,7 @@ def process_indicators(indicators, method_instance, topic_dict):
         if indicator['Indicator_type'] == 'Direct':
             I = DirectIndicator.objects.create(method=method_instance, key=indicator['Indicator_id'], name=indicator['Name'], description=indicator['Description'], topic=topic_dict[indicator['Topic']], pre_unit=indicator.get('PreUnit', ''), post_unit=indicator.get('PostUnit', ''), datatype=indicator['DataType'].lower(), answer_options=indicator.get('Answer_options')) # DataType=indicator['DataType']
         if indicator['Indicator_type'] == 'Indirect':
-            I = IndirectIndicator.objects.create(key=indicator['Indicator_id'], name=indicator['Name'], description=indicator['Description'], topic=topic_dict[indicator['Topic']], formula=indicator['Formula'], pre_unit=indicator.get('PreUnit', ''), post_unit=indicator.get('PostUnit', ''), type= indicator['Type']) # DataType=indicator['DataType'] indicator.get('Type')
+            I = IndirectIndicator.objects.create(method=method_instance, key=indicator['Indicator_id'], name=indicator['Name'], description=indicator['Description'], topic=topic_dict[indicator['Topic']], formula=indicator['Formula'], pre_unit=indicator.get('PreUnit', ''), post_unit=indicator.get('PostUnit', ''), type= indicator['Type']) # DataType=indicator['DataType'] indicator.get('Type')
     
     print('*Indicators:*', indicators)
 
