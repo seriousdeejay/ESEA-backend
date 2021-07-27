@@ -27,24 +27,33 @@ class QuestionSerializer(serializers.ModelSerializer):
         'direct_indicator'
         ]
     
-    def create(self, validated_data): 
-        direct_indicator_data = validated_data.pop('direct_indicator')
-        
-        print(direct_indicator_data)
+    def create(self, validated_data):
+        try:
+            direct_indicator_data = validated_data.pop('direct_indicator', None)
+        except KeyError:
+            pass
+
         question = Question.objects.create(**validated_data)
-        if len(direct_indicator_data):
-            direct_indicator_data = direct_indicator_data[0]
-            directIndicator = DirectIndicator.objects.create(question=question, method=validated_data['method'], **direct_indicator_data)
-            options = direct_indicator_data.pop('options')
-       
-            for option in options:
-                option_instance, _ = AnswerOption.objects.get_or_create(order=option.get('order', 1), text=option['text'])
-                directIndicator.options.add(option_instance.id)
+
+        if direct_indicator_data:
+            question.direct_indicator.clear()
+            for item in direct_indicator_data:
+                question.direct_indicator.add(item)
+            question.save()
+            
+            # if len(direct_indicator_data):
+            #     direct_indicator_data = direct_indicator_data[0]
+            #     directIndicator = DirectIndicator.objects.create(question=question, method=validated_data['method'], **direct_indicator_data)
+            #     options = direct_indicator_data.pop('options')
+            
+            #     for option in options:
+            #         option_instance, _ = AnswerOption.objects.get_or_create(order=option.get('order', 1), text=option['text'])
+            #         directIndicator.options.add(option_instance.id)
         return question
 
     def update(self, instance, validated_data):
         print(validated_data)
-        # direct_indicator_data = validated_data.pop('direct_indicator')
+        # 
         instance.method = validated_data.get('method', instance.method)
         instance.topic = validated_data.get('topic', instance.topic)
         instance.section = validated_data.get('section', instance.section)
