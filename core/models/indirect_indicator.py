@@ -59,7 +59,7 @@ class IndirectIndicator(models.Model):
 
     def __init__(self, *args, **kwargs):
         super(IndirectIndicator, self).__init__(*args, **kwargs)
-        self.calculation = self.formula.replace("\n", "") # .lower()
+        self.calculation = self.formula.replace("\n", "")
 
         if self.calculation.startswith("IF"):
             if self.key == "gender_decision_making_ratio_score":
@@ -140,21 +140,28 @@ class IndirectIndicator(models.Model):
             self.exception = Exception("Invalid calculation")
             
     def calculate_conditionals(self):
-        conditions = self.calculation.split("ELSE")
-        #print(conditions)
+        conditions = self.calculation.split("IF")
+        print(self.key, conditions)
+        # for x in conditions:
+        #     print('-->', x)
+        #     for y, index in enumerate(x.split('THEN')):
+        #         print('\n', y, index)
+        #     #[cond, val] = [y.strip() for y in x.split('THEN')]
+        #     #print(cond)
         for condition in conditions:
             bracket_keys = list(set(re.findall(find_square_bracket_keys, condition)))
-            bracket_keys.remove(self.key)
+
+            if self.key in bracket_keys:
+                bracket_keys.remove(self.key)
             if len(bracket_keys):
                 print(self.key)
                 raise Exception("invalid partial condition")
 
             if condition == conditions[-1]:
                 val = condition
-                # print(val)
                 break
-
-            [cond, val] = [x.strip() for x in condition.split('THEN')]
+            
+            [cond, val] = [x.strip() for x in condition.split('THEN') if 'THEN' in x]
             cond = cond.replace('IF', '')
 
             if 'AND' in cond:

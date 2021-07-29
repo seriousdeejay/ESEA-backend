@@ -28,7 +28,7 @@ class directIndicatorManager(models.Manager):
         if answer_options:
             for option in answer_options:
                 print(option)
-                answer_option, _ = AnswerOption.objects.get_or_create(order=option['Order'], text=option['Text'])
+                answer_option, _ = AnswerOption.objects.get_or_create(order=option['Order'], text=option['Text'].lower())
                 direct_indicator.options.add(answer_option.id)
                 #direct_indicator.options.add(answer_option)
     
