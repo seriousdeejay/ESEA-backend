@@ -63,6 +63,41 @@ class DirectIndicatorSerializer2(serializers.ModelSerializer):
         instance.save()
         return instance
 
+    def validate_name(self, value):
+        print(value)
+        if self.instance:
+            method_pk = self.instance.method
+        else:
+            method_pk = self.initial_data['method']
+
+        if self.instance and self.instance.name == value:
+            return value
+        
+        direct_indicator = DirectIndicator.objects.filter(name=value, method=method_pk)
+
+        if direct_indicator.exists():
+            raise serializers.ValidationError('Name is not unique')
+
+        return value
+
+    def validate_key(self, value):
+        print(value)
+        if self.instance:
+            method_pk = self.instance.method
+        else:
+            method_pk = self.initial_data['method']
+
+        if self.instance and self.instance.key == value:
+            return value
+        
+        direct_indicator = DirectIndicator.objects.filter(key=value, method=method_pk)
+
+        if direct_indicator.exists():
+            print(direct_indicator)
+            raise serializers.ValidationError('Key is not unique')
+
+        return value
+
     # def to_representation(self, instance):
     #     representation = super().to_representation(instance)
     #     representation['method'] = instance.method.name

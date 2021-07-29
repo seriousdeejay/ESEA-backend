@@ -63,7 +63,7 @@ class DirectIndicator(models.Model):
     DATE = "date"
     BOOLEAN = "boolean"
     SINGLECHOICE = "singlechoice" # UI: RadioButton, Scale, Dropdown
-    MULTIPLECHOICE = "multipleChoice" # UI: Checkbox, Scale (1-3 on 1:10 scale for example)
+    MULTIPLECHOICE = "multiplechoice" # UI: Checkbox, Scale (1-3 on 1:10 scale for example)
 
     DATA_TYPES = (
         (TEXT, "text"),
