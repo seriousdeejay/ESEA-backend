@@ -18,8 +18,8 @@ class CampaignSerializer(serializers.ModelSerializer):
         depth = 1
 
     def validate_open_survey_date(self, value): # validate(self, value)
-        if datetime.now(pytz.utc) > value:
-            raise serializers.ValidationError('Opening date should be in the future.')
+        # if datetime.now(pytz.utc) > value:
+        #     raise serializers.ValidationError('Opening date should be in the future.')
 
         return value
 

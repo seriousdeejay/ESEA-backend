@@ -87,8 +87,6 @@ class IndirectIndicator(models.Model):
 
         for calculation_key in self.calculation_keys:
             if calculation_key in key_value_list:
-                if calculation_key == "decision_making_ratio_score":
-                    print('yyyyyyyyyyyyy', key_value_list[calculation_key])
                 if key_value_list[calculation_key] is not None:
                     value = key_value_list[calculation_key]
                     if isinstance(value, dict):
@@ -117,14 +115,12 @@ class IndirectIndicator(models.Model):
                 value = self.calculate_conditionals()
                 if not value:
                     return
-                print('ss',value)
                 #if '=' in value:
                 #    print('check')
                 #     value = value.replace('”', '')
                 #     [var, value] = value.split('=')
                 print('dd', value)
                 # value = value.replace(" ", "").replace('"', "")
-                print('>>',value)
                 self.value = value
                 try:
                     self.value = eval(value)
@@ -141,49 +137,61 @@ class IndirectIndicator(models.Model):
             
     def calculate_conditionals(self):
         conditions = self.calculation.split("IF")
-        print(self.key, conditions)
         # for x in conditions:
         #     print('-->', x)
         #     for y, index in enumerate(x.split('THEN')):
         #         print('\n', y, index)
         #     #[cond, val] = [y.strip() for y in x.split('THEN')]
         #     #print(cond)
+
         for condition in conditions:
-            bracket_keys = list(set(re.findall(find_square_bracket_keys, condition)))
+            if 'THEN' in condition:
+                bracket_keys = list(set(re.findall(find_square_bracket_keys, condition)))
 
-            if self.key in bracket_keys:
-                bracket_keys.remove(self.key)
-            if len(bracket_keys):
-                print(self.key)
-                raise Exception("invalid partial condition")
+                if self.key in bracket_keys:
+                    bracket_keys.remove(self.key)
+                if len(bracket_keys):
+                    print(bracket_keys)
+                    raise Exception("invalid partial condition")
 
-            if condition == conditions[-1]:
-                val = condition
-                break
-            
-            [cond, val] = [x.strip() for x in condition.split('THEN') if 'THEN' in x]
-            cond = cond.replace('IF', '')
+                [cond, val] = [x.strip() for x in condition.split('THEN')] #
+                cond = cond.replace('IF', '')
 
-            if 'AND' in cond:
-                conds = [eval(n) for n in cond.split("AND")]
+                if 'AND' in cond:
+                    conds = [eval(n) for n in cond.split("AND")]
 
-                if not False in conds:
+                    if not False in conds:
+                        break
+                    cond = 'False'
+                    continue
+                
+                if 'OR' in cond:
+                    conds = [eval(n) for n in cond.split('OR')]
+                    print('IIIIIIIIIIIII', conds, val)
+                    if True in conds:
+                        break
+                    cond = 'False'
+                    continue
+
+                if eval(cond):
                     break
 
-                continue
-            
-            if 'OR' in cond:
-                conds = [eval(n) for n in cond.split('OR')]
-
-                if True in conds:
+                if condition == conditions[-1]:
                     break
-
-                continue
-
-            if eval(cond):
-                break
-
         if '=' in val:
+            print(val)
+            [thenn, elsee] = [x.strip() for x in val.split('ELSE')]
+            print('then', thenn)
+            print('else', elsee)
+            print('----dd---')
+            if eval(cond):
+                print('-------')
+                val = thenn
+            else:
+                print(self.key, val)
+                val = elsee
+
+            print(val)
             val = val.replace('"', '').replace('(', '').replace(')', '').replace('\\', '')
             [var, val] = val.split('=')
             var = var.replace('[', '').replace(']', '').strip()
