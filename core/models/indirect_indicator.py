@@ -137,6 +137,69 @@ class IndirectIndicator(models.Model):
             
     def calculate_conditionals(self):
         conditions = self.calculation.split("IF")
+        formula = self.calculation.replace('IF', '@@IF').replace('ELSE', '##ELSE').replace('THEN', '%%THEN')
+        formula = re.split('@@|##|%%', formula)
+
+        ifs = 1
+        elses = 0
+        last_if = False
+        search_else = False
+            
+        for cond in formula:
+            bracket_keys = list(set(re.findall(find_square_bracket_keys, cond)))
+
+            if self.key in bracket_keys:
+                bracket_keys.remove(self.key)
+            if len(bracket_keys):
+                print(bracket_keys)
+                raise Exception("invalid partial condition")
+
+            # Skips code till it finds the corresponding else statement of the if statement that equalled to False.
+            if search_else:
+                if 'IF' in cond:
+                    ifs += 1
+                if 'ELSE' in cond:
+                    elses += 1
+                if ifs != elses:
+                    continue
+                else:
+                    search_else = False
+                    last_if = True
+                    ifs = 1
+                    elses = 0
+
+            # Checks whether if statement equals to True
+            if 'IF' in cond:
+                cond = cond.replace('IF', '').strip().lower()
+                last_if = False
+                # print('>>>>', cond)
+                print('---->', cond)
+                try:
+                    if eval(cond):
+                        last_if = True
+                    else:
+                        search_else = True
+                except:
+                    print('error')
+
+            
+            # Serves conditional outcome
+            if (last_if and '=' in cond) or (cond == formula[-1]):
+                print('---------------->')
+                cond = cond.replace('(', '').replace(')', '')
+                [var, val] = cond.split('=')
+                var = var.replace('THEN', '').replace('ELSE', '')
+                var = var.replace('[', '').replace(']', '').strip()
+
+                # print('\nConditional outcome:\n-', val, self.key, var)
+                print(var)
+                if var != self.key:
+                    raise Exception('Assignment variable does not match the key of this indirect indicator')
+                #cond.replace('then ', '').replace('else', ''))
+                break
+        print('vaaaalueee:', val)
+        return val
+            
         # for x in conditions:
         #     print('-->', x)
         #     for y, index in enumerate(x.split('THEN')):
@@ -144,62 +207,62 @@ class IndirectIndicator(models.Model):
         #     #[cond, val] = [y.strip() for y in x.split('THEN')]
         #     #print(cond)
 
-        for condition in conditions:
-            if 'THEN' in condition:
-                bracket_keys = list(set(re.findall(find_square_bracket_keys, condition)))
+        # for condition in conditions:
+        #     if 'THEN' in condition:
+        #         bracket_keys = list(set(re.findall(find_square_bracket_keys, condition)))
 
-                if self.key in bracket_keys:
-                    bracket_keys.remove(self.key)
-                if len(bracket_keys):
-                    print(bracket_keys)
-                    raise Exception("invalid partial condition")
+        #         if self.key in bracket_keys:
+        #             bracket_keys.remove(self.key)
+        #         if len(bracket_keys):
+        #             # print(bracket_keys)
+        #             raise Exception("invalid partial condition")
 
-                [cond, val] = [x.strip() for x in condition.split('THEN')] #
-                cond = cond.replace('IF', '')
+        #         [cond, val] = [x.strip() for x in condition.split('THEN')] #
+        #         cond = cond.replace('IF', '')
 
-                if 'AND' in cond:
-                    conds = [eval(n) for n in cond.split("AND")]
+        #         if 'AND' in cond:
+        #             conds = [eval(n) for n in cond.split("AND")]
 
-                    if not False in conds:
-                        break
-                    cond = 'False'
-                    continue
+        #             if not False in conds:
+        #                 break
+        #             cond = 'False'
+        #             continue
                 
-                if 'OR' in cond:
-                    conds = [eval(n) for n in cond.split('OR')]
-                    print('IIIIIIIIIIIII', conds, val)
-                    if True in conds:
-                        break
-                    cond = 'False'
-                    continue
+        #         if 'OR' in cond:
+        #             conds = [eval(n) for n in cond.split('OR')]
+        #             # print('IIIIIIIIIIIII', conds, val)
+        #             if True in conds:
+        #                 break
+        #             cond = 'False'
+        #             continue
 
-                if eval(cond):
-                    break
+        #         if eval(cond):
+        #             break
 
-                if condition == conditions[-1]:
-                    break
-        if '=' in val:
-            print(val)
-            [thenn, elsee] = [x.strip() for x in val.split('ELSE')]
-            print('then', thenn)
-            print('else', elsee)
-            print('----dd---')
-            if eval(cond):
-                print('-------')
-                val = thenn
-            else:
-                print(self.key, val)
-                val = elsee
+        #         if condition == conditions[-1]:
+        #             break
+        # if '=' in val:
+        #     # print(val)
+        #     [thenn, elsee] = [x.strip() for x in val.split('ELSE')]
+        #     # print('then', thenn)
+        #     # print('else', elsee)
+        #     # print('----dd---')
+        #     if eval(cond):
+        #         # print('-------')
+        #         val = thenn
+        #     else:
+        #         # print(self.key, val)
+        #         val = elsee
 
-            print(val)
-            val = val.replace('"', '').replace('(', '').replace(')', '').replace('\\', '')
-            [var, val] = val.split('=')
-            var = var.replace('[', '').replace(']', '').strip()
+        #     # print(val)
+        #     val = val.replace('"', '').replace('(', '').replace(')', '').replace('\\', '')
+        #     [var, val] = val.split('=')
+        #     var = var.replace('[', '').replace(']', '').strip()
 
-            if var != self.key:
-                raise Exception('Assignment variable does not match the key of this indirect indicator')
+        #     if var != self.key:
+        #         raise Exception('Assignment variable does not match the key of this indirect indicator')
 
-        return val
+        return []
 '''
     def calculate_conditionals(self):
         conditions = self.calculation.split("else")

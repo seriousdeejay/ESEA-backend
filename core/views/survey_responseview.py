@@ -78,14 +78,14 @@ class SurveyResponseViewSet(BaseModelViewSet):
         if True: #self.request.user.is_authenticated:
             eseaaccount = get_object_or_404(EseaAccount, pk=esea_account_pk)
             respondents = SurveyResponse.objects.filter(esea_account=esea_account_pk) #Respondent.objects.filter(organisation__esea_accounts=74)
-            # print(respondents)
+            # # print(respondents)
             responses = SurveyResponse.objects.filter(esea_account=esea_account_pk, finished=True)
 
             question_responses = QuestionResponse.objects.filter(survey_response__esea_account=esea_account_pk, survey_response__finished=True)
-            # print(question_responses)
+            # # print(question_responses)
 
-            indirect_indicators = IndirectIndicator.objects.filter(topic__method=eseaaccount.method)
-            direct_indicators = DirectIndicator.objects.filter(topic__method=eseaaccount.method)
+            indirect_indicators = IndirectIndicator.objects.filter(method=eseaaccount.method)
+            direct_indicators = DirectIndicator.objects.filter(method=eseaaccount.method)
             for direct_indicator in direct_indicators:
                 direct_indicator.filter_responses(question_responses)
             # for item in question_responses:
@@ -93,6 +93,8 @@ class SurveyResponseViewSet(BaseModelViewSet):
           
             map_responses_by_indicator(direct_indicators, question_responses)
             indicators = calculate_indicators(indirect_indicators, direct_indicators)
+
+            # print(indicators)
 
             #for indicator in indicators.values():
                 #print(indicator.key, '---', indicator.value)

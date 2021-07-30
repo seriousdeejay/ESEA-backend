@@ -136,6 +136,15 @@ class DirectIndicator(models.Model):
             response_values = self.checkbox_values(responses)
             return response_values
 
+        if (
+            self.datatype == self.DATE or self.datatype == self.TEXT
+        ) :
+            newdict = {}
+            for index, response  in enumerate(responses):
+                newdict[index] = response
+            return newdict
+
+
         return self.average_calculation(response_values)
 
     def average_calculation(self, responses):
@@ -149,9 +158,17 @@ class DirectIndicator(models.Model):
             valuesdict[option.text] = 0
         for response in responses:
             if response:
-                question_option = self.options.filter(text=response).first()
-                if question_option:
-                    valuesdict[question_option.text] += 1
+                
+                if self.datatype == self.MULTIPLECHOICE:
+                    for item in response:
+                        question_option = self.options.get(text=item.text)
+                        valuesdict[question_option.text] += 1
+                else:
+                    try:
+                        question_option = self.options.get(text=response)
+                        valuesdict[question_option.text] += 1
+                    except:
+                        print('doesnt exist')
         if (self.datatype == self.SINGLECHOICE or self.datatype == self.BOOLEAN):
             if self.question.section.survey.response_type == 'single':
                 return max(valuesdict, key=valuesdict.get) if valuesdict else None
