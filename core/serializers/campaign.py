@@ -10,18 +10,18 @@ class CampaignSerializer(serializers.ModelSerializer):
     network = serializers.PrimaryKeyRelatedField(queryset=Network.objects.all())
     method = serializers.PrimaryKeyRelatedField(queryset=Method.objects.all())
     method_name = serializers.ReadOnlyField(source='method.name')
-    # method = serializers.SlugRelatedField(queryset=Method.objects.all(), slug_field='name')
+    
     
     class Meta:
         model = Campaign
         fields = ['id', 'name', 'image', 'network', 'method', 'method_name', 'organisation_accounts', 'year', 'open_survey_date', 'close_survey_date', 'close_validation_date']
         depth = 1
 
-    def validate_open_survey_date(self, value): # validate(self, value)
-        # if datetime.now(pytz.utc) > value:
-        #     raise serializers.ValidationError('Opening date should be in the future.')
+    # def validate_open_survey_date(self, value): # validate(self, value)
+    #     # if datetime.now(pytz.utc) > value:
+    #     #     raise serializers.ValidationError('Opening date should be in the future.')
 
-        return value
+    #     return value
 
     def validate_close_survey_date(self, value):
         try:
@@ -59,3 +59,5 @@ class CampaignSerializer(serializers.ModelSerializer):
     #     data = super(CampaignSerializer, self).to_representation(instance)
     #     data['method'] = instance.method.name
     #     return data
+
+# method = serializers.SlugRelatedField(queryset=Method.objects.all(), slug_field='name')

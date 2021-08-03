@@ -41,7 +41,7 @@ class Question(models.Model):
     order = models.IntegerField(default=1)
     isMandatory = models.BooleanField(default=True)
 
-    name = models.CharField(max_length=255, blank=False)
+    name = models.CharField(max_length=511, blank=False)
     description = models.TextField(max_length=1000, blank=True, null=True)
     instruction = models.TextField(max_length=1000, blank=True, null=True)
 

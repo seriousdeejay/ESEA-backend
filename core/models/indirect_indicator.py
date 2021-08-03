@@ -70,10 +70,6 @@ class IndirectIndicator(models.Model):
     def __str__(self):
         return self.key
     
-    # @property
-    # def key(self):
-    #     return self.name
-    
     @property
     def calculation_keys(self):
         calculation_keys =  re.findall(find_square_bracket_keys, self.calculation)
@@ -105,7 +101,7 @@ class IndirectIndicator(models.Model):
         self.error = None
         functionList = ['sum(', 'avg(', 'min(', 'max(', 'median(', 'mode(']
 
-        # CONDITIONALS
+        ## CONDITIONALS
         if self.has_conditionals:
             self.value = None
             value = self.calculate_conditionals()
@@ -113,7 +109,7 @@ class IndirectIndicator(models.Model):
             self.value = value
             print('||', self.key, self.value)
         
-        # FUNCTIONS
+        ## FUNCTIONS
         elif any(func in self.calculation for func in functionList):
             key = re.findall(find_square_bracket_keys, self.formula)
             if len(key):
@@ -127,7 +123,7 @@ class IndirectIndicator(models.Model):
                     # responses = [float(r) for r in indicator.responses]
                     responses = [1, 3, 4, 7, 8]
                     if 'avg(' in self.calculation:
-                        self.value = sum(responses)/len(responses)                   # int(direct_indicator.value)
+                        self.value = sum(responses)/len(responses) # int(direct_indicator.value)
                     elif 'sum(' in self.calculation:
                             self.value = sum(responses)
                     elif 'min(' in self.calculation:
@@ -146,29 +142,6 @@ class IndirectIndicator(models.Model):
         # REGULAR CALCULATIONS
         else:
             self.value = eval(self.calculation)
-        # except Exception as e:
-        #     print('reee', e)
-        #     self.exception_detail = e
-        #     self.exception = Exception("Invalid calculation")
-
-    def process_expression(self, conds):
-        allowedOperators = ['<', '<=', '==', '>=', '>', '=']
-
-        if not isinstance(conds, list):
-            conds = [conds]
-        for index, cond in enumerate(conds):
-            cond = cond.replace('=', '==')
-            processed_cond = re.split('(<|<=|==|>=|>|=)', cond)
-            for idx, value in enumerate(processed_cond):
-                if value not in allowedOperators:
-                    # Makes eval() of string equals string possible
-                    processed_cond[idx] = f'"{value.strip().lower()}"'
-            conds[index] = ''.join(processed_cond)
-
-        if len(conds) == 1:
-            conds = conds[0]
-
-        return conds
 
     def calculate_conditionals(self):
         formula = self.calculation.replace('IF', '@@IF').replace('ELSE', '##ELSE').replace('THEN', '%%THEN')
@@ -192,7 +165,7 @@ class IndirectIndicator(models.Model):
                 print('Invalid Partial Condition: ', bracket_keys)
                 # raise Exception("invalid partial condition")
 
-            # Skips code till it finds the corresponding then/else statements corresponding to the IF statement that fails or succeeds.
+            ## Skips code till it finds the corresponding then/else statements corresponding to the IF statement that fails or succeeds.
             if search_else:
                 if 'IF' in cond:
                     ifs += 1
@@ -206,7 +179,7 @@ class IndirectIndicator(models.Model):
                     ifs = 1
                     elses = 0
 
-            # Checks whether if statement equals to True
+            ## Checks whether if statement equates to True
             if 'IF' in cond:
                 cond = cond.replace('IF', '').replace('(', '').replace(')', '').replace('"', '').strip()
                 last_if = False
@@ -249,13 +222,41 @@ class IndirectIndicator(models.Model):
                 if var != self.key:
                     raise Exception('Assignment variable does not match the key of this indirect indicator')
                 val = val.replace('"', '')
-                print(var, val)
                 try:
                     val = eval(val)
                 except:
-                    print('yikes', val)
+                    pass
+                
                 return str(val)
+        
+    def process_expression(self, conds):
+        allowedOperators = ['<', '<=', '==', '>=', '>', '=']
+
+        if not isinstance(conds, list):
+            conds = [conds]
+
+        for index, cond in enumerate(conds):
+            # cond = cond.replace('=', '==')
+            processed_cond = re.split('(<|<=|==|>=|>|=)', cond)
+            for idx, value in enumerate(processed_cond):
+                if value not in allowedOperators:
+                    ## Makes eval() of string equals string possible
+                    processed_cond[idx] = f'"{value.strip().lower()}"'
+            conds[index] = ''.join(processed_cond)
+
+        if len(conds) == 1:
+            conds = conds[0]
+
+        return conds
+
             
+        # @property
+        # def key(self):
+        #     return self.name
+        # except Exception as e:
+        #     print('reee', e)
+        #     self.exception_detail = e
+        #     self.exception = Exception("Invalid calculation")
         # for x in conditions:
         #     print('-->', x)
         #     for y, index in enumerate(x.split('THEN')):
