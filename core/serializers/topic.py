@@ -14,8 +14,10 @@ class TopicSerializer(serializers.ModelSerializer):
     parent_topic_name = serializers.StringRelatedField(source='parent_topic', read_only=True)
     method = serializers.StringRelatedField()
     questions = serializers.PrimaryKeyRelatedField(read_only=True, many=True)
-    direct_indicators = serializers.PrimaryKeyRelatedField(queryset=DirectIndicator.objects.all(), many=True, required=False)
-    indirect_indicators = serializers.PrimaryKeyRelatedField(queryset=IndirectIndicator.objects.all(), many=True, required=False)
+    direct_indicators = serializers.ReadOnlyField()
+    indirect_indicators = serializers.ReadOnlyField()
+    # direct_indicators = serializers.PrimaryKeyRelatedField(queryset=DirectIndicator.objects.all(), many=True, required=False)
+    # indirect_indicators = serializers.PrimaryKeyRelatedField(queryset=IndirectIndicator.objects.all(), many=True, required=False)
 
     class Meta:
         model = Topic

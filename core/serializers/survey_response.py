@@ -61,7 +61,7 @@ class SurveyResponseCalculationSerializer(serializers.Serializer):
     formula = serializers.CharField(read_only=True)
     calculation = serializers.CharField(read_only=True)
     value = serializers.CharField(read_only=True)
-    # responses = serializers.ListField(child=serializers.CharField(read_only=True))
+    responses = serializers.ListField(child=serializers.CharField(read_only=True))
 
 
 # class UserOrganisationField(serializers.RelatedField):

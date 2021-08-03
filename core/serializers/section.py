@@ -6,8 +6,9 @@ from .question import QuestionSerializer
 
 class SectionSerializer(serializers.ModelSerializer):
     # survey = serializers.StringRelatedField(read_only=True)
-    #questions =  QuestionSerializer(many=True, read_only=True)
-    questions = serializers.PrimaryKeyRelatedField(queryset=Question.objects.all(), many=True)
+    # questions =  QuestionSerializer(many=True, read_only=True)
+    # questions = serializers.PrimaryKeyRelatedField(queryset=Question.objects.all(), many=True)
+    questions = serializers.ReadOnlyField()
     text_fragments = TextFragmentSerializer(many=True, read_only=True)
 
     class Meta:

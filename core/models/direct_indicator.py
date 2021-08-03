@@ -44,10 +44,10 @@ class directIndicatorManager(models.Manager):
 
 class DirectIndicator(models.Model):
     objects = directIndicatorManager()
-    question = models.ForeignKey("Question", related_name="direct_indicator", on_delete=models.CASCADE, null=True)
+    question = models.ForeignKey("Question", related_name="direct_indicator", on_delete=models.SET_NULL, null=True)
     # One to One field? question2 = models.OneToOneField("Question", on_delete=models.CASCADE, null=True, primary_key=False)
     method = models.ForeignKey("Method", related_name="direct_indicators", on_delete=models.CASCADE, null=True)
-    topic = models.ForeignKey("Topic", related_name="direct_indicators", on_delete=models.CASCADE, null=True)
+    topic = models.ForeignKey("Topic", related_name="direct_indicators", on_delete=models.SET_NULL, blank=True, null=True)
 
     key = models.CharField(max_length=255, blank=False)
     name = models.CharField(max_length=255, unique=False, blank=False)

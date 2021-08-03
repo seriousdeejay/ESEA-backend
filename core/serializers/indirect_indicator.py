@@ -6,7 +6,7 @@ from ..models import IndirectIndicator, DirectIndicator, Topic
 find_questions_by_square_brackets = re.compile(r"\[.*?\]")
 
 class IndirectIndicatorSerializer(WritableNestedModelSerializer):
-    topic = serializers.PrimaryKeyRelatedField(queryset=Topic.objects.all(), required=False)
+    topic = serializers.PrimaryKeyRelatedField(queryset=Topic.objects.all(), required=False, allow_null=True)
 
 
     class Meta:
@@ -20,7 +20,7 @@ class IndirectIndicatorSerializer(WritableNestedModelSerializer):
     #     return value
 
     def validate_formula(self, value):
-        value = value.lower()
+        # value = value.lower()
         if self.instance:
             method_pk = self.instance.method
         else:
@@ -48,17 +48,17 @@ class IndirectIndicatorSerializer(WritableNestedModelSerializer):
                 
             testformula = testformula.replace(f"[{question}]", " 1 ")
 
-        if 'if' in value or 'then' in value or 'else' in value:
-            if value.count('if ') > value.count('then'):
-                raise serializers.ValidationError("Missing 'then' statement")
+        if 'IF' in value or 'THEN' in value or 'ELSE' in value:
+            if value.count('IF') > value.count('THEN'):
+                raise serializers.ValidationError("Missing 'THEN' statement")
 
-            if value.count('if ') < value.count('then'):
-                raise serializers.ValidationError("Missing 'if' statement")
+            if value.count('IF') < value.count('THEN'):
+                raise serializers.ValidationError("Missing 'IF' statement")
             
-            if value.count('if') < value.count('else'):
-                raise serializers.ValidationError("Missing 'if' statement")
+            if value.count('IF') < value.count('ELSE'):
+                raise serializers.ValidationError("Missing 'IF' statement")
             
-            conditionalformula = value.replace('if', 'temporaryif').replace('then', 'temporarythen').replace('else', 'temporaryelse')
+            conditionalformula = value.replace('IF', 'temporaryIF').replace('THEN', 'temporaryTHEN').replace('ELSE', 'temporaryELSE')
             splittedvalue = re.split('temporary', conditionalformula)
 
             expecting_if = False
@@ -67,27 +67,30 @@ class IndirectIndicatorSerializer(WritableNestedModelSerializer):
                 cleanedcond = cond
 
                 for question in questions: 
-                    cleanedcond = cleanedcond.replace(f"{question}", "123 ")
+                    cleanedcond = cleanedcond.replace(f"{question}", "123")
 
-                if 'if' in cond:
-                    try:
-                        eval(cleanedcond.replace('if', '').strip())
-                    except:
-                        raise serializers.ValidationError(f"'{cond}': Invalid conditional")
-                    expecting_if = False
+                if 'IF' in cleanedcond:
+                    cleanedcond = cleanedcond.replace('IF', '').strip()
+                    conds = [x.strip().replace('(', '').replace(')', '') for x in re.split('AND|OR', cleanedcond)]
+                    for item in conds:
+                        try:
+                            eval(item)
+                        except:
+                            raise serializers.ValidationError(f"'{item}': Invalid conditional")
+                        expecting_if = False
 
                 if expecting_if:
                     raise serializers.ValidationError(f" '{splittedvalue[index-1] + '^^' + splittedvalue[index]}': Should contain valid if-statement or assignment")
-                if 'then' in cond or 'else' in cond:
+                if 'THEN' in cond or 'ELSE' in cond:
                     if '=' in cond:
-                        [var, val] = cleanedcond.replace('then', '').replace('else', '').replace('(', '').replace(')', '').split('=')
+                        [var, val] = cleanedcond.replace('THEN', '').replace('ELSE', '').replace('(', '').replace(')', '').split('=')
                         var = var.strip()
                         val = val.strip()
                         if not len(val):
                             raise serializers.ValidationError(f" '{cond}': Assigment requires a value")
                         if not len(var):
                             raise serializers.ValidationError(f" '{cond}': Assignment requires a variable")
-                        if var != '123' and var != self.initial_data['key']:
+                        if var != '123' and var != [self.initial_data['key']]:
                             print('-->', var)
                             raise serializers.ValidationError(f" '{cond}': Assignment variable is an invalid bracket indicator")
 
@@ -102,7 +105,7 @@ class IndirectIndicatorSerializer(WritableNestedModelSerializer):
             try:
                 eval(testformula)
             except:
-                raise serializers.ValidationError('Questions should be separated by arithmetic symbols')
+                raise serializers.ValidationError('Formula is invalid.')
 
         return value
     

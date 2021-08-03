@@ -34,8 +34,8 @@ class Question(models.Model):
     objects = questionManager()
 
     method = models.ForeignKey("Method", related_name="questions", on_delete=models.CASCADE, null=True)
-    section = models.ForeignKey('Section', related_name='questions', on_delete=models.CASCADE, null=True)
-    topic = models.ForeignKey('Topic', related_name="questions_of_topic", on_delete=models.CASCADE, null=True)     # Needed, cause a many to many field can not be 'on_delete=models.CASCADE'
+    section = models.ForeignKey('Section', related_name='questions', on_delete=models.SET_NULL, null=True)
+    topic = models.ForeignKey('Topic', related_name="questions_of_topic", on_delete=models.SET_NULL, null=True)     # Needed, cause a many to many field can not be 'on_delete=models.CASCADE'
     topics = models.ManyToManyField("Topic", through="DirectIndicator")
     
     order = models.IntegerField(default=1)
