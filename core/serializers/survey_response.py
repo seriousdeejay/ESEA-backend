@@ -32,22 +32,7 @@ class SurveyResponseSerializer(serializers.ModelSerializer):
                         qr.values.add(value)
             qr.value = item_data.get('value', qr.value)
             qr.save()
-            #         # question_response = QuestionResponse.objects.get(id=item_data['id']) #question_responses_dict.pop(item_data['id'])
-            # for key in item_data.keys():
-            #     if key == 'values':
-            #         question_response.values.clear()
-            #         for answer in item_data['values']:
-            #             # print(QuestionOption.objects.filter(text='ddd').exists())
-            #             try:
-            #                 question_response.values.add(answer)
-            #                 print('bb')
-            #             except: 
-            #                 print('cc')
-            #     elif key == 'value':
-            #         question_response.value = str(item_data['value'])
-            #     else:
-            #         setattr(question_response, key, item_data[key])
-            # question_response.save()
+
         survey_response.save()
         return survey_response
 
@@ -149,4 +134,20 @@ class SurveyResponseCalculationSerializer(serializers.Serializer):
     #     print('zzzzz', validated_data.get('question_responses', survey_response.question_responses))
     #     #question_responses = validated_data.get('question_responses', [])
     #    # survey_response.save_question_responses(question_responses)
-    
+
+    #         # question_response = QuestionResponse.objects.get(id=item_data['id']) #question_responses_dict.pop(item_data['id'])
+    # for key in item_data.keys():
+    #     if key == 'values':
+    #         question_response.values.clear()
+    #         for answer in item_data['values']:
+    #             # print(QuestionOption.objects.filter(text='ddd').exists())
+    #             try:
+    #                 question_response.values.add(answer)
+    #                 print('bb')
+    #             except: 
+    #                 print('cc')
+    #     elif key == 'value':
+    #         question_response.value = str(item_data['value'])
+    #     else:
+    #         setattr(question_response, key, item_data[key])
+    # question_response.save()

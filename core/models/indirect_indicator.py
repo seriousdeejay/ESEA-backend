@@ -141,7 +141,12 @@ class IndirectIndicator(models.Model):
 
         # REGULAR CALCULATIONS
         else:
-            self.value = eval(self.calculation)
+            print(self.method)
+            print(self.key, self.calculation)
+            try:
+                self.value = eval(self.calculation)
+            except:
+                self.value = None
 
     def calculate_conditionals(self):
         formula = self.calculation.replace('IF', '@@IF').replace('ELSE', '##ELSE').replace('THEN', '%%THEN')
