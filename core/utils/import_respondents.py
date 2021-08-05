@@ -39,9 +39,9 @@ def import_respondents(excel_file, eseaaccount, survey):
         new_survey_response = SurveyResponse.objects.create(survey=survey, respondent=respondent, esea_account=eseaaccount)
         print(f'{respondent}: {new_survey_response.token}')
         subject = f"Survey for {respondent} regarding {respondent.organisation}"
-        message = f"Hi {respondent}!\nWe would like you to take a moment to fill in the following survey as employee of {respondent.organisation} to create a report about the organisation's position in the ethical, social and environmental fields.\n\n http://localhost:8080/{new_survey_response.token}/"
-        #recepient = respondent.email
-        recepient = "seriousdeejay@gmail.com"
+        message = f"Hi {respondent}!\nWe would like you to take a moment to fill in the following survey as employee of {respondent.organisation} to create a report about the organisation's position in the ethical, social and environmental fields.\n\n https://esea.herokuapp.com/survey-fill/{new_survey_response.token}/" # http://localhost:8080/
+        recepient = respondent.email
+        # recepient = "seriousdeejay@gmail.com"
         send_mail(subject, message, EMAIL_HOST_USER, [recepient], fail_silently = False)
         break
     return "The Survey has been succesfully deployed to the provided survey respondents."
