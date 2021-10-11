@@ -3,7 +3,8 @@ from django.utils.translation import gettext_lazy as _
 
 
 class Network(models.Model):
-    created_by = models.ForeignKey('CustomUser', editable=False, on_delete=models.SET_NULL, null=True)
+    owner = models.ForeignKey('CustomUser', on_delete=models.SET_NULL, null=True)
+    created_by = models.ForeignKey('CustomUser', editable=False, on_delete=models.SET_NULL, related_name="creatednetworks", null=True)
     organisations = models.ManyToManyField('Organisation', related_name="networks", blank=True) 
     methods = models.ManyToManyField('Method', related_name="networks", blank=True)
 

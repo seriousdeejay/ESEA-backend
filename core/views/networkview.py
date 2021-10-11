@@ -23,7 +23,7 @@ class NetworkViewSet(viewsets.ModelViewSet):
             if self.request.user.is_superuser:
                 return Network.objects.all()
             else:
-                return Network.objects.filter(Q(teammembers__user=self.request.user) | Q(ispublic = True))
+                return Network.objects.filter(Q(teammembers__user=self.request.user) | Q(ispublic = True)).distinct()
         if organisation is not None:
             return Network.objects.filter(organisations=organisation)
         if excludeorganisation is not None:
