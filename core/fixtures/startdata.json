@@ -1,0 +1,468 @@
+[
+{
+    "model": "core.customuser",
+    "pk": 1,
+    "fields": {
+        "password": "pbkdf2_sha256$216000$3cQaV2ZoTzRh$Ll5YWsJQ25/h20k0e9zPmyIRTsF93naa046DvWsvtBo=",
+        "last_login": "2021-10-18T14:54:08.335Z",
+        "is_superuser": true,
+        "is_staff": true,
+        "is_active": true,
+        "date_joined": "2021-10-18T13:44:44.245Z",
+        "username": "admin",
+        "email": "admin@localhost.com",
+        "image": "user/avatar-default.png",
+        "first_name": "",
+        "last_name_prefix": "",
+        "last_name": "",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "core.customuser",
+    "pk": 2,
+    "fields": {
+        "password": "pbkdf2_sha256$216000$dIPIsMoSsilI$msL6kZboSdE9rIN6Vjt9v+IkbFjBJHOzI6nuj8N+iwg=",
+        "last_login": null,
+        "is_superuser": false,
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2021-10-18T14:55:33Z",
+        "username": "SergioEspana",
+        "email": "SergioEspana@localhost.com",
+        "image": "user/avatar-default.png",
+        "first_name": "Sergio",
+        "last_name_prefix": "",
+        "last_name": "Espana",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "core.customuser",
+    "pk": 3,
+    "fields": {
+        "password": "pbkdf2_sha256$216000$SO7Weix5sRDv$+6Zz/TYJrwQwcwKAtkIbQSdWq6RDa6IT2eB4vYaPaGk=",
+        "last_login": null,
+        "is_superuser": false,
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2021-10-18T14:56:36Z",
+        "username": "VijantiRamautar",
+        "email": "VijantiRamautar@localhost.com",
+        "image": "user/avatar-default.png",
+        "first_name": "Vijanti",
+        "last_name_prefix": "",
+        "last_name": "Ramautar",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "core.customuser",
+    "pk": 4,
+    "fields": {
+        "password": "pbkdf2_sha256$216000$eMMwJt85QBj9$2RfPc4MgIMQFJPhHUxg+gQWtUidOjBuqpn7iL0soqEU=",
+        "last_login": null,
+        "is_superuser": false,
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2021-10-18T14:59:03Z",
+        "username": "TiesVanDijk",
+        "email": "TiesVanDijk@localhost.com",
+        "image": "user/avatar-default.png",
+        "first_name": "Ties",
+        "last_name_prefix": "van",
+        "last_name": "Dijk",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "core.customuser",
+    "pk": 5,
+    "fields": {
+        "password": "pbkdf2_sha256$216000$DvTM87nzOKfx$v5zqfTjhV0oCOvi2HRPYyUg5zl9afQgJyWxjmZDNM64=",
+        "last_login": null,
+        "is_superuser": false,
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2021-10-18T14:59:52Z",
+        "username": "ArturMoeijes",
+        "email": "ArturMoeijes@localhost.com",
+        "image": "user/avatar-default.png",
+        "first_name": "Artur",
+        "last_name_prefix": "",
+        "last_name": "Moeijes",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "core.customuser",
+    "pk": 6,
+    "fields": {
+        "password": "pbkdf2_sha256$216000$6bhhCuTZ6lQj$SfT8DoknjbMfEGaDktulDEM5c3+EC3NSmIpAIBPFVrU=",
+        "last_login": null,
+        "is_superuser": false,
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2021-10-18T15:00:38Z",
+        "username": "DiederikVanRijen",
+        "email": "DiederikVanRijen@localhost.com",
+        "image": "user/avatar-default.png",
+        "first_name": "Diederik",
+        "last_name_prefix": "van",
+        "last_name": "Rijen",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "core.networkmember",
+    "pk": 1,
+    "fields": {
+        "network": 1,
+        "user": 2,
+        "invitation": "accepted",
+        "role": 2
+    }
+},
+{
+    "model": "core.networkmember",
+    "pk": 2,
+    "fields": {
+        "network": 2,
+        "user": 3,
+        "invitation": "accepted",
+        "role": 2
+    }
+},
+{
+    "model": "core.networkmember",
+    "pk": 3,
+    "fields": {
+        "network": 3,
+        "user": 4,
+        "invitation": "accepted",
+        "role": 2
+    }
+},
+{
+    "model": "core.network",
+    "pk": 1,
+    "fields": {
+        "owner": 2,
+        "created_by": 1,
+        "ispublic": true,
+        "name": "EMAS",
+        "description": "The EU Eco-Management and Audit Scheme (EMAS) is a premium management instrument developed by the European Commission for companies and other organisations to evaluate, report, and improve their environmental performance. EMAS is open to every type of organisation eager to improve its environmental performance. It spans all economic and service sectors and is applicable worldwide.",
+        "image": "network/sustainability-circle.png",
+        "organisations": [
+            1,
+            4,
+            6
+        ],
+        "methods": []
+    }
+},
+{
+    "model": "core.network",
+    "pk": 2,
+    "fields": {
+        "owner": 3,
+        "created_by": 1,
+        "ispublic": true,
+        "name": "B Corporations",
+        "description": "Certified B Corporations are a new kind of business that balances purpose and profit. They are legally required to consider the impact of their decisions on their workers, customers, suppliers, community, and the environment.",
+        "image": "network/sustainability-circle.png",
+        "organisations": [
+            4,
+            6,
+            7
+        ],
+        "methods": []
+    }
+},
+{
+    "model": "core.network",
+    "pk": 3,
+    "fields": {
+        "owner": 4,
+        "created_by": 1,
+        "ispublic": true,
+        "name": "CSR Europe",
+        "description": "CSR Europe is the European Business Network for Corporate Sustainability and Responsibility. We support businesses & industry sectors in their transformation.",
+        "image": "network/sustainability-circle.png",
+        "organisations": [
+            1,
+            6
+        ],
+        "methods": []
+    }
+},
+{
+    "model": "core.organisationmember",
+    "pk": 1,
+    "fields": {
+        "organisation": 1,
+        "user": 1,
+        "invitation": "accepted",
+        "role": 3
+    }
+},
+{
+    "model": "core.organisationmember",
+    "pk": 2,
+    "fields": {
+        "organisation": 3,
+        "user": 2,
+        "invitation": "accepted",
+        "role": 1
+    }
+},
+{
+    "model": "core.organisationmember",
+    "pk": 3,
+    "fields": {
+        "organisation": 4,
+        "user": 2,
+        "invitation": "accepted",
+        "role": 3
+    }
+},
+{
+    "model": "core.organisationmember",
+    "pk": 4,
+    "fields": {
+        "organisation": 5,
+        "user": 3,
+        "invitation": "accepted",
+        "role": 3
+    }
+},
+{
+    "model": "core.organisationmember",
+    "pk": 5,
+    "fields": {
+        "organisation": 6,
+        "user": 4,
+        "invitation": "accepted",
+        "role": 3
+    }
+},
+{
+    "model": "core.organisationmember",
+    "pk": 6,
+    "fields": {
+        "organisation": 7,
+        "user": 5,
+        "invitation": "accepted",
+        "role": 3
+    }
+},
+{
+    "model": "core.organisationmember",
+    "pk": 7,
+    "fields": {
+        "organisation": 8,
+        "user": 6,
+        "invitation": "accepted",
+        "role": 3
+    }
+},
+{
+    "model": "core.organisationmember",
+    "pk": 8,
+    "fields": {
+        "organisation": 3,
+        "user": 1,
+        "invitation": "pending",
+        "role": 3
+    }
+},
+{
+    "model": "core.organisation",
+    "pk": 1,
+    "fields": {
+        "owner": 1,
+        "created_by": 1,
+        "ispublic": true,
+        "name": "Shell",
+        "description": "Shell is a non-profit humanitarian organisation that is located in the UK and Netherlands that provides work in less developed countries.",
+        "image": "organisation/sustainability-circle.png"
+    }
+},
+{
+    "model": "core.organisation",
+    "pk": 3,
+    "fields": {
+        "owner": 1,
+        "created_by": 2,
+        "ispublic": true,
+        "name": "Tony's Chocolonely",
+        "description": "Tony's Chocolonely is a Dutch confectionery company founded in 2005 which produces and sells chocolate.",
+        "image": "organisation/sustainability-circle.png"
+    }
+},
+{
+    "model": "core.organisation",
+    "pk": 4,
+    "fields": {
+        "owner": 2,
+        "created_by": 2,
+        "ispublic": true,
+        "name": "Ben & Jerry's",
+        "description": "Ben & Jerry's Homemade Holdings Inc. trading and commonly known as Ben & Jerry's, is a Vermont-based company that manufactures ice cream and frozen yogurt.",
+        "image": "organisation/sustainability-circle.png"
+    }
+},
+{
+    "model": "core.organisation",
+    "pk": 5,
+    "fields": {
+        "owner": 3,
+        "created_by": 3,
+        "ispublic": true,
+        "name": "Patagonia",
+        "description": "Patagonia is a designer of outdoor clothing and gear for the silent sports: climbing, surfing, skiing and snowboarding, fly fishing, and trail running.",
+        "image": "organisation/sustainability-circle.png"
+    }
+},
+{
+    "model": "core.organisation",
+    "pk": 6,
+    "fields": {
+        "owner": 4,
+        "created_by": 4,
+        "ispublic": true,
+        "name": "Triodos",
+        "description": "Triodos is a sustainable bank with eye on the future.",
+        "image": "organisation/sustainability-circle.png"
+    }
+},
+{
+    "model": "core.organisation",
+    "pk": 7,
+    "fields": {
+        "owner": 5,
+        "created_by": 5,
+        "ispublic": true,
+        "name": "Greyston Bakery",
+        "description": "Greyston Bakery is a world-class commercial operation, producing 40,000 pounds of award-winning brownies daily for customers such as Ben & Jerry's and Whole Foods Market.",
+        "image": "organisation/sustainability-circle.png"
+    }
+},
+{
+    "model": "core.organisation",
+    "pk": 8,
+    "fields": {
+        "owner": 6,
+        "created_by": 6,
+        "ispublic": true,
+        "name": "Superwomen",
+        "description": "Project Superwomen was founded as a collaboration of a social service provider, a nonprofit employment-training center, and a non-profit shelter provider for female domestic violence victims.",
+        "image": "organisation/sustainability-circle.png"
+    }
+},
+{
+    "model": "core.membership",
+    "pk": 3,
+    "fields": {
+        "network": 1,
+        "organisation": 5,
+        "join_date": null,
+        "status": "pending",
+        "requester": "network"
+    }
+},
+{
+    "model": "core.membership",
+    "pk": 8,
+    "fields": {
+        "network": 2,
+        "organisation": 5,
+        "join_date": null,
+        "status": "pending",
+        "requester": "network"
+    }
+},
+{
+    "model": "core.membership",
+    "pk": 12,
+    "fields": {
+        "network": 3,
+        "organisation": 3,
+        "join_date": null,
+        "status": "pending",
+        "requester": "network"
+    }
+},
+{
+    "model": "core.membership",
+    "pk": 13,
+    "fields": {
+        "network": 2,
+        "organisation": 1,
+        "join_date": null,
+        "status": "pending",
+        "requester": "organisation"
+    }
+},
+{
+    "model": "core.membership",
+    "pk": 14,
+    "fields": {
+        "network": 1,
+        "organisation": 3,
+        "join_date": null,
+        "status": "pending",
+        "requester": "organisation"
+    }
+},
+{
+    "model": "core.membership",
+    "pk": 15,
+    "fields": {
+        "network": 1,
+        "organisation": 7,
+        "join_date": null,
+        "status": "pending",
+        "requester": "organisation"
+    }
+},
+{
+    "model": "core.membership",
+    "pk": 16,
+    "fields": {
+        "network": 1,
+        "organisation": 8,
+        "join_date": null,
+        "status": "pending",
+        "requester": "organisation"
+    }
+},
+{
+    "model": "core.membership",
+    "pk": 17,
+    "fields": {
+        "network": 2,
+        "organisation": 8,
+        "join_date": null,
+        "status": "pending",
+        "requester": "organisation"
+    }
+},
+{
+    "model": "core.membership",
+    "pk": 18,
+    "fields": {
+        "network": 2,
+        "organisation": 3,
+        "join_date": null,
+        "status": "pending",
+        "requester": "organisation"
+    }
+}
+]

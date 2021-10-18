@@ -2,7 +2,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.core.exceptions import ObjectDoesNotExist
 
-from .models import EseaAccount, Respondent, Survey, SurveyResponse, Campaign, Membership
+from .models import EseaAccount, Respondent, Survey, SurveyResponse, Campaign, Membership, NetworkMember
 
 @receiver(post_save, sender=EseaAccount)
 def create_accountant_objects(sender, instance, created, **kwargs):
@@ -38,4 +38,3 @@ def accept_request(sender, instance, created, **kwargs):
         if organisation not in network.organisations.all():
             network.organisations.add(organisation)
         instance.delete()
-    

@@ -1,22 +1,25 @@
 from rest_framework import serializers
-from ..models import Organisation, OrganisationMember, Network
+from ..models import Organisation, OrganisationMember, CustomUser, Network
 
 
 class OrganisationSerializer(serializers.ModelSerializer):
     created_by = serializers.StringRelatedField()
     created_by_id = serializers.ReadOnlyField(source='created_by.id')
-    image = serializers.ImageField(required=False)
+    owner = serializers.SlugRelatedField(queryset=CustomUser.objects.all(), slug_field='username', required=False)
+    owner_id = serializers.ReadOnlyField(source='owner.id')
+    
     esea_accounts = serializers.StringRelatedField(read_only=True, many=True)
     networks = serializers.PrimaryKeyRelatedField(queryset=Network.objects.all(), many=True, required=False)
 
     class Meta:
         model = Organisation
-        fields = ['id', 'ispublic', 'name', 'description', 'image', 'created_by', 'created_by_id', 'networks', 'esea_accounts']
+        fields = ['id', 'ispublic', 'name', 'description', 'image', 'owner', 'owner_id', 'created_by', 'created_by_id', 'networks', 'esea_accounts']
 
     def to_representation(self, instance):
         representation = super().to_representation(instance)
         user=self.context['request'].user
 
+        # Sets acces level of user to the organisation
         if user.is_superuser:
             representation['accesLevel'] = "admin"
         else:
@@ -29,13 +32,14 @@ class OrganisationSerializer(serializers.ModelSerializer):
                 representation['accesLevel'] = member.get_role_display()
         return representation
 
-    def create(self, validated_data):
-        user=self.context['request'].user
-        
-        organisation = Organisation.objects.create(**validated_data)
-        OrganisationMember.objects.create(organisation=organisation, user=user, role=3, invitation='accepted')
 
-        return organisation
+
+
+
+
+
+
+# image = serializers.ImageField(required=False)
 
 # class SurveyResponseSerializer(serializers.ModelSerializer):
 #     class Meta:

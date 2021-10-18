@@ -39,7 +39,7 @@ survey_router.register(r'organisations', organisationview.OrganisationViewSet, b
 
 section_router = routers.NestedSimpleRouter(survey_router, r'sections', lookup="section")
 section_router.register(r'questions', questionview.QuestionViewSet, basename="section-questions")
-section_router.register('text-fragments', text_fragmentview.TextFragmentViewSet, basename="section-text-fragments")
+section_router.register(r'text-fragments', text_fragmentview.TextFragmentViewSet, basename="section-text-fragments")
 
 
 

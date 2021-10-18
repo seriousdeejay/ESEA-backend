@@ -27,7 +27,7 @@ class OrganisationViewSet(viewsets.ModelViewSet):
         excludemethod = self.request.GET.get('excludemethod', None)
         campaign = self.request.GET.get('campaign', None)
         excludecampaign = self.request.GET.get('excludecampaign', None)
-        print(Organisation._meta.get_fields())
+        # print(Organisation._meta.get_fields())
 
         if myorganisations is not None:
             return Organisation.objects.filter(teammembers__user=self.request.user)
@@ -38,9 +38,7 @@ class OrganisationViewSet(viewsets.ModelViewSet):
                 a = Organisation.objects.filter(Q(teammembers__user=self.request.user) | Q(ispublic = True)).distinct()
                 print(len(a))
                 return a
-
         if (network is not None) and (excludecampaign is not None):
-            print('check')
             return Organisation.objects.filter(networks=network).exclude(esea_accounts__campaign=excludecampaign)
         if network is not None:
             if method is not None:
@@ -59,6 +57,50 @@ class OrganisationViewSet(viewsets.ModelViewSet):
         serializer.is_valid(raise_exception=True)
         serializer.save(created_by=self.request.user)
         return Response(serializer.data)
+
+
+@method_decorator(csrf_exempt, name='dispatch')
+@api_view(['GET', 'POST'])
+@permission_classes((AllowAny, ))
+def send_surveys(request):
+    pass
+    # if request.method == 'POST':
+    #     for surveyrespondent in request.data:
+    #         print(surveyrespondent)
+    #         subject = f"Survey for {user['user_organisations'][0]['organisation']}"
+    #         message = f"Hi {user['first_name']} {user['last_name_prefix']} {user['last_name']}!\nWe would like you to take a moment to fill in the following survey as employee of {user['user_organisations'][0]['organisation']} to create a report about the organisation's position in the ethical, social and environmental fields.\n\nhttp://localhost:8080/{user['uniquetoken']}"
+    #         recepient = "seriousdeejay@gmail.com"
+    #         # send_mail(subject, message, EMAIL_HOST_USER, [recepient], fail_silently = False)
+    #         print(uo)
+    #         #serializer = SurveyResponseSerializer(data = {survey: })
+    #         newSurveyResponse = SurveyResponse.objects.create(survey=13,  user_organisation=uo.id)
+    #         print(newSurveyResponse.__dict__)
+    #     return Response({'Success'})
+    # print('check')
+    # return Response({'No Post Request'})
+
+     #return Organisation.objects.prefetch_related(Prefetch('methods.surveys.responses', queryset=SurveyResponse.objects.filter(survey__method=method, survey__method__networks=network), to_attr='filtered_survey_responses'))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     # def update(self, request, pk):
     #     print(request.data)
@@ -93,25 +135,3 @@ class OrganisationViewSet(viewsets.ModelViewSet):
         # organisation_object.save()
         # serializer = OrganisationSerializer(organisation_object)
         # return Response(serializer.data)
-
-@method_decorator(csrf_exempt, name='dispatch')
-@api_view(['GET', 'POST'])
-@permission_classes((AllowAny, ))
-def send_surveys(request):
-    pass
-    # if request.method == 'POST':
-    #     for surveyrespondent in request.data:
-    #         print(surveyrespondent)
-    #         subject = f"Survey for {user['user_organisations'][0]['organisation']}"
-    #         message = f"Hi {user['first_name']} {user['last_name_prefix']} {user['last_name']}!\nWe would like you to take a moment to fill in the following survey as employee of {user['user_organisations'][0]['organisation']} to create a report about the organisation's position in the ethical, social and environmental fields.\n\nhttp://localhost:8080/{user['uniquetoken']}"
-    #         recepient = "seriousdeejay@gmail.com"
-    #         # send_mail(subject, message, EMAIL_HOST_USER, [recepient], fail_silently = False)
-    #         print(uo)
-    #         #serializer = SurveyResponseSerializer(data = {survey: })
-    #         newSurveyResponse = SurveyResponse.objects.create(survey=13,  user_organisation=uo.id)
-    #         print(newSurveyResponse.__dict__)
-    #     return Response({'Success'})
-    # print('check')
-    # return Response({'No Post Request'})
-
-     #return Organisation.objects.prefetch_related(Prefetch('methods.surveys.responses', queryset=SurveyResponse.objects.filter(survey__method=method, survey__method__networks=network), to_attr='filtered_survey_responses'))

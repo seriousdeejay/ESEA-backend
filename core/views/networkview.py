@@ -38,6 +38,17 @@ class NetworkViewSet(viewsets.ModelViewSet):
         return Response(serializer.data)
 
 
+
+
+
+
+
+
+
+
+
+
+
     # def update(self, request, *args, **kwargs):
     # #     return super().update(request, *args, **kwargs)
     #     networkobject = self.get_object() #get_object_or_404(Network, pk=pk)

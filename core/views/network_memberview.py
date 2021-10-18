@@ -2,8 +2,9 @@ from rest_framework import viewsets
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
 
-from ..models import NetworkMember
+from ..models import NetworkMember, Network
 from ..serializers import NetworkMemberSerializer
+
 
 class NetworkMemberViewSet(viewsets.ModelViewSet):
     serializer_class = NetworkMemberSerializer
@@ -23,10 +24,42 @@ class NetworkMemberViewSet(viewsets.ModelViewSet):
         serializer.save()
 
     def update(self, request, network_pk, *args, **kwargs):
-        request.data['network'] = network_pk
-        return super().update(request, *args, **kwargs)
+        request.data['network'] = int(network_pk)
+        instance = self.get_object()
 
-    def retrieve(self, instance, network_pk, pk):
-        i = get_object_or_404(NetworkMember, pk=pk)
-        print(type(i.role))
-        return Response({})
+        serializer = NetworkMemberSerializer(instance, data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        # Allows only one networkadmin to exist and changes network.owner to the new networkadmin
+        if request.data['role'] == 2:
+            OldNetworkAdmins = NetworkMember.objects.filter(network=network_pk, role=2).exclude(user=instance.user)
+            if len(OldNetworkAdmins):
+                for admin in OldNetworkAdmins:
+                    print(admin)
+                    admin.role = 1
+                    admin.save()
+                
+                network = Network.objects.get(id=network_pk)
+                network.owner = instance.user
+                network.save()
+
+        return Response(serializer.data)
+
+
+
+
+
+
+
+
+
+
+
+
+        # return super().update(request, *args, **kwargs)
+
+    # def retrieve(self, instance, network_pk, pk):
+    #     i = get_object_or_404(NetworkMember, pk=pk)
+    #     print(type(i.role))
+    #     return Response({})

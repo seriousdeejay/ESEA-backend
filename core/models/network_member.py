@@ -1,5 +1,6 @@
 from django.db import models
 
+
 class NetworkMember(models.Model):
     network = models.ForeignKey('Network', related_name='teammembers', on_delete=models.CASCADE)
     user = models.ForeignKey('CustomUser', related_name='teams', on_delete=models.CASCADE)
@@ -9,19 +10,18 @@ class NetworkMember(models.Model):
     DENIED = "denied"
 
     STATUS_OPTIONS = (
-        (PENDING, "pending"),  # or Complete
-        (ACCEPTED, "accepted"), # or Incomplete
+        (PENDING, "pending"),
+        (ACCEPTED, "accepted"),
         (DENIED, "denied")
     )
     invitation = models.CharField(max_length=100, blank=False, choices=STATUS_OPTIONS, default=PENDING)
 
     NETWORKADMIN = 2
     GUEST = 1 
-    # 'ORGANISATIONADMIN = "organisation"
 
     ROLES = (
-        (NETWORKADMIN, "network admin"),  # or Complete
-        (GUEST, "guest"), # or Incomplete
+        (NETWORKADMIN, "network admin"),
+        (GUEST, "guest"),
         # Add in more status options
     )
     role = models.IntegerField(blank=False, choices=ROLES, default=GUEST)

@@ -4,17 +4,14 @@ from ..models import Network, NetworkMember, CustomUser, Organisation, Method
 
 
 class NetworkSerializer(serializers.ModelSerializer):
-    created_by = serializers.StringRelatedField() # serializers.PrimaryKeyRelatedField(queryset=CustomUser.objects.all())
+    created_by = serializers.StringRelatedField()
     created_by_id = serializers.ReadOnlyField(source='created_by.id')
-    owner = serializers.SlugRelatedField(queryset=CustomUser.objects.all(), slug_field='username')
+    owner = serializers.SlugRelatedField(queryset=CustomUser.objects.all(), slug_field='username') # = networkadmin
     owner_id = serializers.ReadOnlyField(source='owner.id')
-    # teammembers = serializers.StringRelatedField(read_only=True, many=True)
     campaigns = serializers.StringRelatedField(read_only=True, many=True)
     
     organisations = serializers.PrimaryKeyRelatedField(queryset=Organisation.objects.all(), many=True, required=False)
     methods = serializers.PrimaryKeyRelatedField(queryset=Method.objects.all(), many=True, required=False)
-    image = serializers.ImageField(required=False)
-    # networkadmin = serializers.PrimaryKeyRelatedField(queryset=CustomUser.objects.all(), write_only=True, required=False)
     
     class Meta:
         model = Network
@@ -24,6 +21,7 @@ class NetworkSerializer(serializers.ModelSerializer):
         representation = super().to_representation(instance)
         user=self.context['request'].user
 
+        # Sets acces level of user to the network
         if user.is_superuser:
            representation['accesLevel'] = "admin"
         else:
@@ -34,7 +32,28 @@ class NetworkSerializer(serializers.ModelSerializer):
 
             if member:
                 representation['accesLevel'] = member.get_role_display()
+
         return representation
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    # image = serializers.ImageField(required=False)
+    # teammembers = serializers.StringRelatedField(read_only=True, many=True)
+    # serializers.PrimaryKeyRelatedField(queryset=CustomUser.objects.all())
+    # networkadmin = serializers.PrimaryKeyRelatedField(queryset=CustomUser.objects.all(), write_only=True, required=False)
+    
 
     # def create(self, validated_data):
     #     try:
