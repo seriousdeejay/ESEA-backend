@@ -1,10 +1,22 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 
+from .network_member import NetworkMember
+
+class NetworkManager(models.Manager):
+    def create(self, name, owner, ispublic=True, description="", image=None, created_by=None, organisations=[], methods=[]):
+
+        network_instance = Network(name=name, ispublic=ispublic, description=description, image=image, owner=owner, created_by=created_by)
+        network_instance.save()
+        
+        NetworkMember.objects.create(network=network_instance, user=owner, role=2, invitation='accepted')
+
+        return network_instance
 
 class Network(models.Model):
-    owner = models.ForeignKey('CustomUser', on_delete=models.SET_NULL, null=True)
-    created_by = models.ForeignKey('CustomUser', editable=False, on_delete=models.SET_NULL, related_name="creatednetworks", null=True)
+    objects = NetworkManager()
+    owner = models.ForeignKey('CustomUser', on_delete=models.SET_NULL, related_name="networkowner", null=True)
+    created_by = models.ForeignKey('CustomUser', editable=False, on_delete=models.SET_NULL, null=True)
     organisations = models.ManyToManyField('Organisation', related_name="networks", blank=True) 
     methods = models.ManyToManyField('Method', related_name="networks", blank=True)
 

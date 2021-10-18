@@ -18,7 +18,7 @@ class NetworkSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Network
-        fields = ['id', 'ispublic', 'name', 'description', 'image', 'owner', 'owner_id' 'created_by', 'created_by_id', 'organisations', 'methods', 'campaigns']
+        fields = ['id', 'ispublic', 'name', 'description', 'image', 'owner', 'owner_id', 'created_by', 'created_by_id', 'organisations', 'methods', 'campaigns']
 
     def to_representation(self, instance):
         representation = super().to_representation(instance)
@@ -36,23 +36,22 @@ class NetworkSerializer(serializers.ModelSerializer):
                 representation['accesLevel'] = member.get_role_display()
         return representation
 
-    def create(self, validated_data):
-        try:
-            owner = validated_data.pop('owner')
-        except:
-            owner = self.context['request'].user
+    # def create(self, validated_data):
+    #     try:
+    #         owner = validated_data.pop('owner')
+    #     except:
+    #         owner = self.context['request'].user
             
-        validated_data["owner"] = owner
+    #     validated_data["owner"] = owner
         
-        # invitation='pending'
-        # if owner.is_superuser:
+    #     print(owner)
+    #     # invitation='pending'
+    #     # if owner.is_superuser:
         
-        invitation='accepted'
-
-        network = Network.objects.create(**validated_data)
-
-        NetworkMember.objects.create(network=network, user=owner, role=2, invitation=invitation)
-        return network
+    #     invitation='accepted'
+    #     print(validated_data)
+    #     network = Network.objects.create(**validated_data)
+    #     return network
 
     # def update(self, instance, validated_data):
     #     print('check')

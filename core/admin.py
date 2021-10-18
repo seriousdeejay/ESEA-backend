@@ -13,7 +13,7 @@ class NetworkAdmin(admin.ModelAdmin):
 
     def save_model(self, request, obj, form, change):
         obj.created_by = request.user
-        obj.created_by_id = request.user.id
+        # obj.created_by_id = request.user.id
         obj.last_modified_by = request.user
         obj.save()
 

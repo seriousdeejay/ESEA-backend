@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'rest_framework_simplejwt.token_blacklist',
     'core',
+    'django_extensions' # Django-extensions, can be used to run py manage.py reset_db
 ]
 
 MIDDLEWARE = [
