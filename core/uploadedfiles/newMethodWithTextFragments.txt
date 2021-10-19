@@ -1,0 +1,582 @@
+//The method is not in the YAML file
+Name:"newmethod2"
+Version:1.0
+isPublic:true
+Description:"The method based on the YAML file Diederik shared"
+
+//In the YAML file topics don't have a description. The IDs don't have a label
+//We want the ID label, we need the description
+
+Topics:
+topic_id:PT1
+Name:"Root topic"
+Description:"The root topic"
+
+topic_id:T1
+Name:"Organisation Data"
+Description:"Organisational data"
+Parent_topic:PT1
+
+topic_id:T2
+Name:"Gender Equity"
+Description:"This topic collects data about gender equity"
+Parent_topic:PT1
+
+topic_id:T3
+Name:"Environmental impact"
+Description:"This topic collects data about the impact of organisational activities on the environment"
+Parent_topic:PT1
+
+topic_id:T4
+Name:"Workplace quality"
+Description:"This topic collects data about the workplace quality"
+Parent_topic:PT1
+
+topic_id:T5
+Name:"Certification"
+Description:"This topic defines indicators used for determining the certification level of an organisation"
+Parent_topic:PT1
+
+//In the YAML file the "DataType" is called "unit" and "Indicator_type" is called "type" .
+// The datatype "double" is called "float", the indicator types are called "indirectindicator" and "directindicator" 
+//There is no description, postUnit and preUnit. The IDs don't have a label.
+
+//Change unit to datatype and add pre and postunit. Examples of preunits are €, $, etc. examples of postunits are %, points, persons, etc.
+//No strong preference on the datatype names
+//Description needs to be added
+// No quotes in Formulas unless completely necessary
+
+
+Indicators:
+Indicator_id:women_staff
+Name:"Women staff members"
+Description:"The number of staff members that identify as woman"
+PostUnit:"persons"
+Topic:T1
+Indicator_type:Direct
+DataType:integer
+
+
+Indicator_id:men_staff
+Name:"Men staff members"
+Description:"The number of staff members that identify as man"
+PostUnit:"persons"
+Topic:T1
+Indicator_type:Direct
+DataType:integer
+
+//Answer options are defined when the direct indicator is defined if the datatype is singleChoice or multipleChoice
+
+Indicator_id:company_type
+Name:"Type of company"
+Description:"The type of company"
+Topic:T1
+Indicator_type:Direct
+DataType:singleChoice
+Answer_options:
+Order: 1
+Text: "Cooperative"
+Order: 2 
+Text: "Limited company"
+Order: 3 
+Text:"Public partnership"
+Order: 4 
+Text:"Commercial partnership"
+
+// Indirect indicators now have a type which indicates whether they are scoring or performance indicators
+
+Indicator_id:total_staff
+Name:"Total staff"
+Description:"The total staff in terms of full time employees"
+PostUnit:"persons"
+Topic:T1
+Indicator_type:Indirect
+Formula:[women_staff]+[men_staff]
+Type:performance
+DataType:integer
+
+Indicator_id:company_size
+Name:"Company size"
+Description:"The size of the company based on the number of full time employees"
+Topic:T1
+Indicator_type:Indirect
+Formula:IF([total_staff]<10) THEN [company_size]="micro" ELSE IF ([total_staff]<49) THEN [company_size]="small" ELSE IF([total_staff]<249) THEN [company_size]="medium" ELSE [company_size]="large"
+Type:performance
+DataType:text
+
+//Indicator_id:total_organisation_score
+//Name:"Total organisation score"
+//Description:"The score for the organisational figures"
+//PostUnit:"points"
+//Topic:T1
+//DataType:double
+//Indicator_type:Indirect
+//Formula:0.30 * [gender_equity_score] + 0.40* [environmental_impact_score] + 0.30 * [workplace_quality_score]
+
+Indicator_id:average_salary_women
+Name:"Average salary women"
+Description:"The average salary of women in the organisation"
+Topic:T2
+Indicator_type:Direct
+DataType:double
+
+
+Indicator_id:average_salary_men
+Name:"Average salary men"
+Description:"The average salary of men in the organisation"
+Topic:T2
+Indicator_type:Direct
+DataType:double
+
+Indicator_id:gender_ratio
+Name:"Gender ratio"
+Description:"The gender ratio"
+Topic:T2
+Indicator_type:Indirect
+Formula:[women_staff]/[total_staff]
+Type:performance
+DataType:double
+
+
+Indicator_id:gender_pay_gap
+Name:"Gender pay gap"
+Description:"The gender pay gap"
+Topic:T2
+Indicator_type:Indirect
+Formula:[average_salary_women] / [average_salary_men]
+Type:performance
+DataType:double
+
+Indicator_id:women_staff_deciding
+Name:"Number of women involved in decision making"
+Description:"The number of women involved in decision making"
+PostUnit:"persons"
+Topic:T4
+Indicator_type:Direct
+DataType:integer
+
+
+Indicator_id:men_staff_deciding
+Name:"Number of men involved in decision making"
+Description:"The number of men involved in decision making"
+PostUnit:"persons"
+Topic:T4
+Indicator_type:Direct
+DataType:integer
+
+Indicator_id:gender_decision_making_ratio
+Name:"Gender decision making ratio"
+Description:"The gender decision making ratio"
+Topic:T2
+Indicator_type:Indirect
+Formula:[women_staff_deciding] / ([women_staff_deciding] + [men_staff_deciding])
+Type:performance
+DataType:double
+
+Indicator_id:gender_ratio_score
+Name:"Gender ratio score"
+Description:"The gender ratio score"
+PostUnit:"points"
+Topic:T2
+Indicator_type:Indirect
+Formula:IF ([gender_ratio]<0.15) THEN ([gender_ratio_score]=0) ELSE IF ([gender_ratio]<0.85) THEN ([gender_ratio_score]=(10*[gender_ratio]-0.15) / (0.85-0.15)) ELSE ([gender_ratio_score] = 10)
+Type:scoring
+DataType:double
+
+Indicator_id:gender_pay_gap_score
+Name:"Gender pay gap score"
+Description:"Gender pay gap score"
+PostUnit:"points"
+Topic:T2
+Indicator_type:Indirect
+Formula:abs(10/[gender_pay_gap])
+Type:scoring
+DataType:double
+
+Indicator_id:gender_decision_making_ratio_score
+Name:"Gender decision making score"
+Description:"Gender decision making score"
+PostUnit:"points"
+Topic:T2
+Indicator_type:Indirect
+Formula:IF ([gender_decision_making_ratio] < 0.3) OR ([gender_decision_making_ratio] >0.7) THEN ([gender_decision_making_ratio_score] = 0) ELSE ([gender_decision_making_ratio_score]=10)
+Type:scoring
+DataType:double
+
+Indicator_id:gender_equity_score
+Name:"Gender equity score"
+Description:"Gender equity score"
+PostUnit:"points"
+Topic:T2
+Indicator_type:Indirect
+Formula:(0.35*[gender_ratio_score]+(0.45*[gender_pay_gap_score]+0.2*[gender_decision_making_ratio_score]))
+Type:scoring
+DataType:double
+
+Indicator_id:public_salaries
+Name:"Salaries publicly available"
+Description:"Are all salaries visible to the public"
+Topic:T4
+Indicator_type:Direct
+DataType:singleChoice
+Answer_options:
+Order: 1
+Text: "Yes"
+Order: 2 
+Text: "No"
+
+Indicator_id:employee_satisfaction
+Name:"Employee satisfaction"
+Description:"How satisfied are employees within the organisation"
+Topic:T4
+Indicator_type:Direct
+DataType:singleChoice
+Answer_options:
+Order: 1
+Text: "1"
+Order: 2 
+Text: "2"
+Order: 3
+Text: "3"
+Order: 4 
+Text: "4"
+Order: 5
+Text: "5"
+
+
+
+Indicator_id:employee_opinion_on_inclusiveness 
+Name:"Inclusiveness of the company"
+Description:"Inclusiveness of the company"
+Topic:T4
+Indicator_type:Direct
+DataType:singleChoice
+Answer_options:
+Order: 1
+Text: "1"
+Order: 2 
+Text: "2"
+Order: 3
+Text: "3"
+Order: 4 
+Text: "4"
+Order: 5
+Text: "5"
+
+Indicator_id:decision_making_ratio
+Name:"Decision making ratio"
+Description:"Decision making ratio"
+Topic:T4
+Indicator_type:Indirect
+Formula:([women_staff_deciding] + [men_staff_deciding]) / ([men_staff] + [women_staff])
+Type:performance
+DataType:double
+
+Indicator_id:average_employee_satisfaction
+Name:"Average employee satisfaction"
+Description:"Average employee satisfaction"
+Topic:T4
+Indicator_type:Indirect
+Formula:avg([employee_satisfaction])
+Type:performance
+DataType:double
+
+
+Indicator_id:average_employee_inclusion_opinion
+Name:"Average employee opinion on inclusion"
+Description:"Average employee opinion on inclusion"
+Topic:T4
+Indicator_type:Indirect
+Formula:avg([employee_opinion_on_inclusiveness])
+Type:performance
+DataType:integer
+
+Indicator_id:public_salaries_score
+Name:"Public salaries score"
+Description:"Public salaries score"
+Topic:T4
+Indicator_type:Indirect
+Formula:IF ([public_salaries] = "yes") THEN [public_salaries_score] = 10 ELSE [public_salaries_score] = 0
+Type:scoring
+DataType:text
+
+Indicator_id:decision_making_ratio_score
+Name:"Decision making ratio score"
+Description:"Decision making ratio score"
+Topic:T4
+Indicator_type:Indirect
+Formula:
+	IF ([company_type]="workers cooperative") 
+	THEN IF ([decision_making_ratio]<0.6) 
+		THEN ([decision_making_ratio_score]=0) 
+		ELSE ([decision_making_ratio_score]=10) 
+	ELSE 
+		IF ([decision_making_ratio]<0.3) 
+		THEN [decision_making_ratio_score]=0 
+		ELSE [decision_making_ratio_score]=10 
+Type:scoring
+DataType:double
+
+Indicator_id:average_employee_satisfaction_score
+Name:"Average employee satisfaction score"
+Description:"Average employee satisfaction score"
+PostUnit:"points"
+Topic:T4
+Indicator_type:Indirect
+Formula:avg([average_employee_satisfaction])
+Type:scoring
+DataType:double
+
+Indicator_id:workplace_quality_score
+Name:"Workplace quality score"
+Description:"Workplace quality score"
+PostUnit:"points"
+Topic:T4
+Indicator_type:Indirect
+Formula:IF([company_size]="micro") OR ([company_size]="small") THEN [workplace_quality_score]=(0.3*[public_salaries_score] + 0.3*[decision_making_ratio_score] + 0.4*[average_employee_satisfaction_score]) ELSE IF ([company_size] ="medium") OR ([company_size] ="large") THEN [workplace_quality_score] = ((0.4*[public_salaries_score]) + (0.2 * [decision_making_ratio_score]) + (0.4 * [average_employee_satisfaction_score]))
+Type:scoring
+DataType:double
+
+Indicator_id:certification_bronze
+Name:"Certification Bronze"
+Description:"This indicator determines whether a company should receive a bronze certification"
+Topic:T5
+Indicator_type:Indirect
+Formula:IF([workplace_quality_score]>50)THEN[certification_bronze]="true" ELSE [certification_bronze]="false"
+Type:scoring
+DataType:integer
+
+
+Indicator_id:certification_silver
+Name:"Certification Silver"
+Description:"This indicator determines whether a company should receive a silver certification"
+Topic:T5
+Indicator_type:Indirect
+Formula:IF([workplace_quality_score]>80)THEN[certification_silver]="true" ELSE [certification_silver]="false"
+Type:performance
+DataType:integer
+
+Indicator_id:certification_gold
+Name:"Certification Gold"
+Description:"This indicator determines whether a company should receive a gold certification"
+Topic:T5
+Indicator_type:Indirect
+Formula:IF([workplace_quality_score]>100)THEN[certification_gold]="true" ELSE [certification_gold]="false"
+Type:performance
+DataType:integer
+
+//In the YAML file the surveys have an attribute "stakeholdergroup"
+//The "MinThreshold" is called "responserate"
+// There is no description, WelcomeTxt, ClosingTxt, ResponseType, Anonymous
+
+//We don't need stakeholder groups because the description clarifies the target audience of the survey. In v3 of the metamodel stakeholder groups class is removed
+//MinThreshold, description, WelcomeTxt, ClosingTxt, ResponseType, Anonymous should be added.
+
+//ResponseType changed to SurveyType
+
+Surveys:
+survey_id:manage_surv
+Name:"Management survey"
+Description:"This survey has to be filled in by the ESEA accountant"
+SurveyType:single
+WelcomeTxt:"Welcome ESEA accountant"
+ClosingTxt:"Bye"
+MinThreshold:1.0
+Anonymous:false
+
+//In the YAML file there are no sections
+// Sections should be added
+
+Sections:
+section_id:company_details
+Title:"Company details"
+Order:1
+
+//In the YAML file there is an attribute "others", it is not included in this grammar, the same goes for "topic"
+// isMandatory options are "Y" and "N" instead of true and false
+//There is no order and instruction. These should be added
+
+//We added UIComponents too 
+
+Questions:
+question_id:M1
+Name:"How many women members does the organisation have?"
+Description:"Women in the organisation"
+isMandatory:true
+UIComponent:field
+Order:2
+Indicator:women_staff
+Instruction:"Please count all women employees of your organisation"
+
+question_id:M2
+Name:"How many men members does the organisation have?"
+Description:"Men in the organisations"
+isMandatory:true
+UIComponent:field
+Order:3
+Indicator:men_staff
+Instruction:"Please count all employees in your organisation who identify as man"
+
+//In the YAML file "Options" is an attribute of question, answer options are added to a list in question
+//In this file answer options are added directly after the corresponding question
+
+
+question_id:M4
+Name:"What is the average monthly salary of the women in your organisation?"
+Description:"What is the average monthly salary of the women in your organisation?"
+isMandatory:true
+UIComponent:field
+Order:4
+Indicator:average_salary_women
+Instruction:"Average salary women"
+
+question_id:M5
+Name:"What is the average monthly salary of the men in your organisation?"
+Description:"What is the average monthly salary of the men in your organisation?"
+isMandatory:true
+UIComponent:field
+Order:5
+Indicator:average_salary_men
+Instruction:"Average salary men"
+
+question_id:M6
+Name:"Are the salaries of your employees publicly available?"
+Description:"Public salaries"
+isMandatory:true
+UIComponent:radioButton
+Order:6
+Indicator:public_salaries
+Instruction:"Select the correct option"
+
+TextFragments:
+Text:"This section collects general information about your company"
+Order:1
+
+section_id:decision_making
+Title:"Decision-making"
+Order:2
+
+Questions:
+question_id:M11
+Name:"How many women are involved in decision making in the organisation?"
+Description:"How many women are involved in decision making in the organisation?"
+isMandatory:true
+UIComponent:field
+Order:1
+Indicator:women_staff_deciding
+Instruction:"Enter the number"
+
+question_id:M12
+Name:"How many men are involved in decision making in the organisation?"
+Description:"How many men are involved in decision making in the organisation?"
+isMandatory:true
+UIComponent:field
+Order:3
+Indicator:men_staff_deciding
+Instruction:"Enter the number"
+
+TextFragments:
+Text:"This section collects data on the decision-making process in your company"
+Order:1
+
+survey_id:employee_surv
+Name:"Employee survey"
+Description:"This survey should be answered by all employees of the company"
+SurveyType:multi
+WelcomeTxt:"Welcome Employee"
+ClosingTxt:"Bye"
+MinThreshold:0.7
+Anonymous:true
+
+Sections:
+section_id:satisfaction
+Title:"Overall satisfaction"
+Order:1
+
+Questions:
+question_id:E1
+Name:"What is your global satisfaction with the working conditions?"
+Description:"Global satisfaction"
+isMandatory:false
+UIComponent:radioButton
+Order:2
+Indicator:employee_satisfaction
+Instruction:"Enter your global satisfaction on a scale of 1 to 5"
+
+TextFragments:
+Text:"In this section questions related to your workplace satisfaction will be asked."
+Order:1
+
+section_id:EDI
+Title:"Equity, Diversity & Inclusiveness"
+Order:3
+
+Questions:
+question_id:E2
+Name:"How inclusive do you think this company is?"
+Description:"How inclusive do you think this company is?"
+isMandatory:false
+UIComponent:dropDown
+Order:2
+Indicator:employee_opinion_on_inclusiveness
+Instruction:"Enter the number on a scale of 1 to 5"
+
+TextFragments:
+Text:"In this section data about equity, diversity and inclusiveness is collected"
+Order:1
+
+//There are no certification levels in the YAML file
+
+Certification_levels:
+certification_id:level1
+Name:"Beginner"
+Description:"The beginner level"
+Level:1.0
+Colour:"Bronze"
+Requirements:[certification_bronze]
+
+certification_id:level2
+Name:"Intermediate"
+Description:"The intermediate level"
+Level:2.0
+Colour:"Silver"
+Requirements:[certification_silver]
+
+certification_id:level3
+Name:"Expert"
+Description:"The expert level"
+Level:3.0
+Colour:"Gold"
+Requirements:[certification_gold]
+
+Validation_rules:
+Type:error
+Condition:[total_staff]>=([women_staff]+[men_staff])
+Message:"The total staff should be equal or larger than the number of women and men in the organisation"
+
+survey_id:registration_survey
+Name:"Registration survey"
+Description:"This survey has to be filled in upon registration"
+SurveyType:single
+MinThreshold:1.0
+Anonymous:false
+
+Sections:
+section_id:R1
+Title:"General information"
+Order:1
+
+Questions:
+question_id:M3
+Name:"Please select the company type”"
+Description:"Company type"
+isMandatory:true
+UIComponent:radioButton
+Order:2
+Indicator:company_type
+Instruction:"Select the company type"
+
+TextFragments:
+Text:"General information that needs to be filled in upon registration"
+Order:1
+

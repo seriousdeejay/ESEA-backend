@@ -1,0 +1,1743 @@
+[
+{
+    "model": "core.customuser",
+    "pk": 1,
+    "fields": {
+        "password": "pbkdf2_sha256$216000$3cQaV2ZoTzRh$Ll5YWsJQ25/h20k0e9zPmyIRTsF93naa046DvWsvtBo=",
+        "last_login": "2021-10-19T13:01:05.106Z",
+        "is_superuser": true,
+        "is_staff": true,
+        "is_active": true,
+        "date_joined": "2021-10-18T13:44:44.245Z",
+        "username": "admin",
+        "email": "admin@localhost.com",
+        "image": "user/avatar-default.png",
+        "first_name": "",
+        "last_name_prefix": "",
+        "last_name": "",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "core.customuser",
+    "pk": 2,
+    "fields": {
+        "password": "pbkdf2_sha256$216000$dIPIsMoSsilI$msL6kZboSdE9rIN6Vjt9v+IkbFjBJHOzI6nuj8N+iwg=",
+        "last_login": null,
+        "is_superuser": false,
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2021-10-18T14:55:33Z",
+        "username": "SergioEspana",
+        "email": "SergioEspana@localhost.com",
+        "image": "user/avatar-default.png",
+        "first_name": "Sergio",
+        "last_name_prefix": "",
+        "last_name": "Espana",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "core.customuser",
+    "pk": 3,
+    "fields": {
+        "password": "pbkdf2_sha256$216000$SO7Weix5sRDv$+6Zz/TYJrwQwcwKAtkIbQSdWq6RDa6IT2eB4vYaPaGk=",
+        "last_login": null,
+        "is_superuser": false,
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2021-10-18T14:56:36Z",
+        "username": "VijantiRamautar",
+        "email": "VijantiRamautar@localhost.com",
+        "image": "user/avatar-default.png",
+        "first_name": "Vijanti",
+        "last_name_prefix": "",
+        "last_name": "Ramautar",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "core.customuser",
+    "pk": 4,
+    "fields": {
+        "password": "pbkdf2_sha256$216000$eMMwJt85QBj9$2RfPc4MgIMQFJPhHUxg+gQWtUidOjBuqpn7iL0soqEU=",
+        "last_login": null,
+        "is_superuser": false,
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2021-10-18T14:59:03Z",
+        "username": "TiesVanDijk",
+        "email": "TiesVanDijk@localhost.com",
+        "image": "user/avatar-default.png",
+        "first_name": "Ties",
+        "last_name_prefix": "van",
+        "last_name": "Dijk",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "core.customuser",
+    "pk": 5,
+    "fields": {
+        "password": "pbkdf2_sha256$216000$DvTM87nzOKfx$v5zqfTjhV0oCOvi2HRPYyUg5zl9afQgJyWxjmZDNM64=",
+        "last_login": null,
+        "is_superuser": false,
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2021-10-18T14:59:52Z",
+        "username": "ArturMoeijes",
+        "email": "ArturMoeijes@localhost.com",
+        "image": "user/avatar-default.png",
+        "first_name": "Artur",
+        "last_name_prefix": "",
+        "last_name": "Moeijes",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "core.customuser",
+    "pk": 6,
+    "fields": {
+        "password": "pbkdf2_sha256$216000$6bhhCuTZ6lQj$SfT8DoknjbMfEGaDktulDEM5c3+EC3NSmIpAIBPFVrU=",
+        "last_login": null,
+        "is_superuser": false,
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2021-10-18T15:00:38Z",
+        "username": "DiederikVanRijen",
+        "email": "DiederikVanRijen@localhost.com",
+        "image": "user/avatar-default.png",
+        "first_name": "Diederik",
+        "last_name_prefix": "van",
+        "last_name": "Rijen",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "core.networkmember",
+    "pk": 1,
+    "fields": {
+        "network": 1,
+        "user": 2,
+        "invitation": "accepted",
+        "role": 2
+    }
+},
+{
+    "model": "core.networkmember",
+    "pk": 2,
+    "fields": {
+        "network": 2,
+        "user": 3,
+        "invitation": "accepted",
+        "role": 2
+    }
+},
+{
+    "model": "core.networkmember",
+    "pk": 3,
+    "fields": {
+        "network": 3,
+        "user": 4,
+        "invitation": "accepted",
+        "role": 2
+    }
+},
+{
+    "model": "core.network",
+    "pk": 1,
+    "fields": {
+        "owner": 2,
+        "created_by": 1,
+        "ispublic": true,
+        "name": "EMAS",
+        "description": "The EU Eco-Management and Audit Scheme (EMAS) is a premium management instrument developed by the European Commission for companies and other organisations to evaluate, report, and improve their environmental performance. EMAS is open to every type of organisation eager to improve its environmental performance. It spans all economic and service sectors and is applicable worldwide.",
+        "image": "network/sustainability-circle.png",
+        "organisations": [
+            1,
+            4,
+            6
+        ],
+        "methods": []
+    }
+},
+{
+    "model": "core.network",
+    "pk": 2,
+    "fields": {
+        "owner": 3,
+        "created_by": 1,
+        "ispublic": true,
+        "name": "B Corporations",
+        "description": "Certified B Corporations are a new kind of business that balances purpose and profit. They are legally required to consider the impact of their decisions on their workers, customers, suppliers, community, and the environment.",
+        "image": "network/sustainability-circle.png",
+        "organisations": [
+            4,
+            6,
+            7
+        ],
+        "methods": []
+    }
+},
+{
+    "model": "core.network",
+    "pk": 3,
+    "fields": {
+        "owner": 4,
+        "created_by": 1,
+        "ispublic": true,
+        "name": "CSR Europe",
+        "description": "CSR Europe is the European Business Network for Corporate Sustainability and Responsibility. We support businesses & industry sectors in their transformation.",
+        "image": "network/sustainability-circle.png",
+        "organisations": [
+            1,
+            6
+        ],
+        "methods": []
+    }
+},
+{
+    "model": "core.organisationmember",
+    "pk": 1,
+    "fields": {
+        "organisation": 1,
+        "user": 1,
+        "invitation": "accepted",
+        "role": 3
+    }
+},
+{
+    "model": "core.organisationmember",
+    "pk": 2,
+    "fields": {
+        "organisation": 3,
+        "user": 2,
+        "invitation": "accepted",
+        "role": 1
+    }
+},
+{
+    "model": "core.organisationmember",
+    "pk": 3,
+    "fields": {
+        "organisation": 4,
+        "user": 2,
+        "invitation": "accepted",
+        "role": 3
+    }
+},
+{
+    "model": "core.organisationmember",
+    "pk": 4,
+    "fields": {
+        "organisation": 5,
+        "user": 3,
+        "invitation": "accepted",
+        "role": 3
+    }
+},
+{
+    "model": "core.organisationmember",
+    "pk": 5,
+    "fields": {
+        "organisation": 6,
+        "user": 4,
+        "invitation": "accepted",
+        "role": 3
+    }
+},
+{
+    "model": "core.organisationmember",
+    "pk": 6,
+    "fields": {
+        "organisation": 7,
+        "user": 5,
+        "invitation": "accepted",
+        "role": 3
+    }
+},
+{
+    "model": "core.organisationmember",
+    "pk": 7,
+    "fields": {
+        "organisation": 8,
+        "user": 6,
+        "invitation": "accepted",
+        "role": 3
+    }
+},
+{
+    "model": "core.organisationmember",
+    "pk": 8,
+    "fields": {
+        "organisation": 3,
+        "user": 1,
+        "invitation": "pending",
+        "role": 3
+    }
+},
+{
+    "model": "core.organisationmember",
+    "pk": 9,
+    "fields": {
+        "organisation": 9,
+        "user": 1,
+        "invitation": "accepted",
+        "role": 3
+    }
+},
+{
+    "model": "core.organisation",
+    "pk": 1,
+    "fields": {
+        "owner": 1,
+        "created_by": 1,
+        "ispublic": true,
+        "name": "Shell",
+        "description": "Shell is a non-profit humanitarian organisation that is located in the UK and Netherlands that provides work in less developed countries.",
+        "image": "organisation/sustainability-circle.png"
+    }
+},
+{
+    "model": "core.organisation",
+    "pk": 3,
+    "fields": {
+        "owner": 1,
+        "created_by": 2,
+        "ispublic": true,
+        "name": "Tony's Chocolonely",
+        "description": "Tony's Chocolonely is a Dutch confectionery company founded in 2005 which produces and sells chocolate.",
+        "image": "organisation/sustainability-circle.png"
+    }
+},
+{
+    "model": "core.organisation",
+    "pk": 4,
+    "fields": {
+        "owner": 2,
+        "created_by": 2,
+        "ispublic": true,
+        "name": "Ben & Jerry's",
+        "description": "Ben & Jerry's Homemade Holdings Inc. trading and commonly known as Ben & Jerry's, is a Vermont-based company that manufactures ice cream and frozen yogurt.",
+        "image": "organisation/sustainability-circle.png"
+    }
+},
+{
+    "model": "core.organisation",
+    "pk": 5,
+    "fields": {
+        "owner": 3,
+        "created_by": 3,
+        "ispublic": true,
+        "name": "Patagonia",
+        "description": "Patagonia is a designer of outdoor clothing and gear for the silent sports: climbing, surfing, skiing and snowboarding, fly fishing, and trail running.",
+        "image": "organisation/sustainability-circle.png"
+    }
+},
+{
+    "model": "core.organisation",
+    "pk": 6,
+    "fields": {
+        "owner": 4,
+        "created_by": 4,
+        "ispublic": true,
+        "name": "Triodos",
+        "description": "Triodos is a sustainable bank with eye on the future.",
+        "image": "organisation/sustainability-circle.png"
+    }
+},
+{
+    "model": "core.organisation",
+    "pk": 7,
+    "fields": {
+        "owner": 5,
+        "created_by": 5,
+        "ispublic": true,
+        "name": "Greyston Bakery",
+        "description": "Greyston Bakery is a world-class commercial operation, producing 40,000 pounds of award-winning brownies daily for customers such as Ben & Jerry's and Whole Foods Market.",
+        "image": "organisation/sustainability-circle.png"
+    }
+},
+{
+    "model": "core.organisation",
+    "pk": 8,
+    "fields": {
+        "owner": 6,
+        "created_by": 6,
+        "ispublic": true,
+        "name": "Superwomen",
+        "description": "Project Superwomen was founded as a collaboration of a social service provider, a nonprofit employment-training center, and a non-profit shelter provider for female domestic violence victims.",
+        "image": "organisation/sustainability-circle.png"
+    }
+},
+{
+    "model": "core.organisation",
+    "pk": 9,
+    "fields": {
+        "owner": 1,
+        "created_by": 1,
+        "ispublic": true,
+        "name": "organisation 1",
+        "description": "",
+        "image": "organisation/sustainability-circle.png"
+    }
+},
+{
+    "model": "core.membership",
+    "pk": 3,
+    "fields": {
+        "network": 1,
+        "organisation": 5,
+        "join_date": null,
+        "status": "pending",
+        "requester": "network"
+    }
+},
+{
+    "model": "core.membership",
+    "pk": 8,
+    "fields": {
+        "network": 2,
+        "organisation": 5,
+        "join_date": null,
+        "status": "pending",
+        "requester": "network"
+    }
+},
+{
+    "model": "core.membership",
+    "pk": 12,
+    "fields": {
+        "network": 3,
+        "organisation": 3,
+        "join_date": null,
+        "status": "pending",
+        "requester": "network"
+    }
+},
+{
+    "model": "core.membership",
+    "pk": 13,
+    "fields": {
+        "network": 2,
+        "organisation": 1,
+        "join_date": null,
+        "status": "pending",
+        "requester": "organisation"
+    }
+},
+{
+    "model": "core.membership",
+    "pk": 14,
+    "fields": {
+        "network": 1,
+        "organisation": 3,
+        "join_date": null,
+        "status": "pending",
+        "requester": "organisation"
+    }
+},
+{
+    "model": "core.membership",
+    "pk": 15,
+    "fields": {
+        "network": 1,
+        "organisation": 7,
+        "join_date": null,
+        "status": "pending",
+        "requester": "organisation"
+    }
+},
+{
+    "model": "core.membership",
+    "pk": 16,
+    "fields": {
+        "network": 1,
+        "organisation": 8,
+        "join_date": null,
+        "status": "pending",
+        "requester": "organisation"
+    }
+},
+{
+    "model": "core.membership",
+    "pk": 17,
+    "fields": {
+        "network": 2,
+        "organisation": 8,
+        "join_date": null,
+        "status": "pending",
+        "requester": "organisation"
+    }
+},
+{
+    "model": "core.membership",
+    "pk": 18,
+    "fields": {
+        "network": 2,
+        "organisation": 3,
+        "join_date": null,
+        "status": "pending",
+        "requester": "organisation"
+    }
+},
+{
+    "model": "core.method",
+    "pk": 2,
+    "fields": {
+        "created_by": 1,
+        "ispublic": true,
+        "name": "STARS Method",
+        "description": "STARS Method by Aashe",
+        "version": "1.00"
+    }
+},
+{
+    "model": "core.stakeholdergroup",
+    "pk": 1,
+    "fields": {
+        "name": "anyone",
+        "description": ""
+    }
+},
+{
+    "model": "core.survey",
+    "pk": 5,
+    "fields": {
+        "method": 2,
+        "stakeholdergroup": 1,
+        "name": "Management Survey",
+        "description": "",
+        "welcome_text": "",
+        "closing_text": "",
+        "min_threshold": 100,
+        "anonymous": false,
+        "response_type": "single"
+    }
+},
+{
+    "model": "core.section",
+    "pk": 6,
+    "fields": {
+        "survey": 5,
+        "order": 1,
+        "title": "Section 1"
+    }
+},
+{
+    "model": "core.topic",
+    "pk": 7,
+    "fields": {
+        "method": 2,
+        "parent_topic": null,
+        "name": "Root",
+        "description": ""
+    }
+},
+{
+    "model": "core.topic",
+    "pk": 9,
+    "fields": {
+        "method": 2,
+        "parent_topic": 7,
+        "name": "Academics -Curriculum -Academic courses",
+        "description": ""
+    }
+},
+{
+    "model": "core.topic",
+    "pk": 11,
+    "fields": {
+        "method": 2,
+        "parent_topic": 7,
+        "name": "Academics -Curriculum - Learning outcomes",
+        "description": ""
+    }
+},
+{
+    "model": "core.topic",
+    "pk": 12,
+    "fields": {
+        "method": 2,
+        "parent_topic": 7,
+        "name": "Engagement - Campus Engagement - Assessing Sustainability Culture",
+        "description": ""
+    }
+},
+{
+    "model": "core.topic",
+    "pk": 13,
+    "fields": {
+        "method": 2,
+        "parent_topic": 7,
+        "name": "Operations - Buildings - Building Design and Construction",
+        "description": ""
+    }
+},
+{
+    "model": "core.topic",
+    "pk": 14,
+    "fields": {
+        "method": 2,
+        "parent_topic": 7,
+        "name": "Operations Energy - Clean and Renewable Energy",
+        "description": ""
+    }
+},
+{
+    "model": "core.question",
+    "pk": 11,
+    "fields": {
+        "method": 2,
+        "section": 6,
+        "topic": null,
+        "order": 1,
+        "isMandatory": true,
+        "name": "How many sustainability focused courses does your institute offer?",
+        "description": "",
+        "instruction": "",
+        "default": "",
+        "min_number": 1,
+        "max_number": 5,
+        "answertype": "TEXT",
+        "uiComponent": "field"
+    }
+},
+{
+    "model": "core.question",
+    "pk": 12,
+    "fields": {
+        "method": 2,
+        "section": 6,
+        "topic": null,
+        "order": 1,
+        "isMandatory": true,
+        "name": "How many sustainability inclusive courses does your institute offer?",
+        "description": "",
+        "instruction": "",
+        "default": "",
+        "min_number": 1,
+        "max_number": 5,
+        "answertype": "TEXT",
+        "uiComponent": "field"
+    }
+},
+{
+    "model": "core.question",
+    "pk": 13,
+    "fields": {
+        "method": 2,
+        "section": 6,
+        "topic": null,
+        "order": 1,
+        "isMandatory": true,
+        "name": "How many courses does your institute offer?",
+        "description": "",
+        "instruction": "",
+        "default": "",
+        "min_number": 1,
+        "max_number": 5,
+        "answertype": "TEXT",
+        "uiComponent": "field"
+    }
+},
+{
+    "model": "core.question",
+    "pk": 14,
+    "fields": {
+        "method": 2,
+        "section": 6,
+        "topic": null,
+        "order": 1,
+        "isMandatory": true,
+        "name": "How many departments within your institute offer sustainability focused/inclusive courses?",
+        "description": "",
+        "instruction": "",
+        "default": "",
+        "min_number": 1,
+        "max_number": 5,
+        "answertype": "TEXT",
+        "uiComponent": "field"
+    }
+},
+{
+    "model": "core.question",
+    "pk": 15,
+    "fields": {
+        "method": 2,
+        "section": 6,
+        "topic": null,
+        "order": 1,
+        "isMandatory": true,
+        "name": "What is the total number of departments within your institute?",
+        "description": "",
+        "instruction": "",
+        "default": "",
+        "min_number": 1,
+        "max_number": 5,
+        "answertype": "TEXT",
+        "uiComponent": "field"
+    }
+},
+{
+    "model": "core.question",
+    "pk": 16,
+    "fields": {
+        "method": 2,
+        "section": 6,
+        "topic": null,
+        "order": 1,
+        "isMandatory": true,
+        "name": "How many graduates from degree programs require an understanding of sustainability?",
+        "description": "",
+        "instruction": "",
+        "default": "",
+        "min_number": 1,
+        "max_number": 5,
+        "answertype": "TEXT",
+        "uiComponent": "field"
+    }
+},
+{
+    "model": "core.question",
+    "pk": 17,
+    "fields": {
+        "method": 2,
+        "section": 6,
+        "topic": null,
+        "order": 1,
+        "isMandatory": true,
+        "name": "What is the total number of graduates per year?",
+        "description": "",
+        "instruction": "",
+        "default": "",
+        "min_number": 1,
+        "max_number": 5,
+        "answertype": "TEXT",
+        "uiComponent": "field"
+    }
+},
+{
+    "model": "core.question",
+    "pk": 18,
+    "fields": {
+        "method": 2,
+        "section": 6,
+        "topic": null,
+        "order": 1,
+        "isMandatory": true,
+        "name": "Does the institution conduct an assessment of sustainability culture, administered to the entire campus community (students and employees) directly or by representative sample (i.e., the assessment focuses on sustainability values, behaviors, and beliefs, and may also address awareness of campus sustainability initiatives)?",
+        "description": "",
+        "instruction": "",
+        "default": "",
+        "min_number": 1,
+        "max_number": 5,
+        "answertype": "TEXT",
+        "uiComponent": "radiobutton"
+    }
+},
+{
+    "model": "core.question",
+    "pk": 19,
+    "fields": {
+        "method": 2,
+        "section": 6,
+        "topic": null,
+        "order": 1,
+        "isMandatory": true,
+        "name": "\"Does the institution conduct an assessment of sustainability culture, administered to a subset of the campus community or a sample that may not be representative of the entire community (i.e., the assessment focuses on sustainability values, behaviors, and beliefs, and may also address awareness of campus sustainability initiatives)?\"",
+        "description": "",
+        "instruction": "",
+        "default": "",
+        "min_number": 1,
+        "max_number": 5,
+        "answertype": "TEXT",
+        "uiComponent": "radiobutton"
+    }
+},
+{
+    "model": "core.question",
+    "pk": 20,
+    "fields": {
+        "method": 2,
+        "section": 6,
+        "topic": null,
+        "order": 1,
+        "isMandatory": true,
+        "name": "Is the sustainability assessment administered longitudinally to measure change over time (i.e., with one or more follow-up assessments administered to the same cohort or representative samples of the same population).",
+        "description": "",
+        "instruction": "",
+        "default": "",
+        "min_number": 1,
+        "max_number": 5,
+        "answertype": "TEXT",
+        "uiComponent": "radiobutton"
+    }
+},
+{
+    "model": "core.question",
+    "pk": 21,
+    "fields": {
+        "method": 2,
+        "section": 6,
+        "topic": null,
+        "order": 1,
+        "isMandatory": true,
+        "name": "How much floor area of newly constructed or renovated building space is certified at the highest achievable level under a multi-attribute GBC rating system for design and construction (e.g., LEED BD+C Platinum or Certified Living Building)?",
+        "description": "",
+        "instruction": "",
+        "default": "",
+        "min_number": 1,
+        "max_number": 5,
+        "answertype": "TEXT",
+        "uiComponent": "field"
+    }
+},
+{
+    "model": "core.question",
+    "pk": 22,
+    "fields": {
+        "method": 2,
+        "section": 6,
+        "topic": null,
+        "order": 1,
+        "isMandatory": true,
+        "name": "\"How much floor area of newly constructed or renovated building space is certified at the 2nd highest level under a 4- or 5-tier, multi-attribute GBC rating system for design and construction (e.g., LEED BD+C Gold) ?\"",
+        "description": "",
+        "instruction": "",
+        "default": "",
+        "min_number": 1,
+        "max_number": 5,
+        "answertype": "TEXT",
+        "uiComponent": "field"
+    }
+},
+{
+    "model": "core.question",
+    "pk": 23,
+    "fields": {
+        "method": 2,
+        "section": 6,
+        "topic": null,
+        "order": 1,
+        "isMandatory": true,
+        "name": "\"How much floor area of newly constructed or renovated building space is certified at mid-level under a 3- or 5-tier, multi-attribute GBC rating system for design and construction (e.g., BREEAM Very Good)?\"",
+        "description": "",
+        "instruction": "",
+        "default": "",
+        "min_number": 1,
+        "max_number": 5,
+        "answertype": "TEXT",
+        "uiComponent": "field"
+    }
+},
+{
+    "model": "core.question",
+    "pk": 24,
+    "fields": {
+        "method": 2,
+        "section": 6,
+        "topic": null,
+        "order": 1,
+        "isMandatory": true,
+        "name": "\"How much floor area of newly constructed or renovated building space is certified at a step above minimum level under a 4- or 5-tier, multi-attribute GBC rating system for design and construction (e.g., LEED BD+C Silver)?\"",
+        "description": "",
+        "instruction": "",
+        "default": "",
+        "min_number": 1,
+        "max_number": 5,
+        "answertype": "TEXT",
+        "uiComponent": "field"
+    }
+},
+{
+    "model": "core.question",
+    "pk": 25,
+    "fields": {
+        "method": 2,
+        "section": 6,
+        "topic": null,
+        "order": 1,
+        "isMandatory": true,
+        "name": "\"How much floor area of newly constructed or renovated building space is certified at minimum level under a multi-attribute GBC rating system for design and construction (e.g., LEED BD+C Certified)?\"",
+        "description": "",
+        "instruction": "",
+        "default": "",
+        "min_number": 1,
+        "max_number": 5,
+        "answertype": "TEXT",
+        "uiComponent": "field"
+    }
+},
+{
+    "model": "core.question",
+    "pk": 26,
+    "fields": {
+        "method": 2,
+        "section": 6,
+        "topic": null,
+        "order": 1,
+        "isMandatory": true,
+        "name": "\"How much floor area of newly constructed or renovated building space is certified/verified at any level under a multi-attribute, non-GBC rating system for design and construction, a green building code, or a single-attribute rating system for design and construction?\"",
+        "description": "",
+        "instruction": "",
+        "default": "",
+        "min_number": 1,
+        "max_number": 5,
+        "answertype": "TEXT",
+        "uiComponent": "field"
+    }
+},
+{
+    "model": "core.question",
+    "pk": 27,
+    "fields": {
+        "method": 2,
+        "section": 6,
+        "topic": null,
+        "order": 1,
+        "isMandatory": true,
+        "name": "\"How much floor area of newly constructed or renovated building space is designed and built in accordance with a multi-attribute green building code, policy, guideline, or rating system, but not certified/verified ?\"",
+        "description": "",
+        "instruction": "",
+        "default": "",
+        "min_number": 1,
+        "max_number": 5,
+        "answertype": "TEXT",
+        "uiComponent": "field"
+    }
+},
+{
+    "model": "core.question",
+    "pk": 28,
+    "fields": {
+        "method": 2,
+        "section": 6,
+        "topic": null,
+        "order": 1,
+        "isMandatory": true,
+        "name": "\"How much floor area of newly constructed or renovated building space is designed and built in accordance with a single-attribute green building code, policy, guideline, or rating system, but not certified/verified?\"",
+        "description": "",
+        "instruction": "",
+        "default": "",
+        "min_number": 1,
+        "max_number": 5,
+        "answertype": "TEXT",
+        "uiComponent": "field"
+    }
+},
+{
+    "model": "core.question",
+    "pk": 29,
+    "fields": {
+        "method": 2,
+        "section": 6,
+        "topic": null,
+        "order": 1,
+        "isMandatory": true,
+        "name": "What is the total floor area of newly constructed or renovated building space?",
+        "description": "",
+        "instruction": "",
+        "default": "",
+        "min_number": 1,
+        "max_number": 5,
+        "answertype": "TEXT",
+        "uiComponent": "field"
+    }
+},
+{
+    "model": "core.question",
+    "pk": 30,
+    "fields": {
+        "method": 2,
+        "section": 6,
+        "topic": null,
+        "order": 1,
+        "isMandatory": true,
+        "name": "What is the annual energy consumption of your institute?",
+        "description": "",
+        "instruction": "",
+        "default": "",
+        "min_number": 1,
+        "max_number": 5,
+        "answertype": "TEXT",
+        "uiComponent": "field"
+    }
+},
+{
+    "model": "core.question",
+    "pk": 31,
+    "fields": {
+        "method": 2,
+        "section": 6,
+        "topic": null,
+        "order": 1,
+        "isMandatory": true,
+        "name": "\"How much electricity is imported electricity from certified/verified clean and renewable sources (i.e., bundled green power purchases)?\"",
+        "description": "",
+        "instruction": "",
+        "default": "",
+        "min_number": 1,
+        "max_number": 5,
+        "answertype": "TEXT",
+        "uiComponent": "field"
+    }
+},
+{
+    "model": "core.question",
+    "pk": 32,
+    "fields": {
+        "method": 2,
+        "section": 6,
+        "topic": null,
+        "order": 1,
+        "isMandatory": true,
+        "name": "How much electricity is electricity from on-site, clean and renewable sources?",
+        "description": "",
+        "instruction": "",
+        "default": "",
+        "min_number": 1,
+        "max_number": 5,
+        "answertype": "TEXT",
+        "uiComponent": "field"
+    }
+},
+{
+    "model": "core.question",
+    "pk": 33,
+    "fields": {
+        "method": 2,
+        "section": 6,
+        "topic": null,
+        "order": 1,
+        "isMandatory": true,
+        "name": "How much thermal energy is generated from on-site clean and renewable stationary fuels?",
+        "description": "",
+        "instruction": "",
+        "default": "",
+        "min_number": 1,
+        "max_number": 5,
+        "answertype": "TEXT",
+        "uiComponent": "field"
+    }
+},
+{
+    "model": "core.question",
+    "pk": 34,
+    "fields": {
+        "method": 2,
+        "section": 6,
+        "topic": null,
+        "order": 1,
+        "isMandatory": true,
+        "name": "\"How much thermal energy is imported steam, hot water, and/or chilled water from certified/verified clean and renewable sources?\"",
+        "description": "",
+        "instruction": "",
+        "default": "",
+        "min_number": 1,
+        "max_number": 5,
+        "answertype": "TEXT",
+        "uiComponent": "field"
+    }
+},
+{
+    "model": "core.question",
+    "pk": 35,
+    "fields": {
+        "method": 2,
+        "section": 6,
+        "topic": null,
+        "order": 1,
+        "isMandatory": true,
+        "name": "\"How much of your energy is purchased RECs, GOs, I-RECs or equivalent unbundled renewable energy products certified by a third party\"",
+        "description": "",
+        "instruction": "",
+        "default": "",
+        "min_number": 1,
+        "max_number": 5,
+        "answertype": "TEXT",
+        "uiComponent": "field"
+    }
+},
+{
+    "model": "core.answeroption",
+    "pk": 12,
+    "fields": {
+        "order": 1,
+        "text": "yes",
+        "direct_indicator": []
+    }
+},
+{
+    "model": "core.answeroption",
+    "pk": 13,
+    "fields": {
+        "order": 2,
+        "text": "Ye",
+        "direct_indicator": []
+    }
+},
+{
+    "model": "core.answeroption",
+    "pk": 14,
+    "fields": {
+        "order": 2,
+        "text": "No",
+        "direct_indicator": [
+            19,
+            20,
+            21
+        ]
+    }
+},
+{
+    "model": "core.answeroption",
+    "pk": 15,
+    "fields": {
+        "order": 1,
+        "text": "Yes",
+        "direct_indicator": [
+            19,
+            20,
+            21
+        ]
+    }
+},
+{
+    "model": "core.directindicator",
+    "pk": 11,
+    "fields": {
+        "question": 11,
+        "method": 2,
+        "topic": 9,
+        "key": "sustainability_focused_courses",
+        "name": "Number of sustainability-focused courses",
+        "description": "",
+        "pre_unit": "",
+        "post_unit": "courses",
+        "datatype": "integer"
+    }
+},
+{
+    "model": "core.directindicator",
+    "pk": 12,
+    "fields": {
+        "question": 12,
+        "method": 2,
+        "topic": 9,
+        "key": "sustainability_inclusive_courses",
+        "name": "Number of sustainability-inclusive courses",
+        "description": "",
+        "pre_unit": "",
+        "post_unit": "courses",
+        "datatype": "integer"
+    }
+},
+{
+    "model": "core.directindicator",
+    "pk": 13,
+    "fields": {
+        "question": 13,
+        "method": 2,
+        "topic": 9,
+        "key": "total_courses",
+        "name": "Total number of courses offered",
+        "description": "",
+        "pre_unit": "",
+        "post_unit": "courses",
+        "datatype": "integer"
+    }
+},
+{
+    "model": "core.directindicator",
+    "pk": 15,
+    "fields": {
+        "question": 14,
+        "method": 2,
+        "topic": 9,
+        "key": "departments_with_sustainability_courses",
+        "name": "Number of departments with sustainability course offerings",
+        "description": "",
+        "pre_unit": "",
+        "post_unit": "departments",
+        "datatype": "integer"
+    }
+},
+{
+    "model": "core.directindicator",
+    "pk": 16,
+    "fields": {
+        "question": 15,
+        "method": 2,
+        "topic": 9,
+        "key": "total_departments",
+        "name": "Total number of departments",
+        "description": "",
+        "pre_unit": "",
+        "post_unit": "departments",
+        "datatype": "integer"
+    }
+},
+{
+    "model": "core.directindicator",
+    "pk": 17,
+    "fields": {
+        "question": 16,
+        "method": 2,
+        "topic": 11,
+        "key": "graduates_understanding_sustainability",
+        "name": "Number of graduates that require an understanding of sustainability",
+        "description": "",
+        "pre_unit": "",
+        "post_unit": "graduates",
+        "datatype": "integer"
+    }
+},
+{
+    "model": "core.directindicator",
+    "pk": 18,
+    "fields": {
+        "question": 17,
+        "method": 2,
+        "topic": 11,
+        "key": "total_graduates",
+        "name": "Total number of graduates",
+        "description": "",
+        "pre_unit": "",
+        "post_unit": "graduates",
+        "datatype": "integer"
+    }
+},
+{
+    "model": "core.directindicator",
+    "pk": 19,
+    "fields": {
+        "question": 18,
+        "method": 2,
+        "topic": 12,
+        "key": "culture_sustainability_assessment_entire_campus",
+        "name": "An  assessment of sustainability culture is administered to the entire campus community",
+        "description": "",
+        "pre_unit": "",
+        "post_unit": "",
+        "datatype": "singlechoice"
+    }
+},
+{
+    "model": "core.directindicator",
+    "pk": 20,
+    "fields": {
+        "question": 19,
+        "method": 2,
+        "topic": 12,
+        "key": "culture_sustainability_assessment_subset_campus",
+        "name": "An assessment of sustainability culture is administered to a subset of the campus community",
+        "description": "",
+        "pre_unit": "",
+        "post_unit": "",
+        "datatype": "singlechoice"
+    }
+},
+{
+    "model": "core.directindicator",
+    "pk": 21,
+    "fields": {
+        "question": 20,
+        "method": 2,
+        "topic": 12,
+        "key": "culture_sustainability_assessment_longitudinally",
+        "name": "An assessment of sustainability culture is administered administered longitudinally to measure change over time",
+        "description": "",
+        "pre_unit": "",
+        "post_unit": "",
+        "datatype": "singlechoice"
+    }
+},
+{
+    "model": "core.directindicator",
+    "pk": 22,
+    "fields": {
+        "question": 21,
+        "method": 2,
+        "topic": 13,
+        "key": "building_area_highest_level_GCB_certified",
+        "name": "Certified at the highest achievable level under a multi-attribute GBC rating system",
+        "description": "(e.g., LEED BD+C Platinum or Certified Living Building)",
+        "pre_unit": "",
+        "post_unit": "m^2",
+        "datatype": "integer"
+    }
+},
+{
+    "model": "core.directindicator",
+    "pk": 23,
+    "fields": {
+        "question": 22,
+        "method": 2,
+        "topic": 13,
+        "key": "building_area_second_highest_level_GCB_certified",
+        "name": "Certified or at the 2nd highest level under a 4- or 5-tier, multi-attribute GBC rating system (e.g., LEED BD+C Gold)",
+        "description": "",
+        "pre_unit": "",
+        "post_unit": "m^2",
+        "datatype": "integer"
+    }
+},
+{
+    "model": "core.directindicator",
+    "pk": 24,
+    "fields": {
+        "question": 23,
+        "method": 2,
+        "topic": 13,
+        "key": "building_area_mid_level_GCB_certified",
+        "name": "Certified at mid-level under a 3- or 5-tier, multi-attribute GBC rating system (e.g., BREEAM Very Good)",
+        "description": "",
+        "pre_unit": "",
+        "post_unit": "m^2",
+        "datatype": "integer"
+    }
+},
+{
+    "model": "core.directindicator",
+    "pk": 25,
+    "fields": {
+        "question": 24,
+        "method": 2,
+        "topic": 13,
+        "key": "building_area_step_above_minumum_level_GCB_certified",
+        "name": "Certified at a step above minimum level under a 4- or 5-tier, multi-attribute GBC rating system (e.g., LEED BD+C Silver)",
+        "description": "",
+        "pre_unit": "",
+        "post_unit": "m^2",
+        "datatype": "integer"
+    }
+},
+{
+    "model": "core.directindicator",
+    "pk": 26,
+    "fields": {
+        "question": 25,
+        "method": 2,
+        "topic": 13,
+        "key": "building_area_minumum_level_GCB_certified",
+        "name": "Certified at minimum level under a multi-attribute GBC rating system (e.g., LEED BD+C Certified)",
+        "description": "",
+        "pre_unit": "",
+        "post_unit": "m^2",
+        "datatype": "integer"
+    }
+},
+{
+    "model": "core.directindicator",
+    "pk": 27,
+    "fields": {
+        "question": 26,
+        "method": 2,
+        "topic": 13,
+        "key": "building_area_any_level_non-GCB_certified",
+        "name": "Certified/verified at any level under multi-attribute, a green building code, non-GBC or single-attribute rating system",
+        "description": "",
+        "pre_unit": "",
+        "post_unit": "m^2",
+        "datatype": "integer"
+    }
+},
+{
+    "model": "core.directindicator",
+    "pk": 28,
+    "fields": {
+        "question": 27,
+        "method": 2,
+        "topic": 13,
+        "key": "building_area_multi-attribute_designed_and_built",
+        "name": "Designed&built in accordance with multi-attribute green building code, policy/guideline, or rating system, not certified",
+        "description": "",
+        "pre_unit": "",
+        "post_unit": "m^2",
+        "datatype": "integer"
+    }
+},
+{
+    "model": "core.directindicator",
+    "pk": 29,
+    "fields": {
+        "question": 28,
+        "method": 2,
+        "topic": 13,
+        "key": "building_area_single-attribute_designed_and_built",
+        "name": "Designed&built in accordance with single-attribute green building code, policy/guideline, or rating system, uncertified",
+        "description": "",
+        "pre_unit": "",
+        "post_unit": "m^2",
+        "datatype": "integer"
+    }
+},
+{
+    "model": "core.directindicator",
+    "pk": 30,
+    "fields": {
+        "question": 29,
+        "method": 2,
+        "topic": 13,
+        "key": "total_area",
+        "name": "Total area",
+        "description": "",
+        "pre_unit": "",
+        "post_unit": "m^2",
+        "datatype": "integer"
+    }
+},
+{
+    "model": "core.directindicator",
+    "pk": 31,
+    "fields": {
+        "question": 30,
+        "method": 2,
+        "topic": 14,
+        "key": "total_energy_consumption",
+        "name": "Total energy consumption, performance year",
+        "description": "",
+        "pre_unit": "",
+        "post_unit": "MMBtu",
+        "datatype": "integer"
+    }
+},
+{
+    "model": "core.directindicator",
+    "pk": 32,
+    "fields": {
+        "question": 31,
+        "method": 2,
+        "topic": 14,
+        "key": "imported_green_power",
+        "name": "Imported green power",
+        "description": "",
+        "pre_unit": "",
+        "post_unit": "KWh",
+        "datatype": "integer"
+    }
+},
+{
+    "model": "core.directindicator",
+    "pk": 33,
+    "fields": {
+        "question": 32,
+        "method": 2,
+        "topic": 14,
+        "key": "on-site_renewables",
+        "name": "Electricity from on-site, clean and renewable sources",
+        "description": "",
+        "pre_unit": "",
+        "post_unit": "KWh",
+        "datatype": "integer"
+    }
+},
+{
+    "model": "core.directindicator",
+    "pk": 34,
+    "fields": {
+        "question": 33,
+        "method": 2,
+        "topic": 14,
+        "key": "clean_renewable_fuels_thermal_energy",
+        "name": "Clean and renewable stationary fuels used on-site to generate thermal energy",
+        "description": "",
+        "pre_unit": "",
+        "post_unit": "MMBtu",
+        "datatype": "integer"
+    }
+},
+{
+    "model": "core.directindicator",
+    "pk": 35,
+    "fields": {
+        "question": 34,
+        "method": 2,
+        "topic": 14,
+        "key": "imported_clean_renewable_thermal_energy",
+        "name": "Imported steam, hot water, and/or chilled water from certified/verified clean and renewable sources",
+        "description": "",
+        "pre_unit": "",
+        "post_unit": "MMBtu",
+        "datatype": "integer"
+    }
+},
+{
+    "model": "core.directindicator",
+    "pk": 36,
+    "fields": {
+        "question": 35,
+        "method": 2,
+        "topic": 14,
+        "key": "purchased_RECs/GOs/I-RECs",
+        "name": "Purchased RECs, GOs, I-RECs or equivalent unbundled renewable energy products certified by a third part",
+        "description": "",
+        "pre_unit": "",
+        "post_unit": "KWh",
+        "datatype": "integer"
+    }
+},
+{
+    "model": "core.indirectindicator",
+    "pk": 20,
+    "fields": {
+        "topic": 9,
+        "method": 2,
+        "key": "sustainability_course_offerings_score",
+        "formula": "(40*([sustainability_focused_courses]/ [total_courses])) + (40*([sustainability_inclusive_courses] / [total_courses]))",
+        "name": "Sustainability course offerings score",
+        "description": null,
+        "pre_unit": "",
+        "post_unit": "",
+        "datatype": "text",
+        "type": "SCORING"
+    }
+},
+{
+    "model": "core.indirectindicator",
+    "pk": 21,
+    "fields": {
+        "topic": 9,
+        "method": 2,
+        "key": "department_sustainability_course_offerings_score",
+        "formula": "6.67*([departments_with_sustainability_courses]/ [total_departments])",
+        "name": "Departments offering sustainability courses score",
+        "description": null,
+        "pre_unit": "",
+        "post_unit": "",
+        "datatype": "text",
+        "type": "SCORING"
+    }
+},
+{
+    "model": "core.indirectindicator",
+    "pk": 22,
+    "fields": {
+        "topic": 11,
+        "method": 2,
+        "key": "graduates_understanding_sustainability_score",
+        "formula": "8 * ([graduates_understanding_sustainability] / [total_graduates])",
+        "name": "Graduates understanding sustainability score",
+        "description": null,
+        "pre_unit": "",
+        "post_unit": "",
+        "datatype": "text",
+        "type": "SCORING"
+    }
+},
+{
+    "model": "core.indirectindicator",
+    "pk": 23,
+    "fields": {
+        "topic": 12,
+        "method": 2,
+        "key": "culture_sustainability_assessment_score",
+        "formula": "IF ([culture_sustainability_assessment_entire_campus] == \"yes\") AND ([culture_sustainability_assessment_longitudinally] == \"yes\") THEN [culture_sustainability_assessment_score] = 2*0.5ELSE IF ([culture_sustainability_assessment_entire_campus] == \"yes\" AND [culture_sustainability_assessment_longitudinally] == \"no\")THEN [culture_sustainability_assessment_score] = 0.5ELSE IF ([culture_sustainability_assessment_subset_campus] == \"yes\" AND [culture_sustainability_assessment_longitudinally] == \"yes\")THEN [culture_sustainability_assessment_score] = 2*0.25ELSE IF ([culture_sustainability_assessment_subset_campus] == \"yes\" AND [culture_sustainability_assessment_longitudinally] == \"no\")THEN [culture_sustainability_assessment_score] = 0.25",
+        "name": "Score of sustainability culture assessment",
+        "description": null,
+        "pre_unit": "",
+        "post_unit": "",
+        "datatype": "text",
+        "type": "SCORING"
+    }
+},
+{
+    "model": "core.indirectindicator",
+    "pk": 24,
+    "fields": {
+        "topic": 13,
+        "method": 2,
+        "key": "building_design_and_construction_score",
+        "formula": "(([building_area_highest_level_GCB_certified] / [total_area]) * 3) + (([building_area_second_highest_level_GCB_certified] / [total_area]) * 2.5) +(([building_area_mid_level_GCB_certified] / [total_area]) * 2.25) +(([building_area_step_above_minumum_level_GCB_certified] / [total_area]) * 2) +(([building_area_minumum_level_GCB_certified] / [total_area]) * 1.5) +(([building_area_any_level_non-GCB_certified] / [total_area]) * 1.5) +(([building_area_multi-attribute_designed_and_built] / [total_area]) * 1.25) +(([building_area_single-attribute_designed_and_built] / [total_area]) * 0.625)",
+        "name": "Score for designing and constructing the building",
+        "description": null,
+        "pre_unit": "",
+        "post_unit": "",
+        "datatype": "text",
+        "type": "SCORING"
+    }
+},
+{
+    "model": "core.indirectindicator",
+    "pk": 25,
+    "fields": {
+        "topic": 14,
+        "method": 2,
+        "key": "imported_green_power_MMBtu",
+        "formula": "0.003412 * [imported_green_power]",
+        "name": "Imported green power in MMBtu",
+        "description": null,
+        "pre_unit": "",
+        "post_unit": "",
+        "datatype": "text",
+        "type": "SCORING"
+    }
+},
+{
+    "model": "core.indirectindicator",
+    "pk": 26,
+    "fields": {
+        "topic": 14,
+        "method": 2,
+        "key": "on-site_renewables_MMBtu",
+        "formula": "0.003412 * [on-site_renewables]",
+        "name": "Electricity from on-site, clean and renewable sources in MMBtu",
+        "description": "",
+        "pre_unit": "",
+        "post_unit": "",
+        "datatype": "text",
+        "type": "SCORING"
+    }
+},
+{
+    "model": "core.indirectindicator",
+    "pk": 27,
+    "fields": {
+        "topic": 14,
+        "method": 2,
+        "key": "purchased_RECs/GOs/I-RECs_MMBtu",
+        "formula": "0.003412 * [purchased_RECs/GOs/I-RECs]",
+        "name": "Purchased RECs, GOs, I-RECs or equivalent unbundled renewable energy products certified by a third part in MMBtu",
+        "description": null,
+        "pre_unit": "",
+        "post_unit": "",
+        "datatype": "text",
+        "type": "SCORING"
+    }
+},
+{
+    "model": "core.indirectindicator",
+    "pk": 28,
+    "fields": {
+        "topic": 14,
+        "method": 2,
+        "key": "imported_green_power_score",
+        "formula": "4 * ([imported_green_power_MMBtu] / [total_energy_consumption])",
+        "name": "Imported green power score",
+        "description": null,
+        "pre_unit": "",
+        "post_unit": "",
+        "datatype": "text",
+        "type": "SCORING"
+    }
+},
+{
+    "model": "core.indirectindicator",
+    "pk": 29,
+    "fields": {
+        "topic": 14,
+        "method": 2,
+        "key": "on-site_renewables_score",
+        "formula": "4 * ([on-site_renewables_MMBtu] / [total_energy_consumption])",
+        "name": "Electricity from on-site, clean and renewable sources score",
+        "description": "",
+        "pre_unit": "",
+        "post_unit": "",
+        "datatype": "text",
+        "type": "SCORING"
+    }
+},
+{
+    "model": "core.indirectindicator",
+    "pk": 30,
+    "fields": {
+        "topic": 14,
+        "method": 2,
+        "key": "clean_renewable_fuels_thermal_energy_score",
+        "formula": "4 * ([clean_renewable_fuels_thermal_energy] / [total_energy_consumption])",
+        "name": "Clean and renewable stationary fuels used on-site to generate thermal energy score",
+        "description": null,
+        "pre_unit": "",
+        "post_unit": "",
+        "datatype": "text",
+        "type": "SCORING"
+    }
+},
+{
+    "model": "core.indirectindicator",
+    "pk": 31,
+    "fields": {
+        "topic": 14,
+        "method": 2,
+        "key": "imported_clean_renewable_thermal_energy_score",
+        "formula": "4 * ([imported_clean_renewable_thermal_energy] / [total_energy_consumption])",
+        "name": "Imported steam, hot water, and/or chilled water from certified/verified clean and renewable sources score",
+        "description": null,
+        "pre_unit": "",
+        "post_unit": "",
+        "datatype": "text",
+        "type": "SCORING"
+    }
+},
+{
+    "model": "core.indirectindicator",
+    "pk": 32,
+    "fields": {
+        "topic": 14,
+        "method": 2,
+        "key": "purchased_RECs/GOs/I-RECs_score",
+        "formula": "4 * ([purchased_RECs/GOs/I-RECs_MMBtu] / [total_energy_consumption])",
+        "name": "Purchased RECs, GOs, I-RECs or equivalent unbundled renewable energy products certified by a third part score",
+        "description": null,
+        "pre_unit": "",
+        "post_unit": "",
+        "datatype": "text",
+        "type": "SCORING"
+    }
+},
+{
+    "model": "core.indirectindicator",
+    "pk": 33,
+    "fields": {
+        "topic": 14,
+        "method": 2,
+        "key": "energy_score",
+        "formula": "[imported_green_power_score] + [on-site_renewables_score] + [clean_renewable_fuels_thermal_energy_score] + [imported_clean_renewable_thermal_energy_score] + [purchased_RECs/GOs/I-RECs_score]",
+        "name": "Energy consumption score",
+        "description": null,
+        "pre_unit": "",
+        "post_unit": "",
+        "datatype": "text",
+        "type": "SCORING"
+    }
+},
+{
+    "model": "core.indirectindicator",
+    "pk": 34,
+    "fields": {
+        "topic": 7,
+        "method": 2,
+        "key": "total_score",
+        "formula": "[energy_score]+[sustainability_course_offerings_score]+[building_design_and_construction_score]+[culture_sustainability_assessment_score]+[graduates_understanding_sustainability_score]+[department_sustainability_course_offerings_score]",
+        "name": "Total assessment score",
+        "description": null,
+        "pre_unit": "",
+        "post_unit": "",
+        "datatype": "text",
+        "type": "SCORING"
+    }
+},
+{
+    "model": "core.indirectindicator",
+    "pk": 35,
+    "fields": {
+        "topic": 7,
+        "method": 2,
+        "key": "recognition_level",
+        "formula": "IF ([total_score] >= 25) THEN [recognition_level]=\"Bronze\" ELSE IF ([total_score] >= 45) THEN [recognition_level]=\"Silver\"ELSE IF ([total_score] >= 65) THEN [recognition_level]=\"Gold\"\nELSE IF ([total_score] >= 85) THEN [recognition_level]=\"Platinum\"\nELSE [recognition_level]=\"Reporter\"",
+        "name": "Recognition level",
+        "description": null,
+        "pre_unit": "",
+        "post_unit": "",
+        "datatype": "text",
+        "type": "SCORING"
+    }
+}
+]
