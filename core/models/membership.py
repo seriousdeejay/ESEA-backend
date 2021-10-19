@@ -45,6 +45,14 @@ class Membership(models.Model):
         return f"{self.organisation.name} - {self.network.name}"
 
 
+
+
+
+
+
+
+
+
     # def __init__(self, *args, **kwargs):
     #     super(Membership, self).__init__(*args, **kwargs)
     #     self._status = self.status

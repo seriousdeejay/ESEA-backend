@@ -24,6 +24,15 @@ class Method(models.Model):
 '''
 
 
+
+
+
+
+
+
+
+
+
 # organisations = models.ManyToManyField('Organisation', related_name="methods", blank=True)
 
 

@@ -145,11 +145,16 @@ class Question(models.Model):
 
  
 
-    #options = models.ManyToManyField(QuestionOption, blank=True, related_name="ooo") 
-    # options: QuestionOption
 
     '''
     - Can i savely remove topic(s) fields from this model?
     - Remove answertype, made redundant because of instance.direct_indicator.datatype
     - Change isMandatory to required
     '''
+
+
+
+
+
+    #options = models.ManyToManyField(QuestionOption, blank=True, related_name="ooo") 
+    # options: QuestionOption

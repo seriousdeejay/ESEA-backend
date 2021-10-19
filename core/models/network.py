@@ -36,6 +36,14 @@ class Network(models.Model):
         return self.name
 
 
+
+
+
+
+
+
+
+
 '''
 - Change ispublic to is_public?
 '''
