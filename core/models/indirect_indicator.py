@@ -99,7 +99,7 @@ class IndirectIndicator(models.Model):
         self.error = None
         functionList = ['sum(', 'avg(', 'min(', 'max(', 'median(', 'mode(']
 
-        ''' If there are conditionals '''
+        ### If there are conditionals
         if self.has_conditionals:
             self.value = None
             value = self.calculate_conditionals()
@@ -107,7 +107,7 @@ class IndirectIndicator(models.Model):
             self.value = value
             # print('||', self.key, self.value)
         
-        ''' if there's a function '''
+        ### if there's a function
         elif any(func in self.calculation for func in functionList):
             key = re.findall(find_square_bracket_keys, self.formula)
             if len(key):
@@ -137,7 +137,7 @@ class IndirectIndicator(models.Model):
                     print('There are no responses to calculate the sum with.')
                     return
 
-        ''' If a regular calculation can be performed '''
+        ### If a regular calculation can be performed
         else:
             # print(self.method)
             # print(self.key, self.calculation)
@@ -168,7 +168,7 @@ class IndirectIndicator(models.Model):
                 print('Invalid Partial Condition: ', bracket_keys)
                 # raise Exception("invalid partial condition")
 
-            ## Skips code till it finds the corresponding then/else statements corresponding to the IF statement that fails or succeeds.
+            ### Skips code till it finds the corresponding then/else statements corresponding to the IF statement that fails or succeeds.
             if search_else:
                 if 'IF' in cond:
                     ifs += 1
@@ -182,7 +182,7 @@ class IndirectIndicator(models.Model):
                     ifs = 1
                     elses = 0
 
-            ## Checks whether if statement equates to True
+            ### Checks whether if statement equates to True
             if 'IF' in cond:
                 cond = cond.replace('IF', '').replace('(', '').replace(')', '').replace('"', '').strip()
                 last_if = False
@@ -216,7 +216,7 @@ class IndirectIndicator(models.Model):
                     search_else = True
                 continue
 
-            # Serves conditional outcome
+            ### Serves conditional outcome
             if (last_if and '=' in cond) or (cond == formula[-1]):
                 cond = cond.replace('(', '').replace(')', '')
                 [var, val] = cond.split('=')
@@ -243,7 +243,7 @@ class IndirectIndicator(models.Model):
             processed_cond = re.split('(<|<=|==|>=|>|=)', cond)
             for idx, value in enumerate(processed_cond):
                 if value not in allowedOperators:
-                    ## Makes eval() of string equals string possible
+                    ### Makes eval() of string equals string possible
                     processed_cond[idx] = f'"{value.strip().lower()}"'
             conds[index] = ''.join(processed_cond)
 
@@ -256,7 +256,7 @@ class IndirectIndicator(models.Model):
 
 
 
-            
+
         # @property
         # def key(self):
         #     return self.name

@@ -52,8 +52,9 @@ class DirectIndicator(models.Model):
     key = models.CharField(max_length=255, blank=False)
     name = models.CharField(max_length=255, unique=False, blank=False)
     description = models.TextField(max_length=1000, blank=True, null=True, default="") 
-    pre_unit = models.CharField(max_length=30, blank=True, default="")      ''' Examples: $,€ '''
-    post_unit = models.CharField(max_length=30, blank=True, default="")     ''' Examples: %, points, persons '''
+    pre_unit = models.CharField(max_length=30, blank=True, default="")
+    post_unit = models.CharField(max_length=30, blank=True, default="")
+    ''' Examples pre_unit: $,€. Examples post_unit: %, points, persons '''
     #min / max number?
 
     TEXT = "text"
@@ -61,8 +62,8 @@ class DirectIndicator(models.Model):
     DOUBLE = "double"
     DATE = "date"
     BOOLEAN = "boolean"
-    SINGLECHOICE = "singlechoice" ''' UI: RadioButton, Scale, Dropdown '''
-    MULTIPLECHOICE = "multiplechoice" ''' UI: Checkbox, Scale (1-3 on 1:10 scale for example) '''
+    SINGLECHOICE = "singlechoice" ### UI: RadioButton, Scale, Dropdown
+    MULTIPLECHOICE = "multiplechoice" ### UI: Checkbox, Scale (1-3 on 1:10 scale for example)
 
     DATA_TYPES = (
         (TEXT, "text"),
