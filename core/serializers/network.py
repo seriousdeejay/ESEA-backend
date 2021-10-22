@@ -21,7 +21,7 @@ class NetworkSerializer(serializers.ModelSerializer):
         representation = super().to_representation(instance)
         user=self.context['request'].user
 
-        # Sets acces level of user to the network
+        ''' Sets acces level of user to the network '''
         if user.is_superuser:
            representation['accesLevel'] = "admin"
         else:

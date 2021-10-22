@@ -14,6 +14,12 @@ class TextFragmentSerializer(serializers.ModelSerializer):
             'text'
         ]
 
+
+
+
+
+
+
         # def to_representation(self, instance):
         #     representation = super().to_representation(instance)
         #     representation['section'] = instance.section.title

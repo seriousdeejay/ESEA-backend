@@ -2,6 +2,7 @@ from django.db import models
 from django.utils.timezone import now
 from datetime import timedelta, date
 
+
 def defaultrespondingwindow():
         return now() + timedelta(days = 30)
 
@@ -25,6 +26,8 @@ class Campaign(models.Model):
         if self.close_validation_date is None and self.close_survey_date is not None:
             self.close_validation_date = self.close_survey_date + timedelta(days = 14)
         super(Campaign, self).save(*args, **kwargs)
+
+
 
 
 ''' 

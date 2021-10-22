@@ -4,25 +4,29 @@ from django.utils.translation import gettext_lazy as _
 from .stakeholder_group import StakeholderGroup
 
 
-# method
-# questions (M2M)
-# stakeholdergroup - Needs to be updated!
-# name
-# (description)
-# (welcome_text)
-# (closing_text)
-# min_threshold
-# (anonymous)
-# ResponseType/SurveyType
+'''
+method
+questions (M2M)
+stakeholdergroup - Needs to be updated!
+name
+(description)
+(welcome_text)
+(closing_text)
+min_threshold
+(anonymous)
+ResponseType/SurveyType
+'''
 
 class SurveyManager(models.Manager):
     def create(self, name, method, stakeholdergroup='', description="", welcome_text="", closing_text="", min_threshold=100, response_type="SINGLE", anonymous=False):
+        
+        '''Hardcodes stakeholdergroup for now'''
         stakeholdergroup = 'anyone'
         if stakeholdergroup:
             stakeholdergroup, _ = StakeholderGroup.objects.get_or_create(name=stakeholdergroup)
+
         survey = Survey(name=name, method=method, stakeholdergroup=stakeholdergroup, description=description, welcome_text=welcome_text, closing_text=closing_text, min_threshold=min_threshold, response_type=response_type, anonymous=anonymous,) # 
         survey.save()
-        #survey.questions.set(questions)
 
         return survey
 
@@ -66,6 +70,17 @@ class Survey(models.Model):
 
 
 
+
+
+
+
+
+
+
+
+
+
+    #survey.questions.set(questions)
     # questions = models.ManyToManyField('DirectIndicator', related_name="surveys", blank=False) # Might be removable?
     # directindicators = DirectIndicator.objects.filter(topic__method=method.id)
     # print('---', directindicators)

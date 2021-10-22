@@ -16,4 +16,6 @@ class QuestionResponse(models.Model):
     def __str__(self):
         return f"{self.survey_response}, {self.direct_indicator_id}, values: {self.values.all()}"
 
-# TODO: Attribute Value should contain Question Response
+
+
+''' Attribute 'Value' should contain Question Response '''

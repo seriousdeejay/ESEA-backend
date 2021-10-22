@@ -1,5 +1,6 @@
 from django.db import models
 
+
 class Report(models.Model):
     esea_account = models.OneToOneField('EseaAccount', related_name="report", on_delete=models.CASCADE, primary_key=True)
     

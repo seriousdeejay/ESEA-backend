@@ -21,8 +21,8 @@ class SurveyResponseSerializer(serializers.ModelSerializer):
     def update(self, survey_response, validated_data):
         survey_response.finished = validated_data.get('finished', survey_response.finished)
         question_responses = validated_data.pop('question_responses')
-        print(survey_response)
-                        # question_responses_dict = dict((i.id, i) for i in survey_response.question_responses.all())
+        # print(survey_response)
+        # question_responses_dict = dict((i.id, i) for i in survey_response.question_responses.all())
         for item_data in question_responses:
             qr, _ = QuestionResponse.objects.get_or_create(survey_response=survey_response, question=item_data.get('question'), direct_indicator_id=item_data.get('direct_indicator_id'))
             if 'values' in item_data.keys():
@@ -47,6 +47,11 @@ class SurveyResponseCalculationSerializer(serializers.Serializer):
     calculation = serializers.CharField(read_only=True)
     value = serializers.CharField(read_only=True)
     responses = serializers.ListField(child=serializers.CharField(read_only=True))
+
+
+
+
+
 
 
 # class UserOrganisationField(serializers.RelatedField):
@@ -93,8 +98,10 @@ class SurveyResponseCalculationSerializer(serializers.Serializer):
     #     response['user_organisation'] = UserOrganisationSerializer(instance.user_organisation).data
     #     return response
 
-    def create(self, validated_data):
-        token = "".join(random.choice(string.ascii_letters) for i in range(8))
+    
+    #def create(self, validated_data):
+    #    token = "".join(random.choice(string.ascii_letters) for i in range(8))
+
     #     user_organisation = validated_data.pop('respondent')
     #     print(validated_data)
     #     # print(user_organisation.survey_responses)

@@ -13,6 +13,7 @@ from ..serializers import EseaAccountSerializer
 from ..utils import import_respondents
 
 
+
 class EseaAccountViewSet(viewsets.ModelViewSet):
     serializer_class = EseaAccountSerializer
 
@@ -22,13 +23,16 @@ class EseaAccountViewSet(viewsets.ModelViewSet):
             return EseaAccount.objects.filter(campaign=campaign)
         return EseaAccount.objects.filter(organisation = self.kwargs['organisation_pk'])
 
+
     def create(self, request, organisation_pk, *args, **kwargs):
        request.data['organisation'] = int(organisation_pk)
        return super().create(request, *args, **kwargs)
 
+
     def update(self, request, organisation_pk, *args, **kwargs):
         request.data['organisation'] = organisation_pk
         return super().update(request, *args, **kwargs)
+
 
 @method_decorator(csrf_exempt, name='dispatch')
 @api_view(['GET', 'POST'])

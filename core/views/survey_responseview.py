@@ -9,6 +9,8 @@ from ..models import (Survey, SurveyResponse, QuestionResponse, DirectIndicator,
 from ..serializers import (SurveyResponseSerializer, QuestionResponseSerializer, SurveyResponseCalculationSerializer)
 from ..utils import map_responses_by_indicator, calculate_indicators
 
+
+
 class BaseModelViewSet(viewsets.ModelViewSet):
     queryset = ''
     serializer_class = ''

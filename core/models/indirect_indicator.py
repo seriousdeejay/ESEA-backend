@@ -4,6 +4,7 @@ import statistics
 
 from .direct_indicator import DirectIndicator
 
+
 find_square_bracket_keys = re.compile(r"\[(.*?)\]")
 
 class IndirectIndicator(models.Model):
@@ -44,7 +45,6 @@ class IndirectIndicator(models.Model):
         (PERFORMANCE, "performance"),
         (SCORING, "scoring")
     )
-
     
     type = models.CharField(max_length=50, blank=False, choices=INDICATOR_TYPES, default="SCORING")
 
@@ -54,8 +54,6 @@ class IndirectIndicator(models.Model):
     exception = None
     exception_detail = None
     responses = None
-
-
 
     class Meta: 
         unique_together = ['key', 'method']
@@ -101,15 +99,15 @@ class IndirectIndicator(models.Model):
         self.error = None
         functionList = ['sum(', 'avg(', 'min(', 'max(', 'median(', 'mode(']
 
-        ## CONDITIONALS
+        ''' If there are conditionals '''
         if self.has_conditionals:
             self.value = None
             value = self.calculate_conditionals()
-            print('vallueee', type(value))
+            # print('vallueee', type(value))
             self.value = value
-            print('||', self.key, self.value)
+            # print('||', self.key, self.value)
         
-        ## FUNCTIONS
+        ''' if there's a function '''
         elif any(func in self.calculation for func in functionList):
             key = re.findall(find_square_bracket_keys, self.formula)
             if len(key):
@@ -139,10 +137,10 @@ class IndirectIndicator(models.Model):
                     print('There are no responses to calculate the sum with.')
                     return
 
-        # REGULAR CALCULATIONS
+        ''' If a regular calculation can be performed '''
         else:
-            print(self.method)
-            print(self.key, self.calculation)
+            # print(self.method)
+            # print(self.key, self.calculation)
             try:
                 self.value = eval(self.calculation)
             except:
@@ -253,6 +251,10 @@ class IndirectIndicator(models.Model):
             conds = conds[0]
 
         return conds
+
+            
+
+
 
             
         # @property

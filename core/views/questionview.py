@@ -4,11 +4,12 @@ from rest_framework.response import Response
 from ..models import Question
 from ..serializers import QuestionSerializer
 
+
+
 class QuestionViewSet(viewsets.ModelViewSet):
     serializer_class = QuestionSerializer
 
     def get_queryset(self):
-        print(type(self.kwargs['section_pk']))
         if (int(self.kwargs['survey_pk']) > 0) and (int(self.kwargs['section_pk']) > 0):
             return Question.objects.filter(section=self.kwargs['section_pk'])
         if (int(self.kwargs['survey_pk']) > 0):
@@ -17,7 +18,6 @@ class QuestionViewSet(viewsets.ModelViewSet):
         
     
     def create(self, request, method_pk, survey_pk, section_pk):
-        print(request.data)
         if int(self.kwargs['method_pk']) > 0:
             request.data['method'] = int(method_pk)
         if int(self.kwargs['section_pk']) > 0:

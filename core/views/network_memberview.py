@@ -6,12 +6,14 @@ from ..models import NetworkMember, Network
 from ..serializers import NetworkMemberSerializer
 
 
+
 class NetworkMemberViewSet(viewsets.ModelViewSet):
     serializer_class = NetworkMemberSerializer
 
     def get_queryset(self):
         return NetworkMember.objects.filter(network=int(self.kwargs['network_pk']))
     
+
     def create(self, request, network_pk):
         request.data['network'] = int(network_pk)
         serializer = NetworkMemberSerializer(data=request.data)
@@ -19,9 +21,6 @@ class NetworkMemberViewSet(viewsets.ModelViewSet):
         serializer.save()
         return Response(serializer.data)
 
-    def perform_create(self, serializer):
-        print('test')
-        serializer.save()
 
     def update(self, request, network_pk, *args, **kwargs):
         request.data['network'] = int(network_pk)
@@ -55,9 +54,11 @@ class NetworkMemberViewSet(viewsets.ModelViewSet):
 
 
 
+    # def perform_create(self, serializer):
+    #     print('test')
+    #     serializer.save()
 
-
-        # return super().update(request, *args, **kwargs)
+    # return super().update(request, *args, **kwargs)
 
     # def retrieve(self, instance, network_pk, pk):
     #     i = get_object_or_404(NetworkMember, pk=pk)

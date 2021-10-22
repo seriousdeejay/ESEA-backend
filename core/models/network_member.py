@@ -19,11 +19,12 @@ class NetworkMember(models.Model):
     NETWORKADMIN = 2
     GUEST = 1 
 
+    ''' Add in more status options here '''
     ROLES = (
         (NETWORKADMIN, "network admin"),
-        (GUEST, "guest"),
-        # Add in more status options
-    )
+        (GUEST, "guest")
+    ) 
+
     role = models.IntegerField(blank=False, choices=ROLES, default=GUEST)
 
     def __str__(self):

@@ -8,22 +8,23 @@ from .question_response import QuestionResponse
 import random
 import string
 
+
 class SurveyResponseManager(models.Manager):
     def create(self, survey, respondent, esea_account, token=None):
+
+        ''' Generates token if none is provided, could be the default?'''
         if token is None:
             token = "".join(random.choice(string.ascii_letters) for i in range(10))
 
         surveyresponse = SurveyResponse(survey=survey, respondent=respondent, esea_account=esea_account, token=token)
         surveyresponse.save()
 
-        # Possibly not needed anymore
-        '''
-        direct_indicators = DirectIndicator.objects.filter(question__section__survey=survey)
-        print(direct_indicators.values())
-        for direct_indicator in direct_indicators.values():
-            question_response = QuestionResponse.objects.create(survey_response=surveyresponse, direct_indicator_id=direct_indicator['id'])
-            print('new question response:', surveyresponse, question_response, surveyresponse.question_responses.all())
-        '''
+        ''' Possibly not needed anymore '''
+        # direct_indicators = DirectIndicator.objects.filter(question__section__survey=survey)
+        # print(direct_indicators.values())
+        # for direct_indicator in direct_indicators.values():
+        #     question_response = QuestionResponse.objects.create(survey_response=surveyresponse, direct_indicator_id=direct_indicator['id'])
+        #     print('new question response:', surveyresponse, question_response, surveyresponse.question_responses.all())
 
         return surveyresponse
 
@@ -86,6 +87,9 @@ class SurveyResponse(models.Model):
             if id not in data_mapping:
                 question_response.delete()
         return question_response_list
+
+
+
 
 
 

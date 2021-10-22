@@ -5,6 +5,7 @@ from .esea_account import EseaAccountSerializer
 from datetime import datetime
 import pytz
 
+
 class CampaignSerializer(serializers.ModelSerializer):
     organisation_accounts = EseaAccountSerializer(many=True, read_only=True)
     network = serializers.PrimaryKeyRelatedField(queryset=Network.objects.all())
@@ -44,7 +45,11 @@ class CampaignSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError('Campaign must be closed before closing the validation period')
         
         return value
-    
+
+
+
+
+
     # def create(self, validated_data):
     #     campaign = Campaign.objects.create(**validated_data)
     #     for organisation in campaign.network.organisations.all():

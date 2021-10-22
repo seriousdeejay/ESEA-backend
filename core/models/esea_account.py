@@ -14,23 +14,21 @@ class EseaAccount(models.Model):
     sufficient_responses = models.BooleanField(default=False)      # Same as Status: Enum for now
     response_rate = models.DecimalField(max_digits=5, decimal_places=2, default=0)
 
-    '''
-    SUFFICIENT = "SUFFICIENT"
-    UNSUFFICIENT = "UNSUFFICIENT"
+    # SUFFICIENT = "SUFFICIENT"
+    # UNSUFFICIENT = "UNSUFFICIENT"
 
-    STATUS_OPTIONS = (
-        (SUFFICIENT, "Sufficient"),  # or Complete
-        (UNSUFFICIENT, "Unsufficient"), # or Incomplete
-        (ONGOING, 'Ongoing'),
-        # Add in more status options
-    )
-    status = models.CharField(max_length=100, blank=False, choices=STATUS_OPTIONS, default="UNSUFFICIENT")
-    '''
+    # STATUS_OPTIONS = (
+    #     (SUFFICIENT, "Sufficient"),  # or Complete
+    #     (UNSUFFICIENT, "Unsufficient"), # or Incomplete
+    #     (ONGOING, 'Ongoing'),
+    #     # Add in more status options
+    # )
+    # status = models.CharField(max_length=100, blank=False, choices=STATUS_OPTIONS, default="UNSUFFICIENT")
 
     def __str__(self):
         return f'organisation:{self.organisation} - campaign:{self.campaign}'
     
-    @property           # Should i keep this network property?
+    @property  # Should i keep this network property?
     def network(self):
         if self.campaign:
             return self.campaign.network
@@ -70,32 +68,31 @@ class EseaAccount(models.Model):
 
 
 
-'''
-    @property
-    def response_rate(self):
-        response_rate_dict = {}
-        overall_finished_responses = 0
-        for survey in self.method.surveys.all():
-            finished_responses = [response for response in self.responses.all() if (response.finished == True & response.survey == survey)]
-            overall_finished_responses += len(finished_responses)
-            sum = (len(finished_responses)/(len(self.responses.all()) or 1) * 100) 
-            sum = round(sum,2)
-            response_rate_dict[survey.name] = {'rate': sum, 'required': survey.rate}
-        self.all_response_rate(overall_finished_responses)
-        return response_rate_dict
 
-    def sufficient_response_rate(self):
-        Bool = True
-        for survey in self.response_rate:
-            innerdict = self.response_rate[survey]
-            if (innerdict['rate'] >= innerdict['required']):
-                print(f'The response rate of {survey} is high enough!')
-            else:
-                print(f'The response rate of {survey} is not high enough!')
-                Bool = False
+    # @property
+    # def response_rate(self):
+    #     response_rate_dict = {}
+    #     overall_finished_responses = 0
+    #     for survey in self.method.surveys.all():
+    #         finished_responses = [response for response in self.responses.all() if (response.finished == True & response.survey == survey)]
+    #         overall_finished_responses += len(finished_responses)
+    #         sum = (len(finished_responses)/(len(self.responses.all()) or 1) * 100) 
+    #         sum = round(sum,2)
+    #         response_rate_dict[survey.name] = {'rate': sum, 'required': survey.rate}
+    #     self.all_response_rate(overall_finished_responses)
+    #     return response_rate_dict
 
-        self.sufficient_responses = Bool
+    # def sufficient_response_rate(self):
+    #     Bool = True
+    #     for survey in self.response_rate:
+    #         innerdict = self.response_rate[survey]
+    #         if (innerdict['rate'] >= innerdict['required']):
+    #             print(f'The response rate of {survey} is high enough!')
+    #         else:
+    #             print(f'The response rate of {survey} is not high enough!')
+    #             Bool = False
+
+    #     self.sufficient_responses = Bool
     
-    def all_response_rate(self, finished_responses):
-        self.all_response_rate = (finished_responses/(len(self.responses.all()) or 1)) * 100
-'''
+    # def all_response_rate(self, finished_responses):
+    #     self.all_response_rate = (finished_responses/(len(self.responses.all()) or 1)) * 100

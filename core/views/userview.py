@@ -21,6 +21,8 @@ class RegisterUserView(CreateAPIView):
     permission_classes = []
     serializer_class = RegisterUserSerializer
 
+
+
 class UsersViewSet(viewsets.ModelViewSet): # ReadOnlyModelViewSet
     model = CustomUser
     serializer_class = UserSerializer
@@ -44,6 +46,18 @@ class UsersViewSet(viewsets.ModelViewSet): # ReadOnlyModelViewSet
         if excludeorganisation is not None:
             return CustomUser.objects.exclude(organisationteams__organisation=excludeorganisation)
         return CustomUser.objects.all()
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

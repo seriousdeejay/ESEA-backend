@@ -61,20 +61,9 @@ urlpatterns = [
     path('', include(organisation_router.urls)),
 ]
 
-'''
-from django.urls import path, include
-from rest_framework.routers import DefaultRouter
-from .views import genericviews
-# Create a router and register our viewsets with it.
-router = DefaultRouter()
-router.register(r'networks', genericviews.SnippetViewSet)
-router.register(r'organisations', genericviews.UserViewSet)
 
-# The API URLs are now determined automatically by the router.
-urlpatterns = [
-    path('', include(router.urls)),
-]
-'''
+
+
 
 # routers.NestedSimpleRouter(survey_router, r'sections', lookup="section")
 #org_router.register(r'que', questionview.QuestionViewSet, basename="response-questions")

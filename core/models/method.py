@@ -20,7 +20,7 @@ class Method(models.Model):
 
 
 '''
-    Change ispublic to is_public
+    Change ispublic to is_public?
 '''
 
 

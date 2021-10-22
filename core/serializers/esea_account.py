@@ -2,6 +2,7 @@ from rest_framework import serializers
 
 from ..models import EseaAccount, Organisation, Method, Network, Campaign, SurveyResponse, Respondent
 
+
 class MethodSerializer(serializers.ModelSerializer):
     class Meta:
         model = Method
@@ -39,11 +40,13 @@ class EseaAccountSerializer(serializers.ModelSerializer):
 
     def to_representation(self, instance):
         representation = super().to_representation(instance)
-        # representation['method'] = instance.method.name
         if instance.campaign:
             representation['network'] = instance.campaign.network.id
             representation['network_name'] = instance.campaign.network.name
 
         return representation
+
+
+
 
     # responses = serializers.StringRelatedField(queryset=SurveyResponse.objects.filter(finished=True), many=True)

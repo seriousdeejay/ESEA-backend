@@ -9,7 +9,6 @@ class QuestionResponseSerializer(serializers.ModelSerializer):
     class Meta:
         model = QuestionResponse
         fields = ['id', 'question', 'direct_indicator_id', 'values', 'value']
-        # extra_kwargs = {'id': {'read_only': False, 'required': True}}
 
     def validate(self, data):
         value = data['value']
@@ -45,3 +44,8 @@ class QuestionResponseSerializer(serializers.ModelSerializer):
                     # except:
 
         return data
+
+
+
+
+ # extra_kwargs = {'id': {'read_only': False, 'required': True}}

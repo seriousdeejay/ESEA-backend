@@ -5,6 +5,7 @@ from ..models import IndirectIndicator, DirectIndicator, Topic
 
 find_questions_by_square_brackets = re.compile(r"\[.*?\]")
 
+
 class IndirectIndicatorSerializer(WritableNestedModelSerializer):
     topic = serializers.PrimaryKeyRelatedField(queryset=Topic.objects.all(), required=False, allow_null=True)
 

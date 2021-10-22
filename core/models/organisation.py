@@ -10,7 +10,7 @@ class OrganisationManager(models.Manager):
         organisation_instance = Organisation(name=name, owner=created_by, created_by=created_by, ispublic=ispublic, description=description)
         organisation_instance.save()
 
-        # Creates Organisation Member instance for the organisation owner
+        ''' Creates Organisation Member instance for the organisation owner '''
         OrganisationMember.objects.create(organisation=organisation_instance, user=created_by, role=3, invitation='accepted')
 
         return organisation_instance

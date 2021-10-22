@@ -19,7 +19,7 @@ class OrganisationSerializer(serializers.ModelSerializer):
         representation = super().to_representation(instance)
         user=self.context['request'].user
 
-        # Sets acces level of user to the organisation
+        ''' Sets acces level of user to the organisation '''
         if user.is_superuser:
             representation['accesLevel'] = "admin"
         else:

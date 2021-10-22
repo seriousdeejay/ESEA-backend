@@ -36,6 +36,17 @@ class SurveyDisplaySerializer(serializers.ModelSerializer):
             'sections'
             ]
 
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     # def to_representation(self, instance):
     #     representation = super().to_representation(instance)
     #     representation['method'] = instance.method.name

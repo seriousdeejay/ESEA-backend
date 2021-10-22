@@ -16,6 +16,8 @@ class Respondent(models.Model):
             return(f"{self.first_name} {self.last_name_prefix} {self.last_name}")
         return(f"{self.first_name} {self.last_name}")
 
+
+
 '''
 - Should be send a reminder if he hasn't filled in the survey a week before the campaign ends based on SurveyResponse.finished
 '''

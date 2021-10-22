@@ -14,11 +14,16 @@ class SectionSerializer(serializers.ModelSerializer):
 
     def to_representation(self, instance):
         representation = super().to_representation(instance)
-        print(instance.questions.all())
+        # print(instance.questions.all())
         question_serializer = QuestionSerializer(instance.questions, many=True)
-        print(question_serializer.data)
+        # print(question_serializer.data)
         representation['questions'] = question_serializer.data
         return representation
+
+
+
+
+
 
     # survey = serializers.StringRelatedField(read_only=True)
     # questions =  QuestionSerializer(many=True, read_only=True)

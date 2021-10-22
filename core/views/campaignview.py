@@ -5,6 +5,8 @@ from rest_framework.response import Response
 from ..models import Campaign
 from ..serializers import CampaignSerializer
 
+
+
 class CampaignViewSet(viewsets.ModelViewSet):
     serializer_class = CampaignSerializer
 
@@ -14,6 +16,7 @@ class CampaignViewSet(viewsets.ModelViewSet):
             return Campaign.objects.all()
         return Campaign.objects.filter(network=int(self.kwargs['network_pk']))
     
+
     def create(self, request, network_pk):
         request.data['network'] = int(network_pk)
         serializer = CampaignSerializer(data=request.data)
@@ -25,6 +28,12 @@ class CampaignViewSet(viewsets.ModelViewSet):
     def update(self, request, network_pk, *args, **kwargs):
         request.data['network'] = network_pk
         return super().update(request, *args, **kwargs)
+
+
+
+
+
+
 
    # def create(self, request, network_pk, *args, **kwargs):
     #    request.data['network'] = network_pk

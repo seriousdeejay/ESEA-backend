@@ -1,5 +1,6 @@
 from django.db import models
 
+
 class TextFragment(models.Model):
     section = models.ForeignKey('Section', related_name='text_fragments', on_delete=models.CASCADE)
     

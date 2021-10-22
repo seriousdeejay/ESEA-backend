@@ -15,6 +15,7 @@ from ..serializers import MinimalMethodSerializer,  MethodSerializer, SurveyResp
 from ..utils import process_yaml_method, process_textual_method, merge_indicators
 
 
+
 class MethodViewSet(viewsets.ModelViewSet):
     serializer_class = MethodSerializer
     serializer_action_classes = { 'list': MinimalMethodSerializer }
@@ -24,6 +25,7 @@ class MethodViewSet(viewsets.ModelViewSet):
             return self.serializer_action_classes[self.action]
         except (KeyError, AttributeError):
             return super().get_serializer_class()
+
 
     def get_queryset(self):
         mymethods = self.request.GET.get('mymethods', None)
@@ -48,8 +50,7 @@ class MethodViewSet(viewsets.ModelViewSet):
             return Method.objects.filter(organisations=organisation).distinct()
         
         return Method.objects.all()
-
-        
+ 
 
     def create(self, request):
         serializer = MethodSerializer(data=request.data)
@@ -57,7 +58,6 @@ class MethodViewSet(viewsets.ModelViewSet):
         serializer.save(created_by=request.user)
         
         return Response(serializer.data)
-
 
     
     @action(detail=False, methods=['get'])
@@ -90,14 +90,15 @@ class MethodViewSet(viewsets.ModelViewSet):
         serializer = SurveyResponseCalculationSerializer(indicators.values(), many=True)
         return Response({ "indicators": serializer.data })
 
+
 @method_decorator(csrf_exempt, name='dispatch')
 @api_view(['GET', 'POST'])
 @permission_classes((AllowAny, ))
 def upload_method(request):
     print('xxxx')
     if request.method == 'POST':
-        print(request.FILES.keys())
-        print(request.user)
+        # print(request.FILES.keys())
+        # print(request.user)
         if 'file' in request.FILES.keys():
             # with open(request.FILES['file'], encoding='utf-8') as file:
             textfile = request.FILES['file'].readlines()
@@ -108,6 +109,21 @@ def upload_method(request):
             return Response(serializer.data)
 
     return Response({})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     # if request.method == 'POST' and 'file' in request.FILES.keys():
         # with open(request.FILES['file'], encoding='utf-8') as file:
         # with open(os.path.join(os.getcwd(), "core\\uploadedfiles\\newmethod2.yaml"), encoding='utf-8') as file:
