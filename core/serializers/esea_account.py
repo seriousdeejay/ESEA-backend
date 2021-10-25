@@ -30,7 +30,7 @@ class EseaAccountSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = EseaAccount
-        fields = ['id', 'year', 'organisation', 'organisation_name', 'method', 'method_name', 'campaign', 'campaign_name', 'report', 'all_respondents', 'all_responses', 'survey_response_by_survey', 'sufficient_responses', 'response_rate']
+        fields = ['id', 'year', 'organisation', 'organisation_name', 'method', 'method_name', 'campaign', 'campaign_name', 'report', 'all_respondents', 'all_responses', 'survey_response_by_survey', 'deployed_to_respondents', 'sufficient_responses', 'response_rate']
 
     def create(self, validated_data):
         return EseaAccount.objects.create(**validated_data)

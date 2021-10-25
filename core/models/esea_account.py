@@ -11,6 +11,7 @@ class EseaAccount(models.Model):
     campaign = models.ForeignKey('Campaign', related_name="organisation_accounts", on_delete=models.CASCADE, null=True)
 
     year = models.IntegerField(default=date.today().year)
+    deployed_to_respondents = models.BooleanField(default=False)
     sufficient_responses = models.BooleanField(default=False)      # Same as Status: Enum for now
     response_rate = models.DecimalField(max_digits=5, decimal_places=2, default=0)
 
@@ -47,6 +48,11 @@ class EseaAccount(models.Model):
         responserates = [item['current_response_rate'] for item in arr if len(item['respondees']) > 0]
         self.response_rate = (sum(responserates)/(len(responserates) or 1))
         
+        for survey in arr:
+            if survey['type'] == 'multi' and not len(survey['respondees']):
+                return arr
+        self.deployed_to_respondents = True
+
         for survey in arr:
             if (survey['sufficient_responses'] == False):
                 return arr

@@ -1,7 +1,7 @@
 from rest_framework import viewsets
 from rest_framework.response import Response
 
-from ..models import OrganisationMember, Organisation
+from ..models import OrganisationMember, Organisation, Respondent
 from ..serializers import OrganisationMemberSerializer
 
 
@@ -24,6 +24,7 @@ class OrganisationMemberViewSet(viewsets.ModelViewSet):
     def update(self, request, organisation_pk, *args, **kwargs):
         request.data['organisation'] = organisation_pk
         instance = self.get_object()
+        organisation = Organisation.objects.get(id=organisation_pk)
 
         serializer = OrganisationMemberSerializer(instance, data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -36,8 +37,16 @@ class OrganisationMemberViewSet(viewsets.ModelViewSet):
                     admin.role = 1
                     admin.save()
                 
-                organisation = Organisation.objects.get(id=organisation_pk)
                 organisation.owner = instance.user
                 organisation.save()
 
+        if request.data['role'] == 2:
+            oldEseaAccountants = OrganisationMember.objects.filter(organisation=organisation_pk, role=2).exclude(user=instance.user)
+            if len(oldEseaAccountants):
+                for eseaAccountant in oldEseaAccountants:
+                    eseaAccountant.role = 1
+                    eseaAccountant.save()
+
+        
+        Respondent.objects.get_or_create(organisation=organisation, email="accountant@mail.com", first_name="Accountant", last_name=f"of {organisation.name}")
         return Response(serializer.data)
